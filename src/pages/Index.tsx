@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, Shield, Star, Home, Building2, Factory, Eye, FileText } from "lucide-react";
+import { ArrowRight, Shield, Star, Eye, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-epoxy-floor.jpg";
 import countertopImg from "@/assets/epoxy-countertop.jpg";
@@ -143,12 +143,11 @@ const Index = () => {
       {/* Raccourcis */}
       <section className="py-24">
         <div className="container mx-auto px-4">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { icon: Home, label: "Types de projets", desc: "Résidentiel, commercial, industriel", path: "/types-de-projets" },
-              { icon: Building2, label: "Galerie", desc: "Découvrez nos réalisations", path: "/galerie" },
-              { icon: Eye, label: "Visualisation", desc: "Simulez votre projet", path: "/visualisation" },
-              { icon: FileText, label: "Devis gratuit", desc: "Obtenez votre estimation", path: "/devis" },
+              { icon: Eye, label: "Visualisation", desc: "Simulez votre projet en ligne", path: "/visualisation" },
+              { icon: FileText, label: "Devis gratuit", desc: "Obtenez votre estimation personnalisée", path: "/devis" },
+              { icon: Star, label: "Galerie", desc: "Découvrez nos réalisations récentes", path: "/galerie" },
             ].map((item, i) => (
               <motion.div key={item.label} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
                 <Link
