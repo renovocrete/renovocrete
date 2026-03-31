@@ -16,10 +16,7 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border/50">
       <div className="container mx-auto flex items-center justify-between h-20 px-4">
         <a href="#" className="flex items-center gap-2">
-          <span className="font-heading text-2xl font-800 tracking-tight">
-            <span className="text-gradient-brand">RENOVO</span>
-            <span className="text-foreground"> CRETE</span>
-          </span>
+          <img src={logo} alt="Renovo Crete" className="h-12 w-auto" />
         </a>
 
         {/* Desktop */}
