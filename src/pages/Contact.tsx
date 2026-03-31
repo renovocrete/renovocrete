@@ -5,6 +5,8 @@ import { Phone, Mail, MapPin, Clock, Send, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import PageHeader from "@/components/PageHeader";
 
+const fadeUp = { initial: { opacity: 0, y: 24 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true } };
+
 const contactInfo = [
   { icon: Phone, label: "Téléphone", value: "(555) 123-4567", href: "tel:+15551234567" },
   { icon: Mail, label: "Email", value: "info@renovocrete.com", href: "mailto:info@renovocrete.com" },
@@ -14,8 +16,9 @@ const contactInfo = [
 
 const zones = [
   "Montréal", "Laval", "Longueuil", "Brossard", "Terrebonne",
-  "Repentigny", "Saint-Jean", "Châteauguay", "Blainville", "Mirabel",
+  "Repentigny", "Saint-Jean-sur-Richelieu", "Châteauguay", "Blainville", "Mirabel",
   "Saint-Jérôme", "Joliette", "Valleyfield", "Sorel-Tracy", "Granby",
+  "Drummondville", "Saint-Hyacinthe", "Vaudreuil-Dorion",
 ];
 
 const Contact = () => {
@@ -30,7 +33,7 @@ const Contact = () => {
         badge="Contact"
         title="Contactez"
         highlight="notre équipe"
-        description="Une question ? Un projet ? N'hésitez pas à nous contacter. Nous répondons sous 24h."
+        description="Une question ? Un projet en tête ? Nous vous répondons sous 24h."
       />
 
       <section className="py-16">
@@ -41,15 +44,9 @@ const Contact = () => {
               <h2 className="font-heading text-2xl font-700 mb-6">Nos coordonnées</h2>
               <div className="space-y-4 mb-10">
                 {contactInfo.map((c) => (
-                  <motion.div
-                    key={c.label}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    className="flex gap-4 p-4 rounded-xl border border-border hover:border-primary/30 transition-colors"
-                  >
-                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                      <c.icon className="w-6 h-6 text-primary" />
+                  <motion.div key={c.label} {...fadeUp} className="flex gap-4 p-4 rounded-xl border border-border hover:border-primary/20 transition-colors">
+                    <div className="w-11 h-11 rounded-lg bg-primary/8 flex items-center justify-center flex-shrink-0">
+                      <c.icon className="w-5 h-5 text-primary" />
                     </div>
                     <div>
                       <span className="text-xs text-muted-foreground uppercase tracking-wider">{c.label}</span>
@@ -64,6 +61,7 @@ const Contact = () => {
               </div>
 
               <h2 className="font-heading text-2xl font-700 mb-4">Zones desservies</h2>
+              <p className="text-sm text-muted-foreground mb-4">Nous intervenons dans tout le Grand Montréal et ses environs.</p>
               <div className="flex flex-wrap gap-2">
                 {zones.map((z) => (
                   <span key={z} className="px-3 py-1.5 rounded-full text-xs font-medium bg-secondary text-muted-foreground border border-border">
@@ -75,9 +73,9 @@ const Contact = () => {
 
             {/* Form */}
             <div>
-              <h2 className="font-heading text-2xl font-700 mb-6">Formulaire rapide</h2>
+              <h2 className="font-heading text-2xl font-700 mb-6">Message rapide</h2>
               {sent ? (
-                <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="rounded-xl border border-primary/30 bg-primary/5 p-10 text-center">
+                <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="rounded-xl border border-primary/20 bg-primary/5 p-10 text-center">
                   <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
                     <Check className="w-8 h-8 text-primary" />
                   </div>
@@ -92,7 +90,7 @@ const Contact = () => {
                     <div><label className="block text-sm font-medium mb-1.5">Téléphone</label><input type="tel" className={inputClass} value={form.phone} onChange={(e) => update("phone", e.target.value)} placeholder="(555) 123-4567" /></div>
                   </div>
                   <div><label className="block text-sm font-medium mb-1.5">Message *</label><textarea className={`${inputClass} min-h-[120px]`} value={form.message} onChange={(e) => update("message", e.target.value)} placeholder="Décrivez votre projet ou posez votre question..." /></div>
-                  <Button onClick={() => setSent(true)} className="w-full bg-gradient-brand-deep hover:opacity-90 text-lg py-6">
+                  <Button onClick={() => setSent(true)} className="w-full bg-gradient-brand-deep hover:opacity-90 text-base py-5">
                     <Send className="w-5 h-5 mr-2" /> Envoyer le message
                   </Button>
                 </div>
@@ -100,7 +98,7 @@ const Contact = () => {
 
               <div className="mt-6 p-4 rounded-lg bg-secondary text-center">
                 <p className="text-sm text-muted-foreground">
-                  Besoin d'un devis détaillé ? <Link to="/devis" className="text-primary font-medium hover:underline">Remplissez notre formulaire multi-étapes →</Link>
+                  Besoin d'un devis détaillé ? <Link to="/devis" className="text-primary font-medium hover:underline">Remplissez notre formulaire complet →</Link>
                 </p>
               </div>
             </div>
