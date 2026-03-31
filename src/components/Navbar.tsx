@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Phone } from "lucide-react";
+import { Menu, X, Phone, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/renovo-crete-logo.png";
 
@@ -16,56 +16,69 @@ const navItems = [
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border/50">
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-background/98 backdrop-blur-md shadow-sm border-b border-border/50" : "bg-background/95 backdrop-blur-sm"}`}>
       <div className="container mx-auto flex items-center justify-between h-20 px-4">
         <Link to="/" className="flex items-center gap-2 flex-shrink-0">
           <img src={logo} alt="Renovo Crete" className="h-12 w-auto" />
         </Link>
 
         {/* Desktop */}
-        <div className="hidden lg:flex items-center gap-1">
+        <div className="hidden xl:flex items-center gap-0.5">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path;
             return (
               <Link
                 key={item.label}
                 to={item.path}
-                className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors relative ${
+                className={`px-3.5 py-2 text-sm font-medium rounded-lg transition-colors relative ${
                   isActive
-                    ? "text-primary bg-primary/10"
-                    : "text-muted-foreground hover:text-primary hover:bg-primary/5"
+                    ? "text-primary bg-primary/8"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                 }`}
               >
                 {item.label}
                 {isActive && (
-                  <span className="absolute bottom-0 left-2 right-2 h-0.5 bg-gradient-brand rounded-full" />
+                  <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-gradient-brand rounded-full" />
                 )}
               </Link>
             );
           })}
         </div>
 
-        <div className="hidden lg:block flex-shrink-0">
-          <Button asChild className="bg-gradient-brand-deep hover:opacity-90 transition-opacity">
+        <div className="hidden xl:flex items-center gap-2 flex-shrink-0">
+          <Button asChild variant="outline" size="sm" className="border-primary/20 text-primary hover:bg-primary/5">
+            <Link to="/visualisation">
+              <Eye className="w-4 h-4 mr-1.5" />
+              Visualiser mon projet
+            </Link>
+          </Button>
+          <Button asChild size="sm" className="bg-gradient-brand-deep hover:opacity-90 transition-opacity shadow-sm">
             <Link to="/devis">
-              <Phone className="w-4 h-4 mr-2" />
+              <Phone className="w-4 h-4 mr-1.5" />
               Demander un devis
             </Link>
           </Button>
         </div>
 
         {/* Mobile toggle */}
-        <button className="lg:hidden text-foreground" onClick={() => setIsOpen(!isOpen)}>
+        <button className="xl:hidden text-foreground p-2" onClick={() => setIsOpen(!isOpen)} aria-label="Menu">
           {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
 
       {/* Mobile menu */}
       {isOpen && (
-        <div className="lg:hidden bg-background border-t border-border px-4 pb-6 pt-2 shadow-lg">
+        <div className="xl:hidden bg-background border-t border-border px-4 pb-6 pt-2 shadow-lg">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path;
             return (
@@ -74,8 +87,8 @@ const Navbar = () => {
                 to={item.path}
                 className={`block py-3 px-3 rounded-lg text-base font-medium transition-colors ${
                   isActive
-                    ? "text-primary bg-primary/10"
-                    : "text-muted-foreground hover:text-primary hover:bg-primary/5"
+                    ? "text-primary bg-primary/8"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                 }`}
                 onClick={() => setIsOpen(false)}
               >
@@ -83,12 +96,20 @@ const Navbar = () => {
               </Link>
             );
           })}
-          <Button asChild className="w-full mt-4 bg-gradient-brand-deep">
-            <Link to="/devis" onClick={() => setIsOpen(false)}>
-              <Phone className="w-4 h-4 mr-2" />
-              Demander un devis
-            </Link>
-          </Button>
+          <div className="flex flex-col gap-2 mt-4">
+            <Button asChild variant="outline" className="w-full border-primary/20 text-primary">
+              <Link to="/visualisation" onClick={() => setIsOpen(false)}>
+                <Eye className="w-4 h-4 mr-2" />
+                Visualiser mon projet
+              </Link>
+            </Button>
+            <Button asChild className="w-full bg-gradient-brand-deep">
+              <Link to="/devis" onClick={() => setIsOpen(false)}>
+                <Phone className="w-4 h-4 mr-2" />
+                Demander un devis
+              </Link>
+            </Button>
+          </div>
         </div>
       )}
     </nav>
