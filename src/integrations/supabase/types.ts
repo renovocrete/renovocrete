@@ -14,16 +14,270 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      contractor_media: {
+        Row: {
+          caption: string | null
+          contractor_id: string
+          created_at: string
+          id: string
+          sort_order: number
+          type: string
+          url: string
+        }
+        Insert: {
+          caption?: string | null
+          contractor_id: string
+          created_at?: string
+          id?: string
+          sort_order?: number
+          type?: string
+          url: string
+        }
+        Update: {
+          caption?: string | null
+          contractor_id?: string
+          created_at?: string
+          id?: string
+          sort_order?: number
+          type?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contractor_media_contractor_id_fkey"
+            columns: ["contractor_id"]
+            isOneToOne: false
+            referencedRelation: "contractor_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      contractor_profiles: {
+        Row: {
+          address: string | null
+          avatar_url: string | null
+          bio: string | null
+          certifications: string[] | null
+          city: string | null
+          company_name: string
+          contact_name: string | null
+          country: string | null
+          cover_url: string | null
+          created_at: string
+          email: string | null
+          facebook: string | null
+          id: string
+          instagram: string | null
+          is_featured: boolean
+          is_published: boolean
+          phone: string | null
+          slug: string
+          specialties: string[] | null
+          tagline: string | null
+          updated_at: string
+          user_id: string
+          website: string | null
+          years_experience: number | null
+        }
+        Insert: {
+          address?: string | null
+          avatar_url?: string | null
+          bio?: string | null
+          certifications?: string[] | null
+          city?: string | null
+          company_name: string
+          contact_name?: string | null
+          country?: string | null
+          cover_url?: string | null
+          created_at?: string
+          email?: string | null
+          facebook?: string | null
+          id?: string
+          instagram?: string | null
+          is_featured?: boolean
+          is_published?: boolean
+          phone?: string | null
+          slug: string
+          specialties?: string[] | null
+          tagline?: string | null
+          updated_at?: string
+          user_id: string
+          website?: string | null
+          years_experience?: number | null
+        }
+        Update: {
+          address?: string | null
+          avatar_url?: string | null
+          bio?: string | null
+          certifications?: string[] | null
+          city?: string | null
+          company_name?: string
+          contact_name?: string | null
+          country?: string | null
+          cover_url?: string | null
+          created_at?: string
+          email?: string | null
+          facebook?: string | null
+          id?: string
+          instagram?: string | null
+          is_featured?: boolean
+          is_published?: boolean
+          phone?: string | null
+          slug?: string
+          specialties?: string[] | null
+          tagline?: string | null
+          updated_at?: string
+          user_id?: string
+          website?: string | null
+          years_experience?: number | null
+        }
+        Relationships: []
+      }
+      projects: {
+        Row: {
+          address: string | null
+          after_photo: string | null
+          before_photo: string | null
+          client_name: string | null
+          color: string | null
+          created_at: string
+          end_date: string | null
+          id: string
+          notes: string | null
+          priority: Database["public"]["Enums"]["project_priority"]
+          product_type: string | null
+          revenue: number | null
+          start_date: string | null
+          status: Database["public"]["Enums"]["project_status"]
+          surface_m2: number | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          address?: string | null
+          after_photo?: string | null
+          before_photo?: string | null
+          client_name?: string | null
+          color?: string | null
+          created_at?: string
+          end_date?: string | null
+          id?: string
+          notes?: string | null
+          priority?: Database["public"]["Enums"]["project_priority"]
+          product_type?: string | null
+          revenue?: number | null
+          start_date?: string | null
+          status?: Database["public"]["Enums"]["project_status"]
+          surface_m2?: number | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          address?: string | null
+          after_photo?: string | null
+          before_photo?: string | null
+          client_name?: string | null
+          color?: string | null
+          created_at?: string
+          end_date?: string | null
+          id?: string
+          notes?: string | null
+          priority?: Database["public"]["Enums"]["project_priority"]
+          product_type?: string | null
+          revenue?: number | null
+          start_date?: string | null
+          status?: Database["public"]["Enums"]["project_status"]
+          surface_m2?: number | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      quote_requests: {
+        Row: {
+          contractor_id: string | null
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+          phone: string | null
+          project_type: string | null
+          surface_m2: number | null
+        }
+        Insert: {
+          contractor_id?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+          phone?: string | null
+          project_type?: string | null
+          surface_m2?: number | null
+        }
+        Update: {
+          contractor_id?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          phone?: string | null
+          project_type?: string | null
+          surface_m2?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quote_requests_contractor_id_fkey"
+            columns: ["contractor_id"]
+            isOneToOne: false
+            referencedRelation: "contractor_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "contractor" | "user"
+      project_priority: "low" | "medium" | "high" | "urgent"
+      project_status: "planned" | "in_progress" | "completed" | "on_hold"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +404,10 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "contractor", "user"],
+      project_priority: ["low", "medium", "high", "urgent"],
+      project_status: ["planned", "in_progress", "completed", "on_hold"],
+    },
   },
 } as const
