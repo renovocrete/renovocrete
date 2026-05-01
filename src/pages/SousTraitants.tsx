@@ -28,9 +28,9 @@ export default function SousTraitants() {
   return (
     <div className="pt-20">
       <PageHeader
-        eyebrow={t("Réseau certifié", "Certified network")}
+        badge={t("Réseau certifié", "Certified network")}
         title={t("Sous-traitants & Partenaires", "Contractors & Partners")}
-        subtitle={t("Découvrez les entreprises certifiées Elite Crete Systems SXM qui collaborent avec Renovo Crete dans toute la Caraïbe.", "Discover Elite Crete Systems SXM certified companies partnering with Renovo Crete across the Caribbean.")}
+        description={t("Découvrez les entreprises certifiées Elite Crete Systems SXM qui collaborent avec Renovo Crete dans toute la Caraïbe.", "Discover Elite Crete Systems SXM certified companies partnering with Renovo Crete across the Caribbean.")}
       />
       <section className="container mx-auto px-4 py-12">
         <div className="flex justify-end mb-6">

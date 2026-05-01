@@ -305,7 +305,7 @@ function ProfileTab({ profile, onSaved }: { profile: any; onSaved: () => void })
     const { error } = await supabase.storage.from("contractor-media").upload(path, file, { upsert: true });
     if (error) return toast.error(error.message);
     const { data } = supabase.storage.from("contractor-media").getPublicUrl(path);
-    await supabase.from("contractor_profiles").update({ [field]: data.publicUrl }).eq("id", profile.id);
+    await supabase.from("contractor_profiles").update({ [field]: data.publicUrl } as any).eq("id", profile.id);
     onSaved();
   };
 
