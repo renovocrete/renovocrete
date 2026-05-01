@@ -9,10 +9,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { LogOut, Plus, Briefcase, Calculator as CalcIcon, Wand2, User, Trash2, Loader2 } from "lucide-react";
+import { LogOut, Plus, Briefcase, Calculator as CalcIcon, Wand2, User, Trash2, Loader2, FileDown, Euro } from "lucide-react";
 import { toast } from "sonner";
 import { CATALOGS, calculateResin, getCatalog, ProductLine } from "@/data/colors";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { z } from "zod";
+import jsPDF from "jspdf";
+import { Switch } from "@/components/ui/switch";
 
 export default function Dashboard() {
   const nav = useNavigate();
