@@ -11,6 +11,7 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const { lang, setLang, t } = useLanguage();
+  const { canAccessDashboard } = useAuth();
 
   const navItems = [
     { label: t("Accueil", "Home"), path: "/" },
