@@ -577,7 +577,11 @@ function VisualizerTab({ uid }: { uid: string }) {
 
 function ProfileTab({ profile, onSaved }: { profile: any; onSaved: () => void }) {
   const { t } = useLanguage();
-  const [f, setF] = useState({ ...profile, specialties: (profile.specialties || []).join(", ") });
+  const [f, setF] = useState({
+    ...profile,
+    specialties: (profile.specialties || []).join(", "),
+    service_areas: (profile.service_areas || []).join(", "),
+  });
   const [saving, setSaving] = useState(false);
 
   const save = async () => {
@@ -586,9 +590,11 @@ function ProfileTab({ profile, onSaved }: { profile: any; onSaved: () => void })
       company_name: f.company_name, contact_name: f.contact_name, tagline: f.tagline, bio: f.bio,
       phone: f.phone, email: f.email, website: f.website, address: f.address, city: f.city, country: f.country,
       specialties: f.specialties.split(",").map((s: string) => s.trim()).filter(Boolean),
+      service_areas: f.service_areas.split(",").map((s: string) => s.trim()).filter(Boolean),
       years_experience: f.years_experience ? Number(f.years_experience) : null,
       instagram: f.instagram, facebook: f.facebook, is_published: f.is_published,
-    }).eq("id", profile.id);
+      show_phone: !!f.show_phone, show_email: !!f.show_email, show_address: !!f.show_address, show_social: f.show_social !== false,
+    } as any).eq("id", profile.id);
     setSaving(false);
     if (error) return toast.error(error.message);
     toast.success(t("Profil enregistré", "Profile saved"));
