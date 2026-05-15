@@ -14,6 +14,11 @@ import Devis from "./pages/Devis";
 import Contact from "./pages/Contact";
 import QuiSommesNous from "./pages/QuiSommesNous";
 import Partenaires from "./pages/Partenaires";
+import SousTraitants from "./pages/SousTraitants";
+import SousTraitantProfile from "./pages/SousTraitantProfile";
+import Auth from "./pages/Auth";
+import Dashboard from "./pages/Dashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,7 +41,11 @@ const App = () => (
               <Route path="/contact" element={<Contact />} />
               <Route path="/qui-sommes-nous" element={<QuiSommesNous />} />
               <Route path="/partenaires" element={<Partenaires />} />
+              <Route path="/sous-traitants" element={<SousTraitants />} />
+              <Route path="/sous-traitants/:slug" element={<SousTraitantProfile />} />
             </Route>
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

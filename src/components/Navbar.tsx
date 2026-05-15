@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Phone, Eye } from "lucide-react";
+import { Menu, X, Phone, Eye, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useAuth } from "@/hooks/useAuth";
 import logo from "@/assets/renovo-crete-logo.png";
 
 const Navbar = () => {
@@ -10,6 +11,7 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const { lang, setLang, t } = useLanguage();
+  const { canAccessDashboard } = useAuth();
 
   const navItems = [
     { label: t("Accueil", "Home"), path: "/" },
@@ -79,6 +81,14 @@ const Navbar = () => {
               {t("Visualiser mon projet", "Visualize my project")}
             </Link>
           </Button>
+          {canAccessDashboard && (
+            <Button asChild variant="ghost" size="sm" className="text-foreground">
+              <Link to="/dashboard">
+                <LayoutDashboard className="w-4 h-4 mr-1.5" />
+                Dashboard
+              </Link>
+            </Button>
+          )}
           <Button asChild size="sm" className="bg-gradient-brand-deep hover:opacity-90 transition-opacity shadow-sm">
             <Link to="/devis">
               <Phone className="w-4 h-4 mr-1.5" />

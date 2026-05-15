@@ -33,17 +33,13 @@ export default function SousTraitants() {
         description={t("Découvrez les entreprises certifiées Elite Crete Systems SXM qui collaborent avec Renovo Crete dans toute la Caraïbe.", "Discover Elite Crete Systems SXM certified companies partnering with Renovo Crete across the Caribbean.")}
       />
       <section className="container mx-auto px-4 py-12">
-        <div className="flex justify-end mb-6">
-          <Button asChild variant="outline"><Link to="/auth">{t("Espace pro", "Pro portal")}</Link></Button>
-        </div>
         {loading ? (
           <p className="text-center text-muted-foreground">{t("Chargement…", "Loading…")}</p>
         ) : list.length === 0 ? (
           <Card className="p-12 text-center">
             <Award className="w-12 h-12 mx-auto text-primary mb-4" />
             <h3 className="font-heading text-xl font-semibold mb-2">{t("Bientôt en ligne", "Coming soon")}</h3>
-            <p className="text-muted-foreground mb-6">{t("Notre réseau de sous-traitants certifiés sera bientôt visible ici.", "Our certified contractor network will appear here soon.")}</p>
-            <Button asChild className="bg-gradient-brand-deep"><Link to="/auth">{t("Vous êtes certifié ECS ? Rejoignez-nous", "ECS certified? Join us")}</Link></Button>
+            <p className="text-muted-foreground">{t("Notre réseau de sous-traitants certifiés sera bientôt visible ici.", "Our certified contractor network will appear here soon.")}</p>
           </Card>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">

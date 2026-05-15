@@ -70,6 +70,7 @@ const Footer = () => {
               <li><Link to="/devis" className="hover:text-primary-light transition-colors">{t("Devis", "Quote")}</Link></li>
               <li><Link to="/contact" className="hover:text-primary-light transition-colors">Contact</Link></li>
               <li><Link to="/qui-sommes-nous" className="hover:text-primary-light transition-colors">{t("Qui sommes-nous", "About us")}</Link></li>
+              <li><Link to="/sous-traitants" className="hover:text-primary-light transition-colors">{t("Sous-traitants", "Contractors")}</Link></li>
               <li><Link to="/partenaires" className="hover:text-primary-light transition-colors">{t("Partenaires", "Partners")}</Link></li>
             </ul>
           </div>
@@ -98,10 +99,11 @@ const Footer = () => {
 
         <div className="border-t border-primary-foreground/10 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-primary-foreground/35">
           <p>© {new Date().getFullYear()} Renovo Crete. {t("Tous droits réservés.", "All rights reserved.")}</p>
-          <div className="flex gap-6">
+          <div className="flex gap-6 items-center">
             <span className="hover:text-primary-foreground/60 cursor-pointer transition-colors">{t("Politique de confidentialité", "Privacy Policy")}</span>
             <span className="hover:text-primary-foreground/60 cursor-pointer transition-colors">{t("Conditions d'utilisation", "Terms of Service")}</span>
             <span className="hover:text-primary-foreground/60 cursor-pointer transition-colors">{t("Mentions légales", "Legal Notice")}</span>
+            <Link to="/auth" className="text-primary-foreground/40 hover:text-primary-light transition-colors">{t("Espace pro", "Pro area")}</Link>
           </div>
         </div>
       </div>
