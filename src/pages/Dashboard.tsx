@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
@@ -9,12 +9,16 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { LogOut, Plus, Briefcase, Calculator as CalcIcon, Wand2, User, Trash2, Loader2, FileDown, Euro } from "lucide-react";
+import { LogOut, Plus, Briefcase, Calculator as CalcIcon, Wand2, User, Trash2, Loader2, FileDown, Euro, Copy, History, FileText, Users, Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
-import { CATALOGS, calculateResin, getCatalog, ProductLine } from "@/data/colors";
+import { CATALOGS, calculateResin, getCatalog, ProductLine, FORMULAS } from "@/data/colors";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useAuth } from "@/hooks/useAuth";
+import { computeQuote } from "@/lib/calculator";
+import { exportClientQuotePDF } from "@/lib/pdf/clientQuote";
+import { exportInternalQuotePDF } from "@/lib/pdf/internalQuote";
+import { listHistory, saveEntry, removeEntry, clearHistory, type QuoteHistoryEntry } from "@/lib/quoteHistory";
 import { z } from "zod";
-import jsPDF from "jspdf";
 import { Switch } from "@/components/ui/switch";
 
 export default function Dashboard() {
