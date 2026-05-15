@@ -81,6 +81,14 @@ const Navbar = () => {
               {t("Visualiser mon projet", "Visualize my project")}
             </Link>
           </Button>
+          {canAccessDashboard && (
+            <Button asChild variant="ghost" size="sm" className="text-foreground">
+              <Link to="/dashboard">
+                <LayoutDashboard className="w-4 h-4 mr-1.5" />
+                Dashboard
+              </Link>
+            </Button>
+          )}
           <Button asChild size="sm" className="bg-gradient-brand-deep hover:opacity-90 transition-opacity shadow-sm">
             <Link to="/devis">
               <Phone className="w-4 h-4 mr-1.5" />
