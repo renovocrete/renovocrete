@@ -27,6 +27,7 @@ export default function Dashboard() {
   const [user, setUser] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
   const [projects, setProjects] = useState<any[]>([]);
+  const { isAdmin } = useAuth();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -48,15 +49,19 @@ export default function Dashboard() {
   if (!user || !profile) return <div className="pt-32 text-center"><Loader2 className="w-6 h-6 mx-auto animate-spin text-primary" /></div>;
 
   const totalCA = projects.reduce((s, p) => s + (Number(p.revenue) || 0), 0);
+  const totalMargin = projects.reduce((s, p) => s + ((Number(p.revenue) || 0) - (Number(p.cost_material) || 0) - (Number(p.cost_labor) || 0)), 0);
   const inProgress = projects.filter((p) => p.status === "in_progress").length;
   const completed = projects.filter((p) => p.status === "completed").length;
 
   return (
     <div className="pt-24 pb-16 bg-secondary/20 min-h-screen">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
           <div>
-            <h1 className="font-heading text-3xl font-bold">{profile.company_name}</h1>
+            <div className="flex items-center gap-2 flex-wrap">
+              <h1 className="font-heading text-3xl font-bold">{profile.company_name}</h1>
+              {isAdmin && <Badge className="bg-foreground text-background">ADMIN</Badge>}
+            </div>
             <p className="text-sm text-muted-foreground">{t("Tableau de bord pro", "Pro dashboard")} • {profile.is_published ? <Badge className="bg-primary text-primary-foreground">{t("Profil public", "Public profile")}</Badge> : <Badge variant="outline">{t("Profil privé", "Private profile")}</Badge>}</p>
           </div>
           <Button variant="ghost" onClick={signOut}><LogOut className="w-4 h-4 mr-2" />{t("Déconnexion", "Sign out")}</Button>
@@ -66,21 +71,23 @@ export default function Dashboard() {
           <Card className="p-5"><div className="text-xs text-muted-foreground">{t("Chantiers totaux", "Total projects")}</div><div className="text-2xl font-bold mt-1">{projects.length}</div></Card>
           <Card className="p-5"><div className="text-xs text-muted-foreground">{t("En cours", "In progress")}</div><div className="text-2xl font-bold mt-1 text-primary">{inProgress}</div></Card>
           <Card className="p-5"><div className="text-xs text-muted-foreground">{t("Terminés", "Completed")}</div><div className="text-2xl font-bold mt-1">{completed}</div></Card>
-          <Card className="p-5"><div className="text-xs text-muted-foreground">{t("Chiffre d'affaires", "Revenue")}</div><div className="text-2xl font-bold mt-1">{totalCA.toLocaleString()} €</div></Card>
+          <Card className="p-5"><div className="text-xs text-muted-foreground">{t("CA / Marge", "Revenue / Margin")}</div><div className="text-xl font-bold mt-1">{totalCA.toLocaleString()} €</div><div className="text-xs text-muted-foreground">{t("Marge", "Margin")} {totalMargin.toLocaleString()} €</div></Card>
         </div>
 
         <Tabs defaultValue="projects">
-          <TabsList className="mb-4">
+          <TabsList className="mb-4 flex-wrap h-auto">
             <TabsTrigger value="projects"><Briefcase className="w-4 h-4 mr-1.5" />{t("Chantiers", "Projects")}</TabsTrigger>
-            <TabsTrigger value="calculator"><CalcIcon className="w-4 h-4 mr-1.5" />{t("Calculateur résine", "Resin calculator")}</TabsTrigger>
+            <TabsTrigger value="calculator"><CalcIcon className="w-4 h-4 mr-1.5" />{t("Calculateur", "Calculator")}</TabsTrigger>
             <TabsTrigger value="visualizer"><Wand2 className="w-4 h-4 mr-1.5" />{t("Visualiseur IA", "AI visualizer")}</TabsTrigger>
             <TabsTrigger value="profile"><User className="w-4 h-4 mr-1.5" />{t("Mon profil public", "Public profile")}</TabsTrigger>
+            {isAdmin && <TabsTrigger value="admin"><Users className="w-4 h-4 mr-1.5" />{t("Sous-traitants", "Contractors")}</TabsTrigger>}
           </TabsList>
 
           <TabsContent value="projects"><ProjectsTab uid={user.id} projects={projects} onChange={() => loadAll(user.id)} /></TabsContent>
           <TabsContent value="calculator"><CalculatorTab /></TabsContent>
           <TabsContent value="visualizer"><VisualizerTab uid={user.id} /></TabsContent>
           <TabsContent value="profile"><ProfileTab profile={profile} onSaved={() => loadAll(user.id)} /></TabsContent>
+          {isAdmin && <TabsContent value="admin"><AdminContractorsTab /></TabsContent>}
         </Tabs>
       </div>
     </div>
