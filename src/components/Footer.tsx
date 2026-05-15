@@ -98,10 +98,11 @@ const Footer = () => {
 
         <div className="border-t border-primary-foreground/10 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-primary-foreground/35">
           <p>© {new Date().getFullYear()} Renovo Crete. {t("Tous droits réservés.", "All rights reserved.")}</p>
-          <div className="flex gap-6">
+          <div className="flex gap-6 items-center">
             <span className="hover:text-primary-foreground/60 cursor-pointer transition-colors">{t("Politique de confidentialité", "Privacy Policy")}</span>
             <span className="hover:text-primary-foreground/60 cursor-pointer transition-colors">{t("Conditions d'utilisation", "Terms of Service")}</span>
             <span className="hover:text-primary-foreground/60 cursor-pointer transition-colors">{t("Mentions légales", "Legal Notice")}</span>
+            <Link to="/auth" className="text-primary-foreground/40 hover:text-primary-light transition-colors">{t("Espace pro", "Pro area")}</Link>
           </div>
         </div>
       </div>
