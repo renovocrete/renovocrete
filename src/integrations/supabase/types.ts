@@ -71,6 +71,11 @@ export type Database = {
           is_featured: boolean
           is_published: boolean
           phone: string | null
+          service_areas: string[]
+          show_address: boolean
+          show_email: boolean
+          show_phone: boolean
+          show_social: boolean
           slug: string
           specialties: string[] | null
           tagline: string | null
@@ -97,6 +102,11 @@ export type Database = {
           is_featured?: boolean
           is_published?: boolean
           phone?: string | null
+          service_areas?: string[]
+          show_address?: boolean
+          show_email?: boolean
+          show_phone?: boolean
+          show_social?: boolean
           slug: string
           specialties?: string[] | null
           tagline?: string | null
@@ -123,6 +133,11 @@ export type Database = {
           is_featured?: boolean
           is_published?: boolean
           phone?: string | null
+          service_areas?: string[]
+          show_address?: boolean
+          show_email?: boolean
+          show_phone?: boolean
+          show_social?: boolean
           slug?: string
           specialties?: string[] | null
           tagline?: string | null
@@ -140,13 +155,17 @@ export type Database = {
           before_photo: string | null
           client_name: string | null
           color: string | null
+          cost_labor: number
+          cost_material: number
           created_at: string
           end_date: string | null
           id: string
+          is_public: boolean
           notes: string | null
           priority: Database["public"]["Enums"]["project_priority"]
           product_type: string | null
           revenue: number | null
+          short_description: string | null
           start_date: string | null
           status: Database["public"]["Enums"]["project_status"]
           surface_m2: number | null
@@ -160,13 +179,17 @@ export type Database = {
           before_photo?: string | null
           client_name?: string | null
           color?: string | null
+          cost_labor?: number
+          cost_material?: number
           created_at?: string
           end_date?: string | null
           id?: string
+          is_public?: boolean
           notes?: string | null
           priority?: Database["public"]["Enums"]["project_priority"]
           product_type?: string | null
           revenue?: number | null
+          short_description?: string | null
           start_date?: string | null
           status?: Database["public"]["Enums"]["project_status"]
           surface_m2?: number | null
@@ -180,13 +203,17 @@ export type Database = {
           before_photo?: string | null
           client_name?: string | null
           color?: string | null
+          cost_labor?: number
+          cost_material?: number
           created_at?: string
           end_date?: string | null
           id?: string
+          is_public?: boolean
           notes?: string | null
           priority?: Database["public"]["Enums"]["project_priority"]
           product_type?: string | null
           revenue?: number | null
+          short_description?: string | null
           start_date?: string | null
           status?: Database["public"]["Enums"]["project_status"]
           surface_m2?: number | null
