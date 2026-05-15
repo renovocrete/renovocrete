@@ -642,11 +642,20 @@ function ProfileTab({ profile, onSaved }: { profile: any; onSaved: () => void })
         </div>
         <div><Label>{t("Adresse", "Address")}</Label><Input value={f.address || ""} onChange={(e) => setF({ ...f, address: e.target.value })} /></div>
         <div><Label>{t("Spécialités (séparées par des virgules)", "Specialties (comma separated)")}</Label><Input value={f.specialties} onChange={(e) => setF({ ...f, specialties: e.target.value })} placeholder="Reflector, Flake, Comptoirs..." /></div>
+        <div><Label>{t("Zones d'intervention (séparées par des virgules)", "Service areas (comma separated)")}</Label><Input value={f.service_areas} onChange={(e) => setF({ ...f, service_areas: e.target.value })} placeholder="Saint-Martin, Saint-Barth, Anguilla" /></div>
         <div className="grid sm:grid-cols-2 gap-3">
           <div><Label>Instagram URL</Label><Input value={f.instagram || ""} onChange={(e) => setF({ ...f, instagram: e.target.value })} /></div>
           <div><Label>Facebook URL</Label><Input value={f.facebook || ""} onChange={(e) => setF({ ...f, facebook: e.target.value })} /></div>
         </div>
-        <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={!!f.is_published} onChange={(e) => setF({ ...f, is_published: e.target.checked })} /> {t("Rendre mon profil visible publiquement", "Make my profile publicly visible")}</label>
+        <div className="border rounded-lg p-3 space-y-2 bg-secondary/30">
+          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1"><Eye className="w-3 h-3" />{t("Coordonnées affichées publiquement", "Publicly visible contact details")}</p>
+          <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={!!f.show_phone} onChange={(e) => setF({ ...f, show_phone: e.target.checked })} /> {t("Afficher le téléphone", "Show phone")}</label>
+          <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={!!f.show_email} onChange={(e) => setF({ ...f, show_email: e.target.checked })} /> {t("Afficher l'email", "Show email")}</label>
+          <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={!!f.show_address} onChange={(e) => setF({ ...f, show_address: e.target.checked })} /> {t("Afficher l'adresse", "Show address")}</label>
+          <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={f.show_social !== false} onChange={(e) => setF({ ...f, show_social: e.target.checked })} /> {t("Afficher les réseaux sociaux", "Show social media")}</label>
+          <p className="text-xs text-muted-foreground flex items-center gap-1"><EyeOff className="w-3 h-3" />{t("Si désactivés, les clients passent par le formulaire de devis.", "If disabled, clients use the quote form.")}</p>
+        </div>
+        <label className="flex items-center gap-2 text-sm font-medium"><input type="checkbox" checked={!!f.is_published} onChange={(e) => setF({ ...f, is_published: e.target.checked })} /> {t("Rendre mon profil visible publiquement", "Make my profile publicly visible")}</label>
         <Button onClick={save} disabled={saving} className="bg-gradient-brand-deep">{saving ? "..." : t("Enregistrer", "Save")}</Button>
       </Card>
       <Card className="p-6 space-y-4">
