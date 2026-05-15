@@ -27,7 +27,7 @@ export default function SousTraitantProfile() {
       if (data) {
         const [{ data: m }, { data: pr }] = await Promise.all([
           supabase.from("contractor_media").select("*").eq("contractor_id", data.id).order("sort_order"),
-          supabase.from("projects").select("id,title,short_description,product_type,city:address,surface_m2,after_photo,before_photo").eq("user_id", data.user_id).eq("is_public", true).order("created_at", { ascending: false }),
+          supabase.from("projects").select("id,title,short_description,product_type,surface_m2,after_photo,before_photo").eq("user_id", data.user_id).eq("is_public", true).order("created_at", { ascending: false }),
         ]);
         setMedia(m || []);
         setShowcase((pr as any) || []);
