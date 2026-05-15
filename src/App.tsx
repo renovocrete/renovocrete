@@ -14,6 +14,11 @@ import Devis from "./pages/Devis";
 import Contact from "./pages/Contact";
 import QuiSommesNous from "./pages/QuiSommesNous";
 import Partenaires from "./pages/Partenaires";
+import SousTraitants from "./pages/SousTraitants";
+import SousTraitantProfile from "./pages/SousTraitantProfile";
+import Auth from "./pages/Auth";
+import Dashboard from "./pages/Dashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
