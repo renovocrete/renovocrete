@@ -182,15 +182,8 @@ function ProjectsTab({ uid, projects, onChange }: { uid: string; projects: any[]
 
 // Default indicative prices per gallon (EUR), editable by the contractor.
 const DEFAULT_PRICES: Record<ProductLine, number> = {
-  reflector: 290,
-  flake: 180,
-  quartz: 210,
-  urethane: 340,
-  chemstone: 150,
-  portion: 95,
-  resinous: 165,
+  reflector: 290, flake: 180, quartz: 210, urethane: 340, chemstone: 150, portion: 95, resinous: 165,
 };
-
 const PRODUCT_IDS = CATALOGS.map((c) => c.id) as [ProductLine, ...ProductLine[]];
 
 function CalculatorTab() {
@@ -198,7 +191,7 @@ function CalculatorTab() {
   const [product, setProduct] = useState<ProductLine>("reflector");
   const [surface, setSurface] = useState("30");
   const [coats, setCoats] = useState("1");
-  const [quoteMode, setQuoteMode] = useState(false);
+  const [quoteMode, setQuoteMode] = useState(true);
   const [prices, setPrices] = useState<Record<ProductLine, number>>(() => {
     try {
       const saved = localStorage.getItem("renovo-resin-prices");
@@ -207,33 +200,41 @@ function CalculatorTab() {
   });
   const [clientName, setClientName] = useState("");
   const [siteAddress, setSiteAddress] = useState("");
-  const [errors, setErrors] = useState<{ surface?: string; coats?: string; product?: string }>({});
+  const [laborMode, setLaborMode] = useState<"per_m2" | "fixed">("per_m2");
+  const [laborRate, setLaborRate] = useState("25");
+  const [marginPct, setMarginPct] = useState("35");
+  const [notes, setNotes] = useState("");
+  const [errors, setErrors] = useState<{ surface?: string; coats?: string; product?: string; price?: string; labor?: string; margin?: string }>({});
+  const [history, setHistory] = useState<QuoteHistoryEntry[]>([]);
 
-  // Strict validation schema
+  useEffect(() => { listHistory().then(setHistory); }, []);
+
   const schema = z.object({
-    product: z.enum(PRODUCT_IDS, {
-      errorMap: () => ({ message: t("Produit ECS invalide", "Invalid ECS product") }),
-    }),
-    surface: z.coerce
-      .number({ invalid_type_error: t("Surface invalide", "Invalid surface") })
-      .positive({ message: t("La surface doit être supérieure à 0", "Surface must be greater than 0") })
-      .max(10000, { message: t("Surface max : 10 000 m²", "Max surface: 10,000 m²") }),
-    coats: z.coerce
-      .number({ invalid_type_error: t("Nombre de couches invalide", "Invalid coats number") })
-      .int({ message: t("Le nombre de couches doit être entier", "Coats must be a whole number") })
-      .min(1, { message: t("Minimum 1 couche", "At least 1 coat") })
-      .max(10, { message: t("Maximum 10 couches", "Max 10 coats") }),
+    product: z.enum(PRODUCT_IDS, { errorMap: () => ({ message: t("Produit ECS invalide", "Invalid ECS product") }) }),
+    surface: z.coerce.number({ invalid_type_error: t("Surface invalide", "Invalid surface") })
+      .positive({ message: t("La surface doit être > 0", "Surface must be > 0") })
+      .max(10000, { message: t("Max 10 000 m²", "Max 10,000 m²") }),
+    coats: z.coerce.number({ invalid_type_error: t("Couches invalides", "Invalid coats") })
+      .int({ message: t("Entier requis", "Whole number required") })
+      .min(1, { message: t("Min 1", "Min 1") }).max(10, { message: t("Max 10", "Max 10") }),
+    price: z.coerce.number().min(0, { message: t("Prix invalide", "Invalid price") }),
+    labor: z.coerce.number().min(0, { message: t("Coût main-d'œuvre invalide", "Invalid labor cost") }),
+    margin: z.coerce.number().min(0, { message: t("Marge invalide", "Invalid margin") }).max(500),
   });
 
-  const parsed = schema.safeParse({ product, surface, coats });
-  const isValid = parsed.success;
-  const result = isValid ? calculateResin(product, parsed.data.surface, parsed.data.coats) : null;
-  const cat = getCatalog(product)!;
   const unitPrice = prices[product] || 0;
-  const totalCost = result ? +(result.totalGallons * unitPrice).toFixed(2) : 0;
+  const parsed = schema.safeParse({ product, surface, coats, price: unitPrice, labor: laborRate, margin: marginPct });
+  const isValid = parsed.success;
+  const out = useMemo(() => {
+    if (!isValid) return null;
+    return computeQuote({
+      product: parsed.data.product, surface: parsed.data.surface, coats: parsed.data.coats,
+      pricePerGallon: parsed.data.price, laborMode, laborRate: parsed.data.labor, margin: parsed.data.margin,
+    });
+  }, [isValid, parsed, laborMode]);
 
-  const validateAndShow = () => {
-    const r = schema.safeParse({ product, surface, coats });
+  const validate = () => {
+    const r = schema.safeParse({ product, surface, coats, price: unitPrice, labor: laborRate, margin: marginPct });
     if (!r.success) {
       const e: typeof errors = {};
       r.error.issues.forEach((iss) => {
@@ -250,262 +251,249 @@ function CalculatorTab() {
   const updatePrice = (id: ProductLine, val: string) => {
     const next = { ...prices, [id]: Math.max(0, Number(val) || 0) };
     setPrices(next);
-    try { localStorage.setItem("renovo-resin-prices", JSON.stringify(next)); } catch {}
+    try { localStorage.setItem("renovo-resin-prices", JSON.stringify(next)); } catch { /* noop */ }
   };
 
-  const exportPDF = () => {
-    if (!validateAndShow() || !result) {
-      toast.error(t("Corrigez les erreurs avant d'exporter", "Fix errors before exporting"));
-      return;
-    }
-    const doc = new jsPDF({ unit: "mm", format: "a4" });
-    const W = 210;
-    let y = 20;
-
-    // Header band
-    doc.setFillColor(44, 78, 184);
-    doc.rect(0, 0, W, 14, "F");
-    doc.setTextColor(255, 255, 255);
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(11);
-    doc.text("RENOVO CRETE", 14, 9);
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(9);
-    doc.text(t("Estimation technique résine ECS", "ECS resin technical estimate"), W - 14, 9, { align: "right" });
-
-    y = 30;
-    doc.setTextColor(31, 31, 34);
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(18);
-    doc.text(quoteMode ? t("Devis Calculateur", "Calculator Quote") : t("Estimation Résine", "Resin Estimate"), 14, y);
-    y += 6;
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(9);
-    doc.setTextColor(120, 120, 128);
-    doc.text(`${t("Émis le", "Issued on")} ${new Date().toLocaleDateString(lang === "fr" ? "fr-FR" : "en-US")}`, 14, y);
-
-    if (clientName || siteAddress) {
-      y += 10;
-      doc.setTextColor(31, 31, 34);
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(10);
-      doc.text(t("CHANTIER", "PROJECT"), 14, y);
-      y += 5;
-      doc.setFont("helvetica", "normal");
-      if (clientName) { doc.text(`${t("Client", "Client")}: ${clientName}`, 14, y); y += 5; }
-      if (siteAddress) { doc.text(`${t("Adresse", "Address")}: ${siteAddress}`, 14, y); y += 5; }
-    }
-
-    y += 8;
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(10);
-    doc.text(t("PARAMÈTRES", "PARAMETERS"), 14, y);
-    y += 6;
-    doc.setFont("helvetica", "normal");
-    const rows: [string, string][] = [
-      [t("Produit ECS", "ECS Product"), cat.name],
-      [t("Surface", "Surface"), `${parsed.data.surface} m²`],
-      [t("Nombre de couches", "Coats"), String(parsed.data.coats)],
-    ];
-    rows.forEach(([k, v]) => {
-      doc.setTextColor(120, 120, 128);
-      doc.text(k, 14, y);
-      doc.setTextColor(31, 31, 34);
-      doc.text(v, 80, y);
-      y += 6;
-    });
-
-    y += 4;
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(10);
-    doc.text(t("VOLUMES ESTIMÉS", "ESTIMATED VOLUMES"), 14, y);
-    y += 6;
-    doc.setFont("helvetica", "normal");
-    const volumes: [string, string][] = [
-      [t("Total mélangé (A+B)", "Total mixed (A+B)"), `${result.totalGallons} gal`],
-      ["Part A " + t("(résine)", "(resin)"), `${result.partA} gal`],
-      ["Part B " + t("(durcisseur)", "(hardener)"), result.partB ? `${result.partB} gal` : "—"],
-    ];
-    volumes.forEach(([k, v]) => {
-      doc.setTextColor(120, 120, 128);
-      doc.text(k, 14, y);
-      doc.setTextColor(31, 31, 34);
-      doc.text(v, 80, y);
-      y += 6;
-    });
-
-    if (quoteMode) {
-      y += 4;
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(10);
-      doc.setTextColor(31, 31, 34);
-      doc.text(t("DEVIS", "QUOTE"), 14, y);
-      y += 6;
-      doc.setFont("helvetica", "normal");
-      doc.setTextColor(120, 120, 128);
-      doc.text(`${t("Prix unitaire", "Unit price")} (${cat.name})`, 14, y);
-      doc.setTextColor(31, 31, 34);
-      doc.text(`${unitPrice.toFixed(2)} € / gal`, 80, y);
-      y += 6;
-      doc.setTextColor(120, 120, 128);
-      doc.text(t("Quantité", "Quantity"), 14, y);
-      doc.setTextColor(31, 31, 34);
-      doc.text(`${result.totalGallons} gal`, 80, y);
-      y += 8;
-      doc.setFillColor(44, 78, 184);
-      doc.rect(14, y - 5, W - 28, 12, "F");
-      doc.setTextColor(255, 255, 255);
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(12);
-      doc.text(t("TOTAL ESTIMÉ", "ESTIMATED TOTAL"), 18, y + 3);
-      doc.text(`${totalCost.toLocaleString(lang === "fr" ? "fr-FR" : "en-US", { minimumFractionDigits: 2 })} €`, W - 18, y + 3, { align: "right" });
-      y += 14;
-    }
-
-    y += 6;
-    doc.setTextColor(120, 120, 128);
-    doc.setFont("helvetica", "italic");
-    doc.setFontSize(8);
-    const note = lang === "fr" ? result.notes.fr : result.notes.en;
-    const noteLines = doc.splitTextToSize(`${t("Note chantier", "Site note")}: ${note}`, W - 28);
-    doc.text(noteLines, 14, y);
-    y += noteLines.length * 4 + 4;
-    const disclaimer = t(
-      "Valeurs indicatives basées sur les fiches techniques ECS. Vérifiez les conditions chantier (porosité, température, primaire) avant commande ferme.",
-      "Indicative values from ECS data sheets. Verify on-site conditions (porosity, temperature, primer) before final order."
-    );
-    const disLines = doc.splitTextToSize(disclaimer, W - 28);
-    doc.text(disLines, 14, y);
-
-    doc.setFontSize(7);
-    doc.text("renovocrete.com · partenaire certifié Elite Crete Systems SXM", W / 2, 290, { align: "center" });
-
-    const fname = `renovo-${quoteMode ? "devis" : "estimation"}-${product}-${parsed.data.surface}m2.pdf`;
-    doc.save(fname);
-    toast.success(t("PDF exporté", "PDF exported"));
+  const persistHistory = async () => {
+    if (!out || !isValid) return null;
+    const entry: QuoteHistoryEntry = {
+      id: crypto.randomUUID(),
+      date: new Date().toISOString(),
+      clientName: clientName || "—",
+      siteAddress,
+      productKey: product,
+      productName: out.productName,
+      surface: parsed.data.surface,
+      coats: parsed.data.coats,
+      ratio: out.ratio,
+      pricePerGallon: unitPrice,
+      totalGallons: out.totalGallons,
+      costMaterial: out.costMaterial,
+      costLabor: out.costLabor,
+      totalCost: out.totalCost,
+      salePrice: out.salePrice,
+      margin: out.marginAmount,
+      marginPct: out.marginPct,
+      status: "draft",
+      notes,
+    };
+    await saveEntry(entry);
+    setHistory(await listHistory());
+    return entry;
   };
+
+  const exportClient = async () => {
+    if (!validate() || !out) return toast.error(t("Corrigez les erreurs", "Fix the errors"));
+    exportClientQuotePDF({
+      clientName: clientName || "Client", siteAddress, product: out.productName,
+      surface: parsed.data.surface, coats: parsed.data.coats, lang,
+    }, out);
+    await persistHistory();
+    toast.success(t("PDF client exporté", "Client PDF exported"));
+  };
+
+  const exportInternal = async () => {
+    if (!validate() || !out) return toast.error(t("Corrigez les erreurs", "Fix the errors"));
+    exportInternalQuotePDF({
+      clientName: clientName || "Chantier", siteAddress, product: out.productName,
+      surface: parsed.data.surface, coats: parsed.data.coats, pricePerGallon: unitPrice, notes, lang,
+    }, out);
+    await persistHistory();
+    toast.success(t("PDF interne exporté", "Internal PDF exported"));
+  };
+
+  const copyRecap = async () => {
+    if (!validate() || !out) return toast.error(t("Corrigez les erreurs", "Fix the errors"));
+    const lines = [
+      `RENOVO CRETE — ${t("Récapitulatif devis", "Quote summary")}`,
+      `${t("Date", "Date")}: ${new Date().toLocaleDateString(lang === "fr" ? "fr-FR" : "en-US")}`,
+      clientName ? `${t("Client", "Client")}: ${clientName}` : null,
+      `${t("Produit", "Product")}: ${out.productName}`,
+      `${t("Surface", "Surface")}: ${parsed.data.surface} m²`,
+      `${t("Couches", "Coats")}: ${parsed.data.coats}`,
+      `${t("Ratio A:B", "A:B ratio")}: ${out.ratio}`,
+      `${t("Prix unitaire", "Unit price")}: ${unitPrice.toFixed(2)} €/gal`,
+      `${t("Total gallons", "Total gallons")}: ${out.totalGallons}`,
+      `${t("Coût matière", "Material cost")}: ${out.costMaterial.toFixed(2)} €`,
+      `${t("Coût main-d'œuvre", "Labor cost")}: ${out.costLabor.toFixed(2)} €`,
+      `${t("Coût total", "Total cost")}: ${out.totalCost.toFixed(2)} €`,
+      `${t("Prix de vente", "Sale price")}: ${out.salePrice.toFixed(2)} €`,
+      `${t("Marge", "Margin")}: ${out.marginAmount.toFixed(2)} € (${out.marginPct}%)`,
+    ].filter(Boolean).join("\n");
+    try {
+      await navigator.clipboard.writeText(lines);
+      toast.success(t("Récapitulatif copié", "Summary copied"));
+    } catch { toast.error(t("Copie impossible", "Copy failed")); }
+  };
+
+  const reload = (e: QuoteHistoryEntry) => {
+    setProduct(e.productKey as ProductLine);
+    setSurface(String(e.surface));
+    setCoats(String(e.coats));
+    setClientName(e.clientName === "—" ? "" : e.clientName);
+    setSiteAddress(e.siteAddress || "");
+    setNotes(e.notes || "");
+    if (e.pricePerGallon) updatePrice(e.productKey as ProductLine, String(e.pricePerGallon));
+    toast.success(t("Estimation rechargée", "Estimate reloaded"));
+  };
+
+  const deleteEntry = async (id: string) => { await removeEntry(id); setHistory(await listHistory()); };
+  const wipeAll = async () => { await clearHistory(); setHistory([]); toast.success(t("Historique vidé", "History cleared")); };
 
   return (
-    <Card className="p-6">
-      <div className="flex items-start justify-between flex-wrap gap-3 mb-1">
-        <h2 className="font-heading text-xl font-semibold">{t("Calculateur de résine ECS", "ECS resin calculator")}</h2>
-        <div className="flex items-center gap-2 text-sm">
-          <Euro className="w-4 h-4 text-muted-foreground" />
-          <Label htmlFor="quote-mode" className="cursor-pointer">{t("Mode devis", "Quote mode")}</Label>
-          <Switch id="quote-mode" checked={quoteMode} onCheckedChange={setQuoteMode} />
-        </div>
-      </div>
-      <p className="text-sm text-muted-foreground mb-6">
-        {quoteMode
-          ? t("Convertit les gallons estimés en coût total avec vos prix unitaires.", "Converts estimated gallons into total cost using your unit prices.")
-          : t("Estimez le volume A + B nécessaire pour votre chantier.", "Estimate A + B volume needed for your project.")}
-      </p>
-
-      <div className="grid sm:grid-cols-3 gap-4 mb-6">
-        <div>
-          <Label>{t("Produit", "Product")}</Label>
-          <Select value={product} onValueChange={(v) => setProduct(v as ProductLine)}>
-            <SelectTrigger className={errors.product ? "border-destructive" : ""}><SelectValue /></SelectTrigger>
-            <SelectContent>{CATALOGS.map((c) => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}</SelectContent>
-          </Select>
-          {errors.product && <p className="text-xs text-destructive mt-1">{errors.product}</p>}
-        </div>
-        <div>
-          <Label>Surface (m²)</Label>
-          <Input
-            type="number" min="0.1" max="10000" step="0.1"
-            value={surface}
-            onChange={(e) => { setSurface(e.target.value); if (errors.surface) setErrors({ ...errors, surface: undefined }); }}
-            onBlur={validateAndShow}
-            className={errors.surface ? "border-destructive" : ""}
-          />
-          {errors.surface && <p className="text-xs text-destructive mt-1">{errors.surface}</p>}
-        </div>
-        <div>
-          <Label>{t("Nombre de couches", "Number of coats")}</Label>
-          <Input
-            type="number" min="1" max="10" step="1"
-            value={coats}
-            onChange={(e) => { setCoats(e.target.value); if (errors.coats) setErrors({ ...errors, coats: undefined }); }}
-            onBlur={validateAndShow}
-            className={errors.coats ? "border-destructive" : ""}
-          />
-          {errors.coats && <p className="text-xs text-destructive mt-1">{errors.coats}</p>}
-        </div>
-      </div>
-
-      {result ? (
-        <>
-          <div className="grid sm:grid-cols-3 gap-4">
-            <Card className="p-5 bg-gradient-brand-deep text-primary-foreground">
-              <div className="text-xs opacity-80">{t("Total mélangé", "Total mixed")}</div>
-              <div className="text-3xl font-bold mt-1">{result.totalGallons} gal</div>
-            </Card>
-            <Card className="p-5 bg-secondary"><div className="text-xs text-muted-foreground">Part A (résine)</div><div className="text-3xl font-bold mt-1">{result.partA} gal</div></Card>
-            <Card className="p-5 bg-secondary"><div className="text-xs text-muted-foreground">Part B (durcisseur)</div><div className="text-3xl font-bold mt-1">{result.partB || "—"} {result.partB ? "gal" : ""}</div></Card>
+    <div className="space-y-4">
+      <Card className="p-6">
+        <div className="flex items-start justify-between flex-wrap gap-3 mb-1">
+          <h2 className="font-heading text-xl font-semibold">{t("Calculateur chantier", "Project calculator")}</h2>
+          <div className="flex items-center gap-2 text-sm">
+            <Euro className="w-4 h-4 text-muted-foreground" />
+            <Label htmlFor="quote-mode" className="cursor-pointer">{t("Mode devis", "Quote mode")}</Label>
+            <Switch id="quote-mode" checked={quoteMode} onCheckedChange={setQuoteMode} />
           </div>
-          <p className="text-xs text-muted-foreground mt-4 italic">{lang === "fr" ? result.notes.fr : result.notes.en} — {cat.name}.</p>
-          <p className="text-xs text-muted-foreground mt-1">{t("Valeurs indicatives. Vérifiez la fiche technique ECS officielle pour votre application.", "Indicative values. Check the official ECS technical data sheet for your application.")}</p>
-        </>
-      ) : (
-        <Card className="p-5 bg-destructive/5 border-destructive/30">
-          <p className="text-sm text-destructive font-medium">{t("Corrigez les paramètres pour afficher le résultat.", "Fix the parameters to display results.")}</p>
+        </div>
+        <p className="text-sm text-muted-foreground mb-6">
+          {t("Volumes A+B, coûts matière et main-d'œuvre, marge et prix de vente.", "A+B volumes, material & labor costs, margin and sale price.")}
+        </p>
+
+        <div className="grid sm:grid-cols-3 gap-4 mb-4">
+          <div>
+            <Label>{t("Produit", "Product")}</Label>
+            <Select value={product} onValueChange={(v) => setProduct(v as ProductLine)}>
+              <SelectTrigger className={errors.product ? "border-destructive" : ""}><SelectValue /></SelectTrigger>
+              <SelectContent>{CATALOGS.map((c) => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}</SelectContent>
+            </Select>
+            {errors.product && <p className="text-xs text-destructive mt-1">{errors.product}</p>}
+            <p className="text-xs text-muted-foreground mt-1">{t("Ratio", "Ratio")}: {FORMULAS[product].ratio.b > 0 ? `${FORMULAS[product].ratio.a}:${FORMULAS[product].ratio.b}` : t("1 composant", "1-part")}</p>
+          </div>
+          <div>
+            <Label>Surface (m²)</Label>
+            <Input type="number" min="0.1" max="10000" step="0.1" value={surface}
+              onChange={(e) => { setSurface(e.target.value); if (errors.surface) setErrors({ ...errors, surface: undefined }); }}
+              onBlur={validate} className={errors.surface ? "border-destructive" : ""} />
+            {errors.surface && <p className="text-xs text-destructive mt-1">{errors.surface}</p>}
+          </div>
+          <div>
+            <Label>{t("Couches", "Coats")}</Label>
+            <Input type="number" min="1" max="10" step="1" value={coats}
+              onChange={(e) => { setCoats(e.target.value); if (errors.coats) setErrors({ ...errors, coats: undefined }); }}
+              onBlur={validate} className={errors.coats ? "border-destructive" : ""} />
+            {errors.coats && <p className="text-xs text-destructive mt-1">{errors.coats}</p>}
+          </div>
+        </div>
+
+        {quoteMode && (
+          <div className="grid sm:grid-cols-3 gap-4 mb-4 p-4 rounded-lg bg-secondary/40 border">
+            <div>
+              <Label>{t("Prix par gallon (€)", "Price per gallon (€)")}</Label>
+              <Input type="number" min="0" step="0.01" value={unitPrice}
+                onChange={(e) => updatePrice(product, e.target.value)}
+                className={errors.price ? "border-destructive" : ""} />
+              {errors.price && <p className="text-xs text-destructive mt-1">{errors.price}</p>}
+            </div>
+            <div>
+              <Label>{t("Main-d'œuvre", "Labor")}</Label>
+              <div className="flex gap-1">
+                <Select value={laborMode} onValueChange={(v) => setLaborMode(v as any)}>
+                  <SelectTrigger className="w-28"><SelectValue /></SelectTrigger>
+                  <SelectContent><SelectItem value="per_m2">€/m²</SelectItem><SelectItem value="fixed">€ fixe</SelectItem></SelectContent>
+                </Select>
+                <Input type="number" min="0" step="0.01" value={laborRate}
+                  onChange={(e) => setLaborRate(e.target.value)}
+                  className={errors.labor ? "border-destructive" : ""} />
+              </div>
+              {errors.labor && <p className="text-xs text-destructive mt-1">{errors.labor}</p>}
+            </div>
+            <div>
+              <Label>{t("Marge (%)", "Margin (%)")}</Label>
+              <Input type="number" min="0" max="500" step="1" value={marginPct}
+                onChange={(e) => setMarginPct(e.target.value)}
+                className={errors.margin ? "border-destructive" : ""} />
+              {errors.margin && <p className="text-xs text-destructive mt-1">{errors.margin}</p>}
+            </div>
+            <div className="sm:col-span-3 grid sm:grid-cols-2 gap-3">
+              <div><Label>{t("Nom client", "Client name")}</Label><Input value={clientName} onChange={(e) => setClientName(e.target.value)} maxLength={120} /></div>
+              <div><Label>{t("Adresse chantier", "Site address")}</Label><Input value={siteAddress} onChange={(e) => setSiteAddress(e.target.value)} maxLength={200} /></div>
+              <div className="sm:col-span-2"><Label>{t("Notes chantier (PDF interne)", "Site notes (internal PDF)")}</Label><Textarea rows={2} value={notes} onChange={(e) => setNotes(e.target.value)} /></div>
+            </div>
+          </div>
+        )}
+
+        {out ? (
+          <div className="space-y-3">
+            <div className="grid sm:grid-cols-3 gap-3">
+              <Card className="p-4 bg-gradient-brand-deep text-primary-foreground">
+                <div className="text-xs opacity-80">{t("Total mélangé", "Total mixed")}</div>
+                <div className="text-2xl font-bold mt-1">{out.totalGallons} gal</div>
+              </Card>
+              <Card className="p-4 bg-secondary"><div className="text-xs text-muted-foreground">Part A</div><div className="text-2xl font-bold mt-1">{out.partA} gal</div></Card>
+              <Card className="p-4 bg-secondary"><div className="text-xs text-muted-foreground">Part B</div><div className="text-2xl font-bold mt-1">{out.partB || "—"} {out.partB ? "gal" : ""}</div></Card>
+            </div>
+            {quoteMode && (
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <Card className="p-3"><div className="text-[11px] text-muted-foreground">{t("Coût matière", "Material")}</div><div className="font-bold">{out.costMaterial.toFixed(2)} €</div></Card>
+                <Card className="p-3"><div className="text-[11px] text-muted-foreground">{t("Main-d'œuvre", "Labor")}</div><div className="font-bold">{out.costLabor.toFixed(2)} €</div></Card>
+                <Card className="p-3"><div className="text-[11px] text-muted-foreground">{t("Coût total", "Total cost")}</div><div className="font-bold">{out.totalCost.toFixed(2)} €</div></Card>
+                <Card className="p-3 bg-primary/10 border-primary/30"><div className="text-[11px] text-muted-foreground">{t("Prix de vente", "Sale")}</div><div className="font-bold text-primary">{out.salePrice.toFixed(2)} €</div><div className="text-[10px] text-muted-foreground">{t("marge", "margin")} {out.marginAmount.toFixed(2)} € ({out.marginPct}%)</div></Card>
+              </div>
+            )}
+          </div>
+        ) : (
+          <Card className="p-4 bg-destructive/5 border-destructive/30">
+            <p className="text-sm text-destructive font-medium">{t("Corrigez les paramètres pour afficher le résultat.", "Fix parameters to display results.")}</p>
+          </Card>
+        )}
+
+        <div className="flex flex-wrap justify-end gap-2 mt-6">
+          <Button onClick={copyRecap} disabled={!out} variant="outline"><Copy className="w-4 h-4 mr-2" />{t("Copier récap", "Copy summary")}</Button>
+          <Button onClick={exportInternal} disabled={!out} variant="outline"><FileDown className="w-4 h-4 mr-2" />{t("PDF interne", "Internal PDF")}</Button>
+          <Button onClick={exportClient} disabled={!out} className="bg-gradient-brand-deep"><FileText className="w-4 h-4 mr-2" />{t("PDF client", "Client PDF")}</Button>
+        </div>
+      </Card>
+
+      {/* Price grid for all products */}
+      {quoteMode && (
+        <Card className="p-4">
+          <Label className="mb-2 block text-sm">{t("Prix par gallon (€) — toutes gammes (sauvegardés localement)", "Price per gallon (€) — all lines (saved locally)")}</Label>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-2">
+            {CATALOGS.map((c) => (
+              <div key={c.id} className={`p-2 rounded border ${product === c.id ? "border-primary bg-primary/5" : "border-border"}`}>
+                <div className="text-[11px] text-muted-foreground truncate">{c.name}</div>
+                <Input type="number" min="0" step="0.01" value={prices[c.id]}
+                  onChange={(e) => updatePrice(c.id, e.target.value)} className="h-8 mt-1" />
+              </div>
+            ))}
+          </div>
         </Card>
       )}
 
-      {quoteMode && (
-        <div className="mt-6 pt-6 border-t space-y-4">
-          <h3 className="font-heading text-lg font-semibold flex items-center gap-2">
-            <Euro className="w-4 h-4 text-primary" /> {t("Mode devis", "Quote mode")}
-          </h3>
-          <div className="grid sm:grid-cols-2 gap-3">
-            <div><Label>{t("Nom client", "Client name")}</Label><Input value={clientName} onChange={(e) => setClientName(e.target.value)} maxLength={100} placeholder={t("Optionnel — figure sur le PDF", "Optional — appears on PDF")} /></div>
-            <div><Label>{t("Adresse chantier", "Site address")}</Label><Input value={siteAddress} onChange={(e) => setSiteAddress(e.target.value)} maxLength={200} placeholder={t("Optionnel", "Optional")} /></div>
-          </div>
-
-          <div>
-            <Label className="mb-2 block">{t("Prix par gallon (€) — éditables et sauvegardés localement", "Price per gallon (€) — editable, saved locally")}</Label>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-2">
-              {CATALOGS.map((c) => (
-                <div key={c.id} className={`p-2 rounded border ${product === c.id ? "border-primary bg-primary/5" : "border-border"}`}>
-                  <div className="text-[11px] text-muted-foreground truncate">{c.name}</div>
-                  <Input
-                    type="number" min="0" step="0.01"
-                    value={prices[c.id]}
-                    onChange={(e) => updatePrice(c.id, e.target.value)}
-                    className="h-8 mt-1"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {result && (
-            <Card className="p-5 bg-gradient-brand-deep text-primary-foreground">
-              <div className="flex items-end justify-between flex-wrap gap-2">
-                <div>
-                  <div className="text-xs opacity-80">{t("Coût total estimé", "Estimated total cost")}</div>
-                  <div className="text-3xl font-bold mt-1">
-                    {totalCost.toLocaleString(lang === "fr" ? "fr-FR" : "en-US", { minimumFractionDigits: 2 })} €
-                  </div>
-                </div>
-                <div className="text-xs opacity-90 text-right">
-                  {result.totalGallons} gal × {unitPrice.toFixed(2)} €<br />
-                  {cat.name}
-                </div>
-              </div>
-            </Card>
-          )}
+      {/* History */}
+      <Card className="p-4">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="font-heading font-semibold flex items-center gap-2"><History className="w-4 h-4" />{t("Historique local", "Local history")}</h3>
+          {history.length > 0 && <Button size="sm" variant="ghost" onClick={wipeAll}><Trash2 className="w-3 h-3 mr-1" />{t("Tout effacer", "Clear all")}</Button>}
         </div>
-      )}
-
-      <div className="flex justify-end mt-6">
-        <Button onClick={exportPDF} disabled={!result} variant="outline">
-          <FileDown className="w-4 h-4 mr-2" />
-          {quoteMode ? t("Exporter le devis PDF", "Export quote PDF") : t("Exporter l'estimation PDF", "Export estimate PDF")}
-        </Button>
-      </div>
-    </Card>
+        {history.length === 0 ? (
+          <p className="text-sm text-muted-foreground">{t("Aucun devis sauvegardé. Exportez un PDF pour l'enregistrer ici.", "No saved quotes. Export a PDF to save it here.")}</p>
+        ) : (
+          <div className="space-y-2">
+            {history.slice(0, 20).map((h) => (
+              <div key={h.id} className="flex items-center gap-3 text-sm border rounded-lg p-2.5">
+                <div className="flex-1 min-w-0">
+                  <div className="font-semibold truncate">{h.clientName} · {h.productName}</div>
+                  <div className="text-xs text-muted-foreground">{new Date(h.date).toLocaleString(lang === "fr" ? "fr-FR" : "en-US")} · {h.surface} m² · {h.coats} {t("couches", "coats")}</div>
+                </div>
+                <div className="text-right text-xs">
+                  <div className="font-bold">{h.salePrice.toFixed(2)} €</div>
+                  <div className="text-muted-foreground">{t("marge", "margin")} {h.marginPct}%</div>
+                </div>
+                <Button size="sm" variant="ghost" onClick={() => reload(h)}>{t("Recharger", "Reload")}</Button>
+                <Button size="icon" variant="ghost" onClick={() => deleteEntry(h.id)}><Trash2 className="w-4 h-4" /></Button>
+              </div>
+            ))}
+          </div>
+        )}
+      </Card>
+    </div>
   );
 }
 
