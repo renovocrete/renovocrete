@@ -680,3 +680,90 @@ function ProfileTab({ profile, onSaved }: { profile: any; onSaved: () => void })
     </div>
   );
 }
+
+function AdminContractorsTab() {
+  const { t } = useLanguage();
+  const [rows, setRows] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [q, setQ] = useState("");
+
+  const load = async () => {
+    setLoading(true);
+    const { data } = await supabase
+      .from("contractor_profiles")
+      .select("*")
+      .order("created_at", { ascending: false });
+    setRows(data || []);
+    setLoading(false);
+  };
+
+  useEffect(() => { load(); }, []);
+
+  const toggle = async (id: string, field: "is_published" | "is_featured", value: boolean) => {
+    const { error } = await supabase.from("contractor_profiles").update({ [field]: value } as any).eq("id", id);
+    if (error) return toast.error(error.message);
+    toast.success(t("Mis à jour", "Updated"));
+    load();
+  };
+
+  const remove = async (id: string) => {
+    if (!confirm(t("Supprimer ce profil ?", "Delete this profile?"))) return;
+    const { error } = await supabase.from("contractor_profiles").delete().eq("id", id);
+    if (error) return toast.error(error.message);
+    toast.success(t("Profil supprimé", "Profile deleted"));
+    load();
+  };
+
+  const filtered = rows.filter((r) =>
+    !q || `${r.company_name} ${r.city || ""} ${r.email || ""}`.toLowerCase().includes(q.toLowerCase())
+  );
+
+  if (loading) return <Card className="p-12 text-center"><Loader2 className="w-6 h-6 mx-auto animate-spin text-primary" /></Card>;
+
+  return (
+    <div className="space-y-4">
+      <Card className="p-4 flex items-center justify-between gap-3 flex-wrap">
+        <div>
+          <h3 className="font-heading font-semibold">{t("Gestion sous-traitants", "Contractors management")}</h3>
+          <p className="text-xs text-muted-foreground">{t("Activez la visibilité publique et mettez en avant des profils.", "Toggle public visibility and feature profiles.")}</p>
+        </div>
+        <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t("Rechercher…", "Search…")} className="max-w-xs" />
+      </Card>
+      {filtered.length === 0 ? (
+        <Card className="p-12 text-center text-muted-foreground">{t("Aucun sous-traitant", "No contractors")}</Card>
+      ) : (
+        <div className="space-y-2">
+          {filtered.map((r) => (
+            <Card key={r.id} className="p-4 flex items-center gap-3 flex-wrap">
+              <div className="w-12 h-12 rounded-lg overflow-hidden bg-secondary flex-shrink-0">
+                {r.avatar_url && <img src={r.avatar_url} alt="" className="w-full h-full object-cover" />}
+              </div>
+              <div className="flex-1 min-w-[200px]">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h4 className="font-semibold">{r.company_name}</h4>
+                  {r.is_featured && <Badge className="bg-primary text-primary-foreground">★ Featured</Badge>}
+                  {r.is_published ? <Badge variant="outline" className="text-green-700 border-green-300">Public</Badge> : <Badge variant="outline">{t("Privé", "Private")}</Badge>}
+                </div>
+                <div className="text-xs text-muted-foreground">{r.email} {r.city && `· ${r.city}`}</div>
+              </div>
+              <label className="flex items-center gap-2 text-xs">
+                <Switch checked={!!r.is_published} onCheckedChange={(v) => toggle(r.id, "is_published", v)} />
+                {t("Publié", "Published")}
+              </label>
+              <label className="flex items-center gap-2 text-xs">
+                <Switch checked={!!r.is_featured} onCheckedChange={(v) => toggle(r.id, "is_featured", v)} />
+                {t("Mis en avant", "Featured")}
+              </label>
+              {r.is_published && (
+                <a href={`/sous-traitants/${r.slug}`} target="_blank" rel="noreferrer" className="text-xs text-primary hover:underline">
+                  {t("Voir", "View")}
+                </a>
+              )}
+              <Button size="icon" variant="ghost" onClick={() => remove(r.id)}><Trash2 className="w-4 h-4" /></Button>
+            </Card>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
