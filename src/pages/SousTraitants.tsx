@@ -32,6 +32,23 @@ export default function SousTraitants() {
         title={t("Sous-traitants & Partenaires", "Contractors & Partners")}
         description={t("Découvrez les entreprises certifiées Elite Crete Systems SXM qui collaborent avec Renovo Crete dans toute la Caraïbe.", "Discover Elite Crete Systems SXM certified companies partnering with Renovo Crete across the Caribbean.")}
       />
+      <section className="container mx-auto px-4 pt-8">
+        <Card className="p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-gradient-brand-deep text-primary-foreground border-0">
+          <div>
+            <Badge className="bg-primary-foreground/20 text-primary-foreground border-0 mb-2">{t("Espace pro", "Pro area")}</Badge>
+            <h3 className="font-heading font-semibold text-lg">{t("Vous êtes sous-traitant Elite Crete ?", "Are you an Elite Crete contractor?")}</h3>
+            <p className="text-sm text-primary-foreground/75">{t("Connectez-vous pour gérer vos chantiers, devis et profil public.", "Sign in to manage your projects, quotes and public profile.")}</p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Button asChild variant="secondary" className="bg-primary-foreground text-primary hover:bg-primary-foreground/90">
+              <Link to="/auth">{t("Se connecter", "Sign in")} <ArrowRight className="w-4 h-4 ml-2" /></Link>
+            </Button>
+            <Button asChild variant="outline" className="border-primary-foreground/40 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground">
+              <Link to="/dashboard-preview">{t("Aperçu du Dashboard", "Preview Dashboard")}</Link>
+            </Button>
+          </div>
+        </Card>
+      </section>
       <section className="container mx-auto px-4 py-12">
         {loading ? (
           <p className="text-center text-muted-foreground">{t("Chargement…", "Loading…")}</p>
