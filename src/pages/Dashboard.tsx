@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { LogOut, Plus, Briefcase, Calculator as CalcIcon, Wand2, User, Trash2, Loader2, FileDown, Euro, Copy, History, FileText, Users, Eye, EyeOff } from "lucide-react";
+import { LogOut, Plus, Briefcase, Calculator as CalcIcon, Wand2, User, Trash2, Loader2, FileDown, Euro, Copy, History, FileText, Users, Eye, EyeOff, Shield } from "lucide-react";
 import { toast } from "sonner";
 import { CATALOGS, calculateResin, getCatalog, ProductLine, FORMULAS } from "@/data/colors";
 import { useLanguage } from "@/i18n/LanguageContext";
@@ -46,6 +46,16 @@ export default function Dashboard() {
 
   const signOut = async () => { await supabase.auth.signOut(); nav("/"); };
 
+  const requestAdmin = async () => {
+    const { data, error } = await supabase.functions.invoke("request-admin");
+    if (error || !data?.ok) {
+      toast.error(data?.message || error?.message || "Demande refusée");
+      return;
+    }
+    toast.success(t("Rôle admin accordé. Rechargement…", "Admin role granted. Reloading…"));
+    setTimeout(() => window.location.reload(), 800);
+  };
+
   if (!user || !profile) return <div className="pt-32 text-center"><Loader2 className="w-6 h-6 mx-auto animate-spin text-primary" /></div>;
 
   const totalCA = projects.reduce((s, p) => s + (Number(p.revenue) || 0), 0);
@@ -64,7 +74,14 @@ export default function Dashboard() {
             </div>
             <p className="text-sm text-muted-foreground">{t("Tableau de bord pro", "Pro dashboard")} • {profile.is_published ? <Badge className="bg-primary text-primary-foreground">{t("Profil public", "Public profile")}</Badge> : <Badge variant="outline">{t("Profil privé", "Private profile")}</Badge>}</p>
           </div>
-          <Button variant="ghost" onClick={signOut}><LogOut className="w-4 h-4 mr-2" />{t("Déconnexion", "Sign out")}</Button>
+          <div className="flex items-center gap-2">
+            {!isAdmin && (
+              <Button variant="outline" size="sm" onClick={requestAdmin}>
+                <Shield className="w-4 h-4 mr-2" />{t("Demander rôle admin", "Request admin role")}
+              </Button>
+            )}
+            <Button variant="ghost" onClick={signOut}><LogOut className="w-4 h-4 mr-2" />{t("Déconnexion", "Sign out")}</Button>
+          </div>
         </div>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
