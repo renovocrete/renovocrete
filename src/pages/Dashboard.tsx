@@ -46,14 +46,54 @@ export default function Dashboard() {
 
   const signOut = async () => { await supabase.auth.signOut(); nav("/"); };
 
+  const [requestingAdmin, setRequestingAdmin] = useState(false);
   const requestAdmin = async () => {
-    const { data, error } = await supabase.functions.invoke("request-admin");
-    if (error || !data?.ok) {
-      toast.error(data?.message || error?.message || "Demande refusée");
-      return;
+    if (requestingAdmin) return;
+    setRequestingAdmin(true);
+    const toastId = toast.loading(t("Demande en cours…", "Requesting…"));
+    try {
+      const { data: session } = await supabase.auth.getSession();
+      const token = session.session?.access_token;
+      if (!token) throw new Error(t("Session expirée", "Session expired"));
+
+      const res = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/request-admin`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok || !data?.ok) {
+        toast.error(data?.message || `HTTP ${res.status}`, { id: toastId });
+        return;
+      }
+
+      if (data.code === "already_admin") {
+        toast.info(data.message, { id: toastId });
+      } else if (data.code === "bootstrap") {
+        toast.success(t("Bootstrap admin", "Admin bootstrap"), {
+          id: toastId,
+          description: data.message,
+        });
+        setTimeout(() => window.location.reload(), 1200);
+      } else {
+        toast.success(t("Rôle admin accordé", "Admin role granted"), {
+          id: toastId,
+          description: data.message,
+        });
+        setTimeout(() => window.location.reload(), 1000);
+      }
+    } catch (err: any) {
+      toast.error(err.message || "Erreur", { id: toastId });
+    } finally {
+      setRequestingAdmin(false);
     }
-    toast.success(t("Rôle admin accordé. Rechargement…", "Admin role granted. Reloading…"));
-    setTimeout(() => window.location.reload(), 800);
   };
 
   if (!user || !profile) return <div className="pt-32 text-center"><Loader2 className="w-6 h-6 mx-auto animate-spin text-primary" /></div>;
@@ -76,8 +116,9 @@ export default function Dashboard() {
           </div>
           <div className="flex items-center gap-2">
             {!isAdmin && (
-              <Button variant="outline" size="sm" onClick={requestAdmin}>
-                <Shield className="w-4 h-4 mr-2" />{t("Demander rôle admin", "Request admin role")}
+              <Button variant="outline" size="sm" onClick={requestAdmin} disabled={requestingAdmin}>
+                {requestingAdmin ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Shield className="w-4 h-4 mr-2" />}
+                {requestingAdmin ? t("Demande…", "Requesting…") : t("Demander rôle admin", "Request admin role")}
               </Button>
             )}
             <Button variant="ghost" onClick={signOut}><LogOut className="w-4 h-4 mr-2" />{t("Déconnexion", "Sign out")}</Button>

@@ -148,7 +148,7 @@ export const processSteps = [
 ];
 
 export const teamMembers = [
-  { name: "Jean Jude PAUL", role: "Directeur", roleEn: "Director", desc: "Maître d'œuvre applicateur certifié & Responsable Formation", descEn: "Certified applicator & Training Manager" },
+  { name: "Jean Jude PAUL", role: "Directeur", roleEn: "Director", desc: "Maître d'œuvre applicateur formé & Responsable Formation", descEn: "Certified applicator & Training Manager" },
   { name: "Guy PAUL", role: "Comptabilité & IT", roleEn: "Accounting & IT", desc: "Responsable comptabilité & Co-responsable Système opération / IT", descEn: "Accounting Manager & Co-Head of Operations / IT" },
   { name: "Yonathan FAURE", role: "Commercial", roleEn: "Commercial", desc: "Responsable Commercial et Responsable gestion de Projets", descEn: "Commercial Manager & Project Management Lead" },
   { name: "Olsen NELSON", role: "Marketing & Communication", roleEn: "Marketing & Communications", desc: "Responsable Marketing & Communication ; Responsable Formation et Responsable système d'exploitation / IT", descEn: "Marketing & Communications Manager; Training Manager & IT Operations Lead" },

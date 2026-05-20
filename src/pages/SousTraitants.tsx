@@ -28,9 +28,9 @@ export default function SousTraitants() {
   return (
     <div className="pt-20">
       <PageHeader
-        badge={t("Réseau certifié", "Certified network")}
+        badge={t("Réseau formé", "Certified network")}
         title={t("Sous-traitants & Partenaires", "Contractors & Partners")}
-        description={t("Découvrez les entreprises certifiées Elite Crete Systems SXM qui collaborent avec Renovo Crete dans toute la Caraïbe.", "Discover Elite Crete Systems SXM certified companies partnering with Renovo Crete across the Caribbean.")}
+        description={t("Découvrez les entreprises formées Elite Crete Systems SXM qui collaborent avec Renovo Crete dans toute la Caraïbe.", "Discover Elite Crete Systems SXM certified companies partnering with Renovo Crete across the Caribbean.")}
       />
       <section className="container mx-auto px-4 pt-8">
         <Card className="p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-gradient-brand-deep text-primary-foreground border-0">
@@ -56,7 +56,7 @@ export default function SousTraitants() {
           <Card className="p-12 text-center">
             <Award className="w-12 h-12 mx-auto text-primary mb-4" />
             <h3 className="font-heading text-xl font-semibold mb-2">{t("Bientôt en ligne", "Coming soon")}</h3>
-            <p className="text-muted-foreground">{t("Notre réseau de sous-traitants certifiés sera bientôt visible ici.", "Our certified contractor network will appear here soon.")}</p>
+            <p className="text-muted-foreground">{t("Notre réseau de sous-traitants formés sera bientôt visible ici.", "Our certified contractor network will appear here soon.")}</p>
           </Card>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
