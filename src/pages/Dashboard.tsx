@@ -141,6 +141,12 @@ export default function Dashboard() {
   return (
     <div className="pt-24 pb-16 bg-secondary/20 min-h-screen">
       <div className="container mx-auto px-4">
+        {isPreview && (
+          <div className="mb-4 p-3 rounded-md border border-primary/30 bg-primary/10 text-sm flex items-center justify-between gap-3 flex-wrap">
+            <span><strong>{t("Mode aperçu", "Preview mode")}</strong> — {t("données factices, aucune modification enregistrée.", "demo data, nothing is saved.")}</span>
+            <Button size="sm" onClick={() => nav("/auth")} className="bg-gradient-brand-deep">{t("Se connecter pour utiliser", "Sign in to use")}</Button>
+          </div>
+        )}
         <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
           <div>
             <div className="flex items-center gap-2 flex-wrap">
@@ -150,13 +156,15 @@ export default function Dashboard() {
             <p className="text-sm text-muted-foreground">{t("Tableau de bord pro", "Pro dashboard")} • {profile.is_published ? <Badge className="bg-primary text-primary-foreground">{t("Profil public", "Public profile")}</Badge> : <Badge variant="outline">{t("Profil privé", "Private profile")}</Badge>}</p>
           </div>
           <div className="flex items-center gap-2">
-            {!isAdmin && (
+            {!isPreview && !isAdmin && (
               <Button variant="outline" size="sm" onClick={requestAdmin} disabled={requestingAdmin}>
                 {requestingAdmin ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Shield className="w-4 h-4 mr-2" />}
                 {requestingAdmin ? t("Demande…", "Requesting…") : t("Demander rôle admin", "Request admin role")}
               </Button>
             )}
-            <Button variant="ghost" onClick={signOut}><LogOut className="w-4 h-4 mr-2" />{t("Déconnexion", "Sign out")}</Button>
+            {!isPreview && (
+              <Button variant="ghost" onClick={signOut}><LogOut className="w-4 h-4 mr-2" />{t("Déconnexion", "Sign out")}</Button>
+            )}
           </div>
         </div>
 
