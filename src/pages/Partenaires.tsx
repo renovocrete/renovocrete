@@ -12,7 +12,7 @@ const Partenaires = () => {
 
   const benefits = [
     { label: t("Systèmes de revêtement éprouvés depuis plus de 30 ans", "Proven coating systems for over 30 years") },
-    { label: t("Réseau international de professionnels certifiés", "International network of certified professionals") },
+    { label: t("Réseau international de professionnels formés", "International network of certified professionals") },
     { label: t("Produits conçus pour résister aux conditions les plus exigeantes", "Products designed to withstand the most demanding conditions") },
     { label: t("Formation continue et support technique permanent", "Continuous training and permanent technical support") },
     { label: t("Gamme complète pour tous types de surfaces et d'applications", "Complete range for all surface types and applications") },
@@ -47,7 +47,7 @@ const Partenaires = () => {
               </div>
               <p className="text-muted-foreground leading-relaxed mb-4">
                 {t(
-                  "RENOVO CRETE est fier d'être partenaire certifié d'ELITE CRETE SYSTEMS, leader mondial dans la fabrication de systèmes de revêtement en résine époxy et polyuréthane. Cette certification garantit à nos clients l'accès aux technologies les plus avancées du marché.",
+                  "RENOVO CRETE est fier d'être partenaire formé par ELITE CRETE SYSTEMS, leader mondial dans la fabrication de systèmes de revêtement en résine époxy et polyuréthane. Cette formation garantit à nos clients l'accès aux technologies les plus avancées du marché.",
                   "RENOVO CRETE is proud to be a certified partner of ELITE CRETE SYSTEMS, a world leader in the manufacture of epoxy and polyurethane resin coating systems. This certification guarantees our clients access to the most advanced technologies on the market."
                 )}
               </p>
@@ -76,7 +76,7 @@ const Partenaires = () => {
             <motion.div {...fadeUp} transition={{ delay: 0.15 }}>
               <div className="rounded-2xl border border-border bg-secondary p-8 space-y-6">
                 {[
-                  { icon: Shield, title: t("Certification", "Certification"), desc: t("Applicateurs formés et certifiés selon les standards Elite Crete Systems", "Applicators trained and certified to Elite Crete Systems standards") },
+                  { icon: Shield, title: t("Formation", "Certification"), desc: t("Applicateurs formés selon les standards Elite Crete Systems", "Applicators trained and certified to Elite Crete Systems standards") },
                   { icon: Globe, title: t("Réseau mondial", "Global network"), desc: t("Présence dans plus de 40 pays avec des milliers de projets réalisés", "Presence in over 40 countries with thousands of completed projects") },
                   { icon: Award, title: t("Excellence", "Excellence"), desc: t("Plus de 30 ans d'innovation dans les revêtements haute performance", "Over 30 years of innovation in high-performance coatings") },
                 ].map((item) => (
@@ -100,7 +100,7 @@ const Partenaires = () => {
       <section className="py-16 bg-secondary">
         <div className="container mx-auto px-4 text-center">
           <h2 className="font-heading text-2xl sm:text-3xl font-bold mb-4">
-            {t("Bénéficiez de notre expertise certifiée", "Benefit from our certified expertise")}
+            {t("Bénéficiez de notre expertise formée", "Benefit from our certified expertise")}
           </h2>
           <p className="text-muted-foreground mb-8 max-w-lg mx-auto">
             {t("Nos systèmes de revêtement sont soutenus par les meilleures technologies du marché.", "Our coating systems are backed by the best technologies on the market.")}

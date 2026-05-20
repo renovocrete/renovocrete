@@ -22,7 +22,7 @@ const Index = () => {
     { icon: Shield, title: t("Durabilité extrême", "Extreme Durability"), desc: t("10 à 25 ans de résistance aux chocs, produits chimiques et trafic intense.", "10 to 25 years of resistance to impacts, chemicals and heavy traffic.") },
     { icon: Sparkles, title: t("Esthétique sur mesure", "Custom Aesthetics"), desc: t("Métallique, marbré, flocons, artistique — des finitions personnalisées illimitées.", "Metallic, marbled, flake, artistic — unlimited custom finishes.") },
     { icon: Clock, title: t("Pose rapide", "Fast Installation"), desc: t("La plupart des projets complétés en 2 à 5 jours, perturbation minimale.", "Most projects completed in 2 to 5 days, minimal disruption.") },
-    { icon: Award, title: t("Expertise certifiée", "Certified Expertise"), desc: t("Partenaire certifié Elite Crete Systems, leader mondial du revêtement.", "Certified partner of Elite Crete Systems, global coating leader.") },
+    { icon: Award, title: t("Expertise formée", "Certified Expertise"), desc: t("Partenaire formé Elite Crete Systems, leader mondial du revêtement.", "Certified partner of Elite Crete Systems, global coating leader.") },
     { icon: CheckCircle2, title: t("Sans joints", "Seamless"), desc: t("Surface lisse, hygiénique et facile d'entretien — sans fissures ni joints.", "Smooth, hygienic, easy-maintenance surface — no cracks or joints.") },
     { icon: Wrench, title: t("Garantie incluse", "Warranty Included"), desc: t("Chaque projet couvert par notre garantie de satisfaction complète.", "Every project covered by our complete satisfaction guarantee.") },
   ];
@@ -60,7 +60,7 @@ const Index = () => {
             </motion.div>
             <motion.div {...fadeUp} transition={{ delay: 0.5 }} className="flex items-center gap-6 mt-10 pt-8 border-t border-primary-foreground/15">
               {[
-                [t("Certifié Elite Crete", "Elite Crete Certified"), Shield],
+                [t("Formé Elite Crete", "Elite Crete Certified"), Shield],
                 [t("5 étoiles", "5 stars"), Star],
                 [t("Saint-Martin", "Saint-Martin"), Shield],
               ].map(([text, Icon]: any) => (

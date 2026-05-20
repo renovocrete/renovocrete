@@ -18,7 +18,7 @@ const QuiSommesNous = () => {
         title={t("L'expertise", "The expertise")}
         highlight={t("RENOVO CRETE", "RENOVO CRETE")}
         description={t(
-          "Une équipe passionnée, certifiée et engagée dans la transformation durable des surfaces à Saint-Martin et dans toute la Caraïbe.",
+          "Une équipe passionnée, formée et engagée dans la transformation durable des surfaces à Saint-Martin et dans toute la Caraïbe.",
           "A passionate, certified team committed to lasting surface transformation in Saint-Martin and throughout the Caribbean."
         )}
       />
@@ -43,13 +43,13 @@ const QuiSommesNous = () => {
               </p>
               <p className="text-muted-foreground leading-relaxed mb-6">
                 {t(
-                  "Partenaire certifié d'ELITE CRETE SYSTEMS, nous utilisons des systèmes de revêtement éprouvés, conçus pour résister aux conditions climatiques tropicales, au trafic intense et aux exigences les plus élevées en matière de durabilité et d'esthétique.",
+                  "Partenaire formé par ELITE CRETE SYSTEMS, nous utilisons des systèmes de revêtement éprouvés, conçus pour résister aux conditions climatiques tropicales, au trafic intense et aux exigences les plus élevées en matière de durabilité et d'esthétique.",
                   "As a certified partner of ELITE CRETE SYSTEMS, we use proven coating systems designed to withstand tropical weather conditions, heavy traffic, and the highest standards of durability and aesthetics."
                 )}
               </p>
               <div className="grid grid-cols-2 gap-4">
                 {[
-                  { icon: Award, label: t("Certifié Elite Crete", "Elite Crete Certified") },
+                  { icon: Award, label: t("Formé Elite Crete", "Elite Crete Certified") },
                   { icon: MapPin, label: t("Basé à Saint-Martin", "Based in Saint-Martin") },
                   { icon: Shield, label: t("Garantie satisfaction", "Satisfaction guaranteed") },
                   { icon: Users, label: t("Équipe dédiée", "Dedicated team") },
@@ -64,7 +64,7 @@ const QuiSommesNous = () => {
             <motion.div {...fadeUp} transition={{ delay: 0.15 }} className="rounded-2xl overflow-hidden bg-gradient-brand-deep aspect-[4/3] flex items-center justify-center">
               <div className="text-center text-primary-foreground p-8">
                 <Award className="w-16 h-16 mx-auto mb-4 opacity-80" />
-                <p className="font-heading text-xl font-bold">{t("Partenaire certifié", "Certified Partner")}</p>
+                <p className="font-heading text-xl font-bold">{t("Partenaire formé", "Certified Partner")}</p>
                 <p className="text-primary-foreground/70 mt-2">ELITE CRETE SYSTEMS</p>
               </div>
             </motion.div>
