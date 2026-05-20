@@ -116,8 +116,9 @@ export default function Dashboard() {
           </div>
           <div className="flex items-center gap-2">
             {!isAdmin && (
-              <Button variant="outline" size="sm" onClick={requestAdmin}>
-                <Shield className="w-4 h-4 mr-2" />{t("Demander rôle admin", "Request admin role")}
+              <Button variant="outline" size="sm" onClick={requestAdmin} disabled={requestingAdmin}>
+                {requestingAdmin ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Shield className="w-4 h-4 mr-2" />}
+                {requestingAdmin ? t("Demande…", "Requesting…") : t("Demander rôle admin", "Request admin role")}
               </Button>
             )}
             <Button variant="ghost" onClick={signOut}><LogOut className="w-4 h-4 mr-2" />{t("Déconnexion", "Sign out")}</Button>
