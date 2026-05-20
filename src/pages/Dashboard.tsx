@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -21,8 +21,37 @@ import { listHistory, saveEntry, removeEntry, clearHistory, type QuoteHistoryEnt
 import { z } from "zod";
 import { Switch } from "@/components/ui/switch";
 
+const PREVIEW_PROFILE = {
+  id: "preview",
+  user_id: "preview",
+  company_name: "Renovo Crete (Aperçu)",
+  contact_name: "Démo",
+  email: "demo@renovocrete.test",
+  phone: "+590 690 00 00 00",
+  city: "Saint-Martin",
+  country: "Saint-Martin",
+  slug: "renovo-crete-demo",
+  bio: "Profil de démonstration — connectez-vous pour gérer le vôtre.",
+  tagline: "Spécialiste résine époxy & micro-béton",
+  specialties: ["Reflector", "Flake", "Quartz"],
+  certifications: ["Elite Crete Systems Certified"],
+  service_areas: ["Saint-Martin", "Saint-Barthélemy"],
+  years_experience: 12,
+  is_published: true, is_featured: false,
+  show_phone: true, show_email: true, show_address: false, show_social: true,
+  avatar_url: null, cover_url: null, website: null, address: null,
+  instagram: null, facebook: null,
+};
+const PREVIEW_PROJECTS = [
+  { id: "p1", user_id: "preview", title: "Sol garage villa Orient Bay", client_name: "M. Dupont", address: "Orient Bay", surface_m2: 80, product_type: "reflector", color: "Pearl Grey", status: "completed", priority: "high", revenue: 9600, cost_material: 2400, cost_labor: 2800, is_public: true, created_at: new Date(Date.now() - 86400000 * 30).toISOString() },
+  { id: "p2", user_id: "preview", title: "Showroom concessionnaire", client_name: "AutoSXM", address: "Marigot", surface_m2: 220, product_type: "flake", color: "Charcoal Blend", status: "in_progress", priority: "urgent", revenue: 24500, cost_material: 6200, cost_labor: 8400, is_public: false, created_at: new Date(Date.now() - 86400000 * 10).toISOString() },
+  { id: "p3", user_id: "preview", title: "Terrasse piscine", client_name: "Mme Léger", address: "Cupecoy", surface_m2: 45, product_type: "quartz", color: "Sand", status: "planned", priority: "medium", revenue: 6300, cost_material: 1500, cost_labor: 2100, is_public: false, created_at: new Date().toISOString() },
+];
+
 export default function Dashboard() {
   const nav = useNavigate();
+  const loc = useLocation();
+  const isPreview = loc.pathname === "/dashboard-preview";
   const { t } = useLanguage();
   const [user, setUser] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
@@ -30,12 +59,18 @@ export default function Dashboard() {
   const { isAdmin } = useAuth();
 
   useEffect(() => {
+    if (isPreview) {
+      setUser({ id: "preview", email: PREVIEW_PROFILE.email });
+      setProfile(PREVIEW_PROFILE);
+      setProjects(PREVIEW_PROJECTS);
+      return;
+    }
     supabase.auth.getSession().then(({ data }) => {
       if (!data.session) { nav("/auth"); return; }
       setUser(data.session.user);
       loadAll(data.session.user.id);
     });
-  }, [nav]);
+  }, [nav, isPreview]);
 
   const loadAll = async (uid: string) => {
     const { data: p } = await supabase.from("contractor_profiles").select("*").eq("user_id", uid).maybeSingle();
@@ -106,6 +141,12 @@ export default function Dashboard() {
   return (
     <div className="pt-24 pb-16 bg-secondary/20 min-h-screen">
       <div className="container mx-auto px-4">
+        {isPreview && (
+          <div className="mb-4 p-3 rounded-md border border-primary/30 bg-primary/10 text-sm flex items-center justify-between gap-3 flex-wrap">
+            <span><strong>{t("Mode aperçu", "Preview mode")}</strong> — {t("données factices, aucune modification enregistrée.", "demo data, nothing is saved.")}</span>
+            <Button size="sm" onClick={() => nav("/auth")} className="bg-gradient-brand-deep">{t("Se connecter pour utiliser", "Sign in to use")}</Button>
+          </div>
+        )}
         <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
           <div>
             <div className="flex items-center gap-2 flex-wrap">
@@ -115,13 +156,15 @@ export default function Dashboard() {
             <p className="text-sm text-muted-foreground">{t("Tableau de bord pro", "Pro dashboard")} • {profile.is_published ? <Badge className="bg-primary text-primary-foreground">{t("Profil public", "Public profile")}</Badge> : <Badge variant="outline">{t("Profil privé", "Private profile")}</Badge>}</p>
           </div>
           <div className="flex items-center gap-2">
-            {!isAdmin && (
+            {!isPreview && !isAdmin && (
               <Button variant="outline" size="sm" onClick={requestAdmin} disabled={requestingAdmin}>
                 {requestingAdmin ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Shield className="w-4 h-4 mr-2" />}
                 {requestingAdmin ? t("Demande…", "Requesting…") : t("Demander rôle admin", "Request admin role")}
               </Button>
             )}
-            <Button variant="ghost" onClick={signOut}><LogOut className="w-4 h-4 mr-2" />{t("Déconnexion", "Sign out")}</Button>
+            {!isPreview && (
+              <Button variant="ghost" onClick={signOut}><LogOut className="w-4 h-4 mr-2" />{t("Déconnexion", "Sign out")}</Button>
+            )}
           </div>
         </div>
 
