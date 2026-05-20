@@ -21,8 +21,37 @@ import { listHistory, saveEntry, removeEntry, clearHistory, type QuoteHistoryEnt
 import { z } from "zod";
 import { Switch } from "@/components/ui/switch";
 
+const PREVIEW_PROFILE = {
+  id: "preview",
+  user_id: "preview",
+  company_name: "Renovo Crete (Aperçu)",
+  contact_name: "Démo",
+  email: "demo@renovocrete.test",
+  phone: "+590 690 00 00 00",
+  city: "Saint-Martin",
+  country: "Saint-Martin",
+  slug: "renovo-crete-demo",
+  bio: "Profil de démonstration — connectez-vous pour gérer le vôtre.",
+  tagline: "Spécialiste résine époxy & micro-béton",
+  specialties: ["Reflector", "Flake", "Quartz"],
+  certifications: ["Elite Crete Systems Certified"],
+  service_areas: ["Saint-Martin", "Saint-Barthélemy"],
+  years_experience: 12,
+  is_published: true, is_featured: false,
+  show_phone: true, show_email: true, show_address: false, show_social: true,
+  avatar_url: null, cover_url: null, website: null, address: null,
+  instagram: null, facebook: null,
+};
+const PREVIEW_PROJECTS = [
+  { id: "p1", user_id: "preview", title: "Sol garage villa Orient Bay", client_name: "M. Dupont", address: "Orient Bay", surface_m2: 80, product_type: "reflector", color: "Pearl Grey", status: "completed", priority: "high", revenue: 9600, cost_material: 2400, cost_labor: 2800, is_public: true, created_at: new Date(Date.now() - 86400000 * 30).toISOString() },
+  { id: "p2", user_id: "preview", title: "Showroom concessionnaire", client_name: "AutoSXM", address: "Marigot", surface_m2: 220, product_type: "flake", color: "Charcoal Blend", status: "in_progress", priority: "urgent", revenue: 24500, cost_material: 6200, cost_labor: 8400, is_public: false, created_at: new Date(Date.now() - 86400000 * 10).toISOString() },
+  { id: "p3", user_id: "preview", title: "Terrasse piscine", client_name: "Mme Léger", address: "Cupecoy", surface_m2: 45, product_type: "quartz", color: "Sand", status: "planned", priority: "medium", revenue: 6300, cost_material: 1500, cost_labor: 2100, is_public: false, created_at: new Date().toISOString() },
+];
+
 export default function Dashboard() {
   const nav = useNavigate();
+  const loc = useLocation();
+  const isPreview = loc.pathname === "/dashboard-preview";
   const { t } = useLanguage();
   const [user, setUser] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
@@ -30,12 +59,18 @@ export default function Dashboard() {
   const { isAdmin } = useAuth();
 
   useEffect(() => {
+    if (isPreview) {
+      setUser({ id: "preview", email: PREVIEW_PROFILE.email });
+      setProfile(PREVIEW_PROFILE);
+      setProjects(PREVIEW_PROJECTS);
+      return;
+    }
     supabase.auth.getSession().then(({ data }) => {
       if (!data.session) { nav("/auth"); return; }
       setUser(data.session.user);
       loadAll(data.session.user.id);
     });
-  }, [nav]);
+  }, [nav, isPreview]);
 
   const loadAll = async (uid: string) => {
     const { data: p } = await supabase.from("contractor_profiles").select("*").eq("user_id", uid).maybeSingle();
