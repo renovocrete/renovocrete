@@ -9,8 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { LogOut, Plus, Briefcase, Calculator as CalcIcon, Wand2, User, Trash2, Loader2, FileDown, Euro, Copy, History, FileText, Users, Eye, EyeOff, Shield, CalendarRange } from "lucide-react";
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RTooltip, Legend, PieChart, Pie, Cell } from "recharts";
+import { LogOut, Plus, Briefcase, Calculator as CalcIcon, Wand2, User, Trash2, Loader2, FileDown, Euro, Copy, History, FileText, Users, Eye, EyeOff, Shield } from "lucide-react";
 import { toast } from "sonner";
 import { CATALOGS, calculateResin, getCatalog, ProductLine, FORMULAS } from "@/data/colors";
 import { useLanguage } from "@/i18n/LanguageContext";
@@ -139,51 +138,10 @@ export default function Dashboard() {
 
   if (!user || !profile) return <div className="pt-32 text-center"><Loader2 className="w-6 h-6 mx-auto animate-spin text-primary" /></div>;
 
-  const currentYear = new Date().getFullYear();
-  const [yearFilter, setYearFilter] = useState<string>(String(currentYear));
-  const availableYears = useMemo(() => {
-    const years = new Set<number>();
-    projects.forEach((p) => { if (p.created_at) years.add(new Date(p.created_at).getFullYear()); });
-    years.add(currentYear);
-    return Array.from(years).sort((a, b) => b - a);
-  }, [projects, currentYear]);
-
-  const filteredProjects = useMemo(() => {
-    if (yearFilter === "all") return projects;
-    return projects.filter((p) => p.created_at && new Date(p.created_at).getFullYear() === Number(yearFilter));
-  }, [projects, yearFilter]);
-
-  const totalCA = filteredProjects.reduce((s, p) => s + (Number(p.revenue) || 0), 0);
-  const totalMargin = filteredProjects.reduce((s, p) => s + ((Number(p.revenue) || 0) - (Number(p.cost_material) || 0) - (Number(p.cost_labor) || 0)), 0);
-  const inProgress = filteredProjects.filter((p) => p.status === "in_progress").length;
-  const completed = filteredProjects.filter((p) => p.status === "completed").length;
-
-  const monthLabels = ["Jan", "Fév", "Mar", "Avr", "Mai", "Juin", "Juil", "Août", "Sep", "Oct", "Nov", "Déc"];
-  const chartData = useMemo(() => {
-    const base = monthLabels.map((m) => ({ month: m, ca: 0, marge: 0 }));
-    filteredProjects.forEach((p) => {
-      if (!p.created_at) return;
-      const d = new Date(p.created_at);
-      if (yearFilter !== "all" && d.getFullYear() !== Number(yearFilter)) return;
-      const idx = d.getMonth();
-      const rev = Number(p.revenue) || 0;
-      const margin = rev - (Number(p.cost_material) || 0) - (Number(p.cost_labor) || 0);
-      base[idx].ca += rev;
-      base[idx].marge += margin;
-    });
-    return base;
-  }, [filteredProjects, yearFilter]);
-
-  const statusData = useMemo(() => {
-    const counts: Record<string, number> = { planned: 0, in_progress: 0, completed: 0, on_hold: 0 };
-    filteredProjects.forEach((p) => { counts[p.status] = (counts[p.status] || 0) + 1; });
-    return [
-      { name: t("Planifié", "Planned"), value: counts.planned },
-      { name: t("En cours", "In progress"), value: counts.in_progress },
-      { name: t("Terminé", "Completed"), value: counts.completed },
-      { name: t("En attente", "On hold"), value: counts.on_hold },
-    ];
-  }, [filteredProjects, t]);
+  const totalCA = projects.reduce((s, p) => s + (Number(p.revenue) || 0), 0);
+  const totalMargin = projects.reduce((s, p) => s + ((Number(p.revenue) || 0) - (Number(p.cost_material) || 0) - (Number(p.cost_labor) || 0)), 0);
+  const inProgress = projects.filter((p) => p.status === "in_progress").length;
+  const completed = projects.filter((p) => p.status === "completed").length;
 
   return (
     <div className="pt-24 pb-16 bg-secondary/20 min-h-screen">
@@ -202,17 +160,7 @@ export default function Dashboard() {
             </div>
             <p className="text-sm text-muted-foreground">{t("Tableau de bord pro", "Pro dashboard")} • {profile.is_published ? <Badge className="bg-primary text-primary-foreground">{t("Profil public", "Public profile")}</Badge> : <Badge variant="outline">{t("Profil privé", "Private profile")}</Badge>}</p>
           </div>
-          <div className="flex items-center gap-2 flex-wrap">
-            <Select value={yearFilter} onValueChange={setYearFilter}>
-              <SelectTrigger className="w-[160px]"><CalendarRange className="w-4 h-4 mr-2" /><SelectValue /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value={String(currentYear)}>{t("Année en cours", "Current year")} ({currentYear})</SelectItem>
-                {availableYears.filter((y) => y !== currentYear).map((y) => (
-                  <SelectItem key={y} value={String(y)}>{y}</SelectItem>
-                ))}
-                <SelectItem value="all">{t("Toutes les années", "All years")}</SelectItem>
-              </SelectContent>
-            </Select>
+          <div className="flex items-center gap-2">
             {!isPreview && !isAdmin && (
               <Button variant="outline" size="sm" onClick={requestAdmin} disabled={requestingAdmin}>
                 {requestingAdmin ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Shield className="w-4 h-4 mr-2" />}
@@ -226,47 +174,11 @@ export default function Dashboard() {
         </div>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <Card className="p-5"><div className="text-xs text-muted-foreground">{t("Chantiers", "Projects")}</div><div className="text-2xl font-bold mt-1">{filteredProjects.length}</div></Card>
+          <Card className="p-5"><div className="text-xs text-muted-foreground">{t("Chantiers totaux", "Total projects")}</div><div className="text-2xl font-bold mt-1">{projects.length}</div></Card>
           <Card className="p-5"><div className="text-xs text-muted-foreground">{t("En cours", "In progress")}</div><div className="text-2xl font-bold mt-1 text-primary">{inProgress}</div></Card>
           <Card className="p-5"><div className="text-xs text-muted-foreground">{t("Terminés", "Completed")}</div><div className="text-2xl font-bold mt-1">{completed}</div></Card>
           <Card className="p-5"><div className="text-xs text-muted-foreground">{t("CA / Marge", "Revenue / Margin")}</div><div className="text-xl font-bold mt-1">{totalCA.toLocaleString()} €</div><div className="text-xs text-muted-foreground">{t("Marge", "Margin")} {totalMargin.toLocaleString()} €</div></Card>
         </div>
-
-        <div className="grid lg:grid-cols-3 gap-4 mb-6">
-          <Card className="p-5 lg:col-span-2">
-            <div className="flex items-center justify-between mb-3">
-              <div>
-                <h3 className="font-semibold">{t("CA & Marge par mois", "Revenue & Margin per month")}</h3>
-                <p className="text-xs text-muted-foreground">{yearFilter === "all" ? t("Toutes années — agrégat mensuel", "All years — monthly aggregate") : `${t("Année", "Year")} ${yearFilter}`}</p>
-              </div>
-            </div>
-            <ResponsiveContainer width="100%" height={260}>
-              <BarChart data={chartData} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis dataKey="month" tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} />
-                <YAxis tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} />
-                <RTooltip contentStyle={{ background: "hsl(var(--background))", border: "1px solid hsl(var(--border))", borderRadius: 8, fontSize: 12 }} formatter={(v: any) => `${Number(v).toLocaleString()} €`} />
-                <Legend wrapperStyle={{ fontSize: 12 }} />
-                <Bar dataKey="ca" name={t("CA", "Revenue")} fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="marge" name={t("Marge", "Margin")} fill="hsl(var(--foreground))" radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </Card>
-          <Card className="p-5">
-            <h3 className="font-semibold mb-1">{t("Répartition par statut", "Status breakdown")}</h3>
-            <p className="text-xs text-muted-foreground mb-3">{yearFilter === "all" ? t("Toutes années", "All years") : `${t("Année", "Year")} ${yearFilter}`}</p>
-            <ResponsiveContainer width="100%" height={220}>
-              <PieChart>
-                <Pie data={statusData} dataKey="value" nameKey="name" innerRadius={45} outerRadius={80} paddingAngle={2}>
-                  {statusData.map((_, i) => <Cell key={i} fill={["hsl(var(--muted-foreground))", "hsl(var(--primary))", "hsl(var(--foreground))", "hsl(var(--destructive))"][i]} />)}
-                </Pie>
-                <RTooltip contentStyle={{ background: "hsl(var(--background))", border: "1px solid hsl(var(--border))", borderRadius: 8, fontSize: 12 }} />
-                <Legend wrapperStyle={{ fontSize: 11 }} />
-              </PieChart>
-            </ResponsiveContainer>
-          </Card>
-        </div>
-
 
         <Tabs defaultValue="projects">
           <TabsList className="mb-4 flex-wrap h-auto">
