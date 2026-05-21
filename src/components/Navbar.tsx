@@ -11,7 +11,13 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const { lang, setLang, t } = useLanguage();
-  const { canAccessDashboard } = useAuth();
+  const { user, canAccessDashboard } = useAuth();
+  const dashHref = user ? "/dashboard" : "/dashboard-preview";
+  const dashStatus = !user
+    ? { label: t("Invité", "Guest"), cls: "bg-muted text-muted-foreground" }
+    : canAccessDashboard
+      ? { label: "Pro", cls: "bg-primary text-primary-foreground" }
+      : { label: t("Connecté", "Signed in"), cls: "bg-foreground/10 text-foreground" };
 
   const navItems = [
     { label: t("Accueil", "Home"), path: "/" },
