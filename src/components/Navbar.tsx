@@ -87,10 +87,11 @@ const Navbar = () => {
               {t("Visualiser mon projet", "Visualize my project")}
             </Link>
           </Button>
-          <Button asChild variant="ghost" size="sm" className="text-foreground">
-            <Link to={canAccessDashboard ? "/dashboard" : "/dashboard-preview"}>
-              <LayoutDashboard className="w-4 h-4 mr-1.5" />
+          <Button asChild variant="ghost" size="sm" className="text-foreground gap-1.5">
+            <Link to={dashHref}>
+              <LayoutDashboard className="w-4 h-4" />
               Dashboard
+              <span className={`ml-1 px-1.5 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wide ${dashStatus.cls}`}>{dashStatus.label}</span>
             </Link>
           </Button>
           <Button asChild size="sm" className="bg-gradient-brand-deep hover:opacity-90 transition-opacity shadow-sm">
