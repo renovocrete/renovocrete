@@ -68,7 +68,7 @@ export default function Dashboard() {
     supabase.auth.getSession().then(({ data }) => {
       if (!data.session) { nav("/auth"); return; }
       setUser(data.session.user);
-      loadAll(data.session.user.id);
+      loadAll(data.session.user.id, data.session.user.email);
     });
   }, [nav, isPreview]);
 
