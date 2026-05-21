@@ -134,6 +134,12 @@ const Navbar = () => {
                 {t("Visualiser mon projet", "Visualize my project")}
               </Link>
             </Button>
+            <Button asChild variant="ghost" className="w-full">
+              <Link to={canAccessDashboard ? "/dashboard" : "/dashboard-preview"} onClick={() => setIsOpen(false)}>
+                <LayoutDashboard className="w-4 h-4 mr-2" />
+                Dashboard
+              </Link>
+            </Button>
             <Button asChild className="w-full bg-gradient-brand-deep">
               <Link to="/devis" onClick={() => setIsOpen(false)}>
                 <Phone className="w-4 h-4 mr-2" />
