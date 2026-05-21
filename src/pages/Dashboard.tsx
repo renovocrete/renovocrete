@@ -72,11 +72,16 @@ export default function Dashboard() {
     });
   }, [nav, isPreview]);
 
-  const loadAll = async (uid: string) => {
+  const loadAll = async (uid: string, email?: string) => {
     const { data: p } = await supabase.from("contractor_profiles").select("*").eq("user_id", uid).maybeSingle();
-    setProfile(p);
+    if (p) {
+      setProfile(p);
+    } else {
+      // Fallback: no contractor profile yet — show demo profile keyed to this account
+      setProfile({ ...PREVIEW_PROFILE, user_id: uid, email: email || PREVIEW_PROFILE.email });
+    }
     const { data: pr } = await supabase.from("projects").select("*").eq("user_id", uid).order("created_at", { ascending: false });
-    setProjects(pr || []);
+    setProjects(pr && pr.length ? pr : PREVIEW_PROJECTS.map((x) => ({ ...x, user_id: uid })));
   };
 
   const signOut = async () => { await supabase.auth.signOut(); nav("/"); };
