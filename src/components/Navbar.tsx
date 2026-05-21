@@ -11,7 +11,13 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const { lang, setLang, t } = useLanguage();
-  const { canAccessDashboard } = useAuth();
+  const { user, canAccessDashboard } = useAuth();
+  const dashHref = user ? "/dashboard" : "/dashboard-preview";
+  const dashStatus = !user
+    ? { label: t("Invité", "Guest"), cls: "bg-muted text-muted-foreground" }
+    : canAccessDashboard
+      ? { label: "Pro", cls: "bg-primary text-primary-foreground" }
+      : { label: t("Connecté", "Signed in"), cls: "bg-foreground/10 text-foreground" };
 
   const navItems = [
     { label: t("Accueil", "Home"), path: "/" },
@@ -81,10 +87,11 @@ const Navbar = () => {
               {t("Visualiser mon projet", "Visualize my project")}
             </Link>
           </Button>
-          <Button asChild variant="ghost" size="sm" className="text-foreground">
-            <Link to={canAccessDashboard ? "/dashboard" : "/dashboard-preview"}>
-              <LayoutDashboard className="w-4 h-4 mr-1.5" />
+          <Button asChild variant="ghost" size="sm" className="text-foreground gap-1.5">
+            <Link to={dashHref}>
+              <LayoutDashboard className="w-4 h-4" />
               Dashboard
+              <span className={`ml-1 px-1.5 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wide ${dashStatus.cls}`}>{dashStatus.label}</span>
             </Link>
           </Button>
           <Button asChild size="sm" className="bg-gradient-brand-deep hover:opacity-90 transition-opacity shadow-sm">
@@ -134,10 +141,11 @@ const Navbar = () => {
                 {t("Visualiser mon projet", "Visualize my project")}
               </Link>
             </Button>
-            <Button asChild variant="ghost" className="w-full">
-              <Link to={canAccessDashboard ? "/dashboard" : "/dashboard-preview"} onClick={() => setIsOpen(false)}>
+            <Button asChild variant="ghost" className="w-full gap-1.5">
+              <Link to={dashHref} onClick={() => setIsOpen(false)}>
                 <LayoutDashboard className="w-4 h-4 mr-2" />
                 Dashboard
+                <span className={`ml-1 px-1.5 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wide ${dashStatus.cls}`}>{dashStatus.label}</span>
               </Link>
             </Button>
             <Button asChild className="w-full bg-gradient-brand-deep">
