@@ -81,14 +81,12 @@ const Navbar = () => {
               {t("Visualiser mon projet", "Visualize my project")}
             </Link>
           </Button>
-          {canAccessDashboard && (
-            <Button asChild variant="ghost" size="sm" className="text-foreground">
-              <Link to="/dashboard">
-                <LayoutDashboard className="w-4 h-4 mr-1.5" />
-                Dashboard
-              </Link>
-            </Button>
-          )}
+          <Button asChild variant="ghost" size="sm" className="text-foreground">
+            <Link to={canAccessDashboard ? "/dashboard" : "/dashboard-preview"}>
+              <LayoutDashboard className="w-4 h-4 mr-1.5" />
+              Dashboard
+            </Link>
+          </Button>
           <Button asChild size="sm" className="bg-gradient-brand-deep hover:opacity-90 transition-opacity shadow-sm">
             <Link to="/devis">
               <Phone className="w-4 h-4 mr-1.5" />
@@ -134,6 +132,12 @@ const Navbar = () => {
               <Link to="/visualisation" onClick={() => setIsOpen(false)}>
                 <Eye className="w-4 h-4 mr-2" />
                 {t("Visualiser mon projet", "Visualize my project")}
+              </Link>
+            </Button>
+            <Button asChild variant="ghost" className="w-full">
+              <Link to={canAccessDashboard ? "/dashboard" : "/dashboard-preview"} onClick={() => setIsOpen(false)}>
+                <LayoutDashboard className="w-4 h-4 mr-2" />
+                Dashboard
               </Link>
             </Button>
             <Button asChild className="w-full bg-gradient-brand-deep">
