@@ -8,7 +8,7 @@ interface Props {
 }
 
 export default function ProtectedRoute({ children, requireAdmin = false }: Props) {
-  const { loading, user, isAdmin, canAccessDashboard } = useAuth();
+  const { loading, user, isAdmin } = useAuth();
 
   if (loading) {
     return (
@@ -18,7 +18,6 @@ export default function ProtectedRoute({ children, requireAdmin = false }: Props
     );
   }
   if (!user) return <Navigate to="/auth" replace />;
-  if (!canAccessDashboard) return <Navigate to="/" replace />;
   if (requireAdmin && !isAdmin) return <Navigate to="/dashboard" replace />;
   return <>{children}</>;
 }
