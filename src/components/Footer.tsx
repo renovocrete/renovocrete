@@ -3,6 +3,7 @@ import { Phone, Mail, MapPin, ArrowRight, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/i18n/LanguageContext";
 import logo from "@/assets/renovo-crete-logo.png";
+import DashboardStatusBadge from "@/components/DashboardStatusBadge";
 
 const Footer = () => {
   const { t } = useLanguage();
