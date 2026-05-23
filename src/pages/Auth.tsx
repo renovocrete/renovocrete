@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { Loader2, Shield, HardHat, Sparkles, Eye, EyeOff } from "lucide-react";
+import DashboardStatusBadge from "@/components/DashboardStatusBadge";
 
 const DEMO_ADMIN = "admin@renovocrete.test";
 const DEMO_CONTRACTOR = "contractor@renovocrete.test";
