@@ -3,6 +3,7 @@ import { Phone, Mail, MapPin, ArrowRight, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/i18n/LanguageContext";
 import logo from "@/assets/renovo-crete-logo.png";
+import DashboardStatusBadge from "@/components/DashboardStatusBadge";
 
 const Footer = () => {
   const { t } = useLanguage();
@@ -103,7 +104,9 @@ const Footer = () => {
             <span className="hover:text-primary-foreground/60 cursor-pointer transition-colors">{t("Politique de confidentialité", "Privacy Policy")}</span>
             <span className="hover:text-primary-foreground/60 cursor-pointer transition-colors">{t("Conditions d'utilisation", "Terms of Service")}</span>
             <span className="hover:text-primary-foreground/60 cursor-pointer transition-colors">{t("Mentions légales", "Legal Notice")}</span>
-            <Link to="/auth" className="text-primary-foreground/40 hover:text-primary-light transition-colors">{t("Espace pro", "Pro area")}</Link>
+            <Link to="/auth" className="text-primary-foreground/40 hover:text-primary-light transition-colors flex items-center gap-2">
+              {t("Espace pro", "Pro area")} <DashboardStatusBadge compact />
+            </Link>
           </div>
         </div>
       </div>

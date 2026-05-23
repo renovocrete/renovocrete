@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { LogOut, Plus, Briefcase, Calculator as CalcIcon, Wand2, User, Trash2, Loader2, FileDown, Euro, Copy, History, FileText, Users, Eye, EyeOff, Shield } from "lucide-react";
+import { LogOut, Plus, Briefcase, Calculator as CalcIcon, Wand2, User, Trash2, Loader2, FileDown, Euro, Copy, History, FileText, Users, Eye, EyeOff, Shield, Info, CheckCircle2, BarChart3 } from "lucide-react";
 import { toast } from "sonner";
 import { CATALOGS, calculateResin, getCatalog, ProductLine, FORMULAS } from "@/data/colors";
 import { useLanguage } from "@/i18n/LanguageContext";
@@ -20,6 +20,9 @@ import { exportInternalQuotePDF } from "@/lib/pdf/internalQuote";
 import { listHistory, saveEntry, removeEntry, clearHistory, type QuoteHistoryEntry } from "@/lib/quoteHistory";
 import { z } from "zod";
 import { Switch } from "@/components/ui/switch";
+import { Skeleton } from "@/components/ui/skeleton";
+import DashboardStatusBadge from "@/components/DashboardStatusBadge";
+import { BarChart, Bar, XAxis, YAxis, Tooltip as RTooltip, ResponsiveContainer, CartesianGrid, PieChart, Pie, Cell, Legend } from "recharts";
 
 const PREVIEW_PROFILE = {
   id: "preview",
@@ -56,6 +59,9 @@ export default function Dashboard() {
   const [user, setUser] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
   const [projects, setProjects] = useState<any[]>([]);
+  const [loadingData, setLoadingData] = useState(true);
+  const [demoFallback, setDemoFallback] = useState<{ profile: boolean; projects: boolean }>({ profile: false, projects: false });
+  const [readyNotified, setReadyNotified] = useState(false);
   const { isAdmin } = useAuth();
 
   useEffect(() => {
@@ -63,6 +69,8 @@ export default function Dashboard() {
       setUser({ id: "preview", email: PREVIEW_PROFILE.email });
       setProfile(PREVIEW_PROFILE);
       setProjects(PREVIEW_PROJECTS);
+      setDemoFallback({ profile: true, projects: true });
+      setLoadingData(false);
       return;
     }
     supabase.auth.getSession().then(({ data }) => {
@@ -73,15 +81,27 @@ export default function Dashboard() {
   }, [nav, isPreview]);
 
   const loadAll = async (uid: string, email?: string) => {
+    setLoadingData(true);
     const { data: p } = await supabase.from("contractor_profiles").select("*").eq("user_id", uid).maybeSingle();
+    const profileIsDemo = !p;
     if (p) {
       setProfile(p);
     } else {
-      // Fallback: no contractor profile yet — show demo profile keyed to this account
       setProfile({ ...PREVIEW_PROFILE, user_id: uid, email: email || PREVIEW_PROFILE.email });
     }
     const { data: pr } = await supabase.from("projects").select("*").eq("user_id", uid).order("created_at", { ascending: false });
+    const projectsIsDemo = !(pr && pr.length);
     setProjects(pr && pr.length ? pr : PREVIEW_PROJECTS.map((x) => ({ ...x, user_id: uid })));
+    setDemoFallback({ profile: profileIsDemo, projects: projectsIsDemo });
+    setLoadingData(false);
+    if (!readyNotified) {
+      setReadyNotified(true);
+      toast.success(
+        projectsIsDemo || profileIsDemo
+          ? t("Données prêtes (aperçu démo)", "Data ready (demo preview)")
+          : t("Données prêtes", "Data ready"),
+      );
+    }
   };
 
   const signOut = async () => { await supabase.auth.signOut(); nav("/"); };
@@ -136,12 +156,53 @@ export default function Dashboard() {
     }
   };
 
-  if (!user || !profile) return <div className="pt-32 text-center"><Loader2 className="w-6 h-6 mx-auto animate-spin text-primary" /></div>;
+  if (!user || !profile || loadingData) {
+    return (
+      <div className="pt-24 pb-16 bg-secondary/20 min-h-screen">
+        <div className="container mx-auto px-4 space-y-6">
+          <div className="flex items-center gap-3">
+            <Loader2 className="w-4 h-4 animate-spin text-primary" />
+            <span className="text-sm text-muted-foreground">{t("Chargement du tableau de bord…", "Loading dashboard…")}</span>
+          </div>
+          <div className="flex items-center justify-between flex-wrap gap-3">
+            <div className="space-y-2"><Skeleton className="h-8 w-64" /><Skeleton className="h-4 w-40" /></div>
+            <Skeleton className="h-9 w-40" />
+          </div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {[0, 1, 2, 3].map((i) => (
+              <Card key={i} className="p-5 space-y-2"><Skeleton className="h-3 w-24" /><Skeleton className="h-7 w-16" /></Card>
+            ))}
+          </div>
+          <Card className="p-5"><Skeleton className="h-48 w-full" /></Card>
+          <Skeleton className="h-10 w-full max-w-xl" />
+          <Card className="p-5 space-y-3">
+            <Skeleton className="h-5 w-40" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-3/4" />
+          </Card>
+        </div>
+      </div>
+    );
+  }
 
   const totalCA = projects.reduce((s, p) => s + (Number(p.revenue) || 0), 0);
   const totalMargin = projects.reduce((s, p) => s + ((Number(p.revenue) || 0) - (Number(p.cost_material) || 0) - (Number(p.cost_labor) || 0)), 0);
   const inProgress = projects.filter((p) => p.status === "in_progress").length;
   const completed = projects.filter((p) => p.status === "completed").length;
+
+  const chartData = projects.slice(0, 8).map((p) => ({
+    name: (p.title || "—").slice(0, 14),
+    CA: Number(p.revenue) || 0,
+    Marge: (Number(p.revenue) || 0) - (Number(p.cost_material) || 0) - (Number(p.cost_labor) || 0),
+  })).reverse();
+  const statusData = [
+    { name: t("Planifié", "Planned"), value: projects.filter((p) => p.status === "planned").length },
+    { name: t("En cours", "In progress"), value: inProgress },
+    { name: t("Terminé", "Completed"), value: completed },
+    { name: t("En attente", "On hold"), value: projects.filter((p) => p.status === "on_hold").length },
+  ].filter((d) => d.value > 0);
+  const PIE_COLORS = ["hsl(var(--muted-foreground))", "hsl(var(--primary))", "hsl(var(--accent))", "hsl(var(--destructive))"];
+  const isDemoData = demoFallback.profile || demoFallback.projects;
 
   return (
     <div className="pt-24 pb-16 bg-secondary/20 min-h-screen">
@@ -152,11 +213,31 @@ export default function Dashboard() {
             <Button size="sm" onClick={() => nav("/auth")} className="bg-gradient-brand-deep">{t("Se connecter pour utiliser", "Sign in to use")}</Button>
           </div>
         )}
+        {!isPreview && isDemoData && (
+          <div className="mb-4 p-3 rounded-md border border-amber-500/30 bg-amber-500/10 text-sm flex items-center gap-2 flex-wrap">
+            <Info className="w-4 h-4 text-amber-600 shrink-0" />
+            <span>
+              <strong>{t("Aperçu démo actif", "Demo preview active")}</strong> —{" "}
+              {demoFallback.profile && demoFallback.projects
+                ? t("aucun profil ni chantier réel. Les données affichées sont des exemples.", "no real profile or projects yet. Displayed data is sample data.")
+                : demoFallback.projects
+                ? t("aucun chantier réel — exemples affichés.", "no real projects — sample shown.")
+                : t("profil démo — créez le vôtre dans l'onglet Profil.", "demo profile — create yours in the Profile tab.")}
+            </span>
+          </div>
+        )}
+        {!isPreview && !isDemoData && (
+          <div className="mb-4 p-2.5 rounded-md border border-emerald-500/30 bg-emerald-500/10 text-xs flex items-center gap-2">
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+            <span>{t("Vos données sont prêtes.", "Your data is ready.")}</span>
+          </div>
+        )}
         <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
           <div>
             <div className="flex items-center gap-2 flex-wrap">
               <h1 className="font-heading text-3xl font-bold">{profile.company_name}</h1>
               {isAdmin && <Badge className="bg-foreground text-background">ADMIN</Badge>}
+              <DashboardStatusBadge />
             </div>
             <p className="text-sm text-muted-foreground">{t("Tableau de bord pro", "Pro dashboard")} • {profile.is_published ? <Badge className="bg-primary text-primary-foreground">{t("Profil public", "Public profile")}</Badge> : <Badge variant="outline">{t("Profil privé", "Private profile")}</Badge>}</p>
           </div>
@@ -179,6 +260,47 @@ export default function Dashboard() {
           <Card className="p-5"><div className="text-xs text-muted-foreground">{t("Terminés", "Completed")}</div><div className="text-2xl font-bold mt-1">{completed}</div></Card>
           <Card className="p-5"><div className="text-xs text-muted-foreground">{t("CA / Marge", "Revenue / Margin")}</div><div className="text-xl font-bold mt-1">{totalCA.toLocaleString()} €</div><div className="text-xs text-muted-foreground">{t("Marge", "Margin")} {totalMargin.toLocaleString()} €</div></Card>
         </div>
+
+        <div className="grid lg:grid-cols-3 gap-4 mb-6">
+          <Card className="p-5 lg:col-span-2">
+            <div className="flex items-center gap-2 mb-3">
+              <BarChart3 className="w-4 h-4 text-primary" />
+              <h3 className="font-semibold text-sm">{t("CA & Marge par chantier", "Revenue & Margin per project")}</h3>
+            </div>
+            {chartData.length === 0 ? (
+              <div className="h-56 flex items-center justify-center text-sm text-muted-foreground">{t("Aucune donnée à afficher", "No data to display")}</div>
+            ) : (
+              <ResponsiveContainer width="100%" height={224}>
+                <BarChart data={chartData} margin={{ top: 5, right: 8, left: -10, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                  <XAxis dataKey="name" tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} />
+                  <YAxis tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} />
+                  <RTooltip contentStyle={{ background: "hsl(var(--background))", border: "1px solid hsl(var(--border))", borderRadius: 8, fontSize: 12 }} />
+                  <Legend wrapperStyle={{ fontSize: 12 }} />
+                  <Bar dataKey="CA" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="Marge" fill="hsl(var(--accent))" radius={[4, 4, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            )}
+          </Card>
+          <Card className="p-5">
+            <h3 className="font-semibold text-sm mb-3">{t("Répartition par statut", "Status breakdown")}</h3>
+            {statusData.length === 0 ? (
+              <div className="h-56 flex items-center justify-center text-sm text-muted-foreground">{t("Aucune donnée", "No data")}</div>
+            ) : (
+              <ResponsiveContainer width="100%" height={224}>
+                <PieChart>
+                  <Pie data={statusData} dataKey="value" nameKey="name" innerRadius={42} outerRadius={72} paddingAngle={3}>
+                    {statusData.map((_, i) => <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />)}
+                  </Pie>
+                  <RTooltip contentStyle={{ background: "hsl(var(--background))", border: "1px solid hsl(var(--border))", borderRadius: 8, fontSize: 12 }} />
+                  <Legend wrapperStyle={{ fontSize: 11 }} />
+                </PieChart>
+              </ResponsiveContainer>
+            )}
+          </Card>
+        </div>
+
 
         <Tabs defaultValue="projects">
           <TabsList className="mb-4 flex-wrap h-auto">

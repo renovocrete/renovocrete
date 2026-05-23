@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { Loader2, Shield, HardHat, Sparkles, Eye, EyeOff } from "lucide-react";
+import DashboardStatusBadge from "@/components/DashboardStatusBadge";
 
 const DEMO_ADMIN = "admin@renovocrete.test";
 const DEMO_CONTRACTOR = "contractor@renovocrete.test";
@@ -108,7 +109,10 @@ export default function Auth() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-secondary/30 px-4 pt-24 pb-12">
       <Card className="w-full max-w-md p-8">
-        <h1 className="font-heading text-2xl font-bold mb-1">{mode === "login" ? t("Espace sous-traitant", "Contractor portal") : t("Devenir partenaire", "Become a partner")}</h1>
+        <div className="flex items-start justify-between gap-3 mb-1">
+          <h1 className="font-heading text-2xl font-bold">{mode === "login" ? t("Espace sous-traitant", "Contractor portal") : t("Devenir partenaire", "Become a partner")}</h1>
+          <DashboardStatusBadge />
+        </div>
         <p className="text-sm text-muted-foreground mb-6">{t("Réservé aux entreprises formées Elite Crete Systems.", "For Elite Crete Systems certified contractors only.")}</p>
 
         {/* Demo quick access */}
