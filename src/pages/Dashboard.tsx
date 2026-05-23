@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { LogOut, Plus, Briefcase, Calculator as CalcIcon, Wand2, User, Trash2, Loader2, FileDown, Euro, Copy, History, FileText, Users, Eye, EyeOff, Shield } from "lucide-react";
+import { LogOut, Plus, Briefcase, Calculator as CalcIcon, Wand2, User, Trash2, Loader2, FileDown, Euro, Copy, History, FileText, Users, Eye, EyeOff, Shield, Info, CheckCircle2, BarChart3 } from "lucide-react";
 import { toast } from "sonner";
 import { CATALOGS, calculateResin, getCatalog, ProductLine, FORMULAS } from "@/data/colors";
 import { useLanguage } from "@/i18n/LanguageContext";
@@ -20,6 +20,9 @@ import { exportInternalQuotePDF } from "@/lib/pdf/internalQuote";
 import { listHistory, saveEntry, removeEntry, clearHistory, type QuoteHistoryEntry } from "@/lib/quoteHistory";
 import { z } from "zod";
 import { Switch } from "@/components/ui/switch";
+import { Skeleton } from "@/components/ui/skeleton";
+import DashboardStatusBadge from "@/components/DashboardStatusBadge";
+import { BarChart, Bar, XAxis, YAxis, Tooltip as RTooltip, ResponsiveContainer, CartesianGrid, PieChart, Pie, Cell, Legend } from "recharts";
 
 const PREVIEW_PROFILE = {
   id: "preview",
