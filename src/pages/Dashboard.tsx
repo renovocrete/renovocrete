@@ -59,6 +59,9 @@ export default function Dashboard() {
   const [user, setUser] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
   const [projects, setProjects] = useState<any[]>([]);
+  const [loadingData, setLoadingData] = useState(true);
+  const [demoFallback, setDemoFallback] = useState<{ profile: boolean; projects: boolean }>({ profile: false, projects: false });
+  const [readyNotified, setReadyNotified] = useState(false);
   const { isAdmin } = useAuth();
 
   useEffect(() => {
@@ -66,6 +69,8 @@ export default function Dashboard() {
       setUser({ id: "preview", email: PREVIEW_PROFILE.email });
       setProfile(PREVIEW_PROFILE);
       setProjects(PREVIEW_PROJECTS);
+      setDemoFallback({ profile: true, projects: true });
+      setLoadingData(false);
       return;
     }
     supabase.auth.getSession().then(({ data }) => {
@@ -76,15 +81,27 @@ export default function Dashboard() {
   }, [nav, isPreview]);
 
   const loadAll = async (uid: string, email?: string) => {
+    setLoadingData(true);
     const { data: p } = await supabase.from("contractor_profiles").select("*").eq("user_id", uid).maybeSingle();
+    const profileIsDemo = !p;
     if (p) {
       setProfile(p);
     } else {
-      // Fallback: no contractor profile yet — show demo profile keyed to this account
       setProfile({ ...PREVIEW_PROFILE, user_id: uid, email: email || PREVIEW_PROFILE.email });
     }
     const { data: pr } = await supabase.from("projects").select("*").eq("user_id", uid).order("created_at", { ascending: false });
+    const projectsIsDemo = !(pr && pr.length);
     setProjects(pr && pr.length ? pr : PREVIEW_PROJECTS.map((x) => ({ ...x, user_id: uid })));
+    setDemoFallback({ profile: profileIsDemo, projects: projectsIsDemo });
+    setLoadingData(false);
+    if (!readyNotified) {
+      setReadyNotified(true);
+      toast.success(
+        projectsIsDemo || profileIsDemo
+          ? t("Données prêtes (aperçu démo)", "Data ready (demo preview)")
+          : t("Données prêtes", "Data ready"),
+      );
+    }
   };
 
   const signOut = async () => { await supabase.auth.signOut(); nav("/"); };
