@@ -5,10 +5,11 @@ import { Loader2 } from "lucide-react";
 interface Props {
   children: React.ReactNode;
   requireAdmin?: boolean;
+  requirePartner?: boolean;
 }
 
-export default function ProtectedRoute({ children, requireAdmin = false }: Props) {
-  const { loading, user, isAdmin } = useAuth();
+export default function ProtectedRoute({ children, requireAdmin = false, requirePartner = false }: Props) {
+  const { loading, user, isAdmin, isPartner } = useAuth();
 
   if (loading) {
     return (
@@ -19,5 +20,6 @@ export default function ProtectedRoute({ children, requireAdmin = false }: Props
   }
   if (!user) return <Navigate to="/auth" replace />;
   if (requireAdmin && !isAdmin) return <Navigate to="/dashboard" replace />;
+  if (requirePartner && !isPartner && !isAdmin) return <Navigate to="/partenaire/inscription" replace />;
   return <>{children}</>;
 }
