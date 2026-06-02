@@ -20,6 +20,17 @@ import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from "./pages/NotFound";
+import PartnerLayout from "./layouts/PartnerLayout";
+import PartnerDashboard from "./pages/partner/PartnerDashboard";
+import PartnerProjects from "./pages/partner/PartnerProjects";
+import PartnerMediaLibrary from "./pages/partner/PartnerMediaLibrary";
+import PartnerVisualizer from "./pages/partner/PartnerVisualizer";
+import PartnerProfile from "./pages/partner/PartnerProfile";
+import PartnerAppointments from "./pages/partner/PartnerAppointments";
+import PartnerEvents from "./pages/partner/PartnerEvents";
+import PartnerAnalytics from "./pages/partner/PartnerAnalytics";
+import PartnerInscription from "./pages/PartnerInscription";
+import { Navigate } from "react-router-dom";
 
 const queryClient = new QueryClient();
 
@@ -47,6 +58,18 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="/dashboard-preview" element={<Dashboard />} />
+            <Route path="/partenaire/inscription" element={<PartnerInscription />} />
+            <Route path="/partenaire" element={<ProtectedRoute requirePartner><PartnerLayout /></ProtectedRoute>}>
+              <Route index element={<Navigate to="/partenaire/dashboard" replace />} />
+              <Route path="dashboard" element={<PartnerDashboard />} />
+              <Route path="projets" element={<PartnerProjects />} />
+              <Route path="mediatheque" element={<PartnerMediaLibrary />} />
+              <Route path="visualiseur" element={<PartnerVisualizer />} />
+              <Route path="profil" element={<PartnerProfile />} />
+              <Route path="rendez-vous" element={<PartnerAppointments />} />
+              <Route path="evenements" element={<PartnerEvents />} />
+              <Route path="analyses" element={<PartnerAnalytics />} />
+            </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
