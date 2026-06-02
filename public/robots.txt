@@ -1,14 +1,22 @@
 User-agent: Googlebot
 Allow: /
+Disallow: /partenaire/
+Disallow: /partenaire
 
 User-agent: Bingbot
 Allow: /
+Disallow: /partenaire/
+Disallow: /partenaire
 
 User-agent: Twitterbot
 Allow: /
+Disallow: /partenaire/
 
 User-agent: facebookexternalhit
 Allow: /
+Disallow: /partenaire/
 
 User-agent: *
 Allow: /
+Disallow: /partenaire/
+Disallow: /partenaire

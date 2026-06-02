@@ -155,6 +155,590 @@ export type Database = {
         }
         Relationships: []
       }
+      partner_access_requests: {
+        Row: {
+          company: string | null
+          country: string | null
+          created_at: string
+          email: string
+          first_name: string
+          id: string
+          kind: string
+          last_name: string
+          message: string | null
+          phone: string | null
+          status: string
+        }
+        Insert: {
+          company?: string | null
+          country?: string | null
+          created_at?: string
+          email: string
+          first_name: string
+          id?: string
+          kind?: string
+          last_name: string
+          message?: string | null
+          phone?: string | null
+          status?: string
+        }
+        Update: {
+          company?: string | null
+          country?: string | null
+          created_at?: string
+          email?: string
+          first_name?: string
+          id?: string
+          kind?: string
+          last_name?: string
+          message?: string | null
+          phone?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
+      partner_activity_log: {
+        Row: {
+          action: string
+          created_at: string
+          entity: string | null
+          entity_id: string | null
+          id: string
+          ip: string | null
+          meta: Json | null
+          user_id: string
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          entity?: string | null
+          entity_id?: string | null
+          id?: string
+          ip?: string | null
+          meta?: Json | null
+          user_id: string
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          entity?: string | null
+          entity_id?: string | null
+          id?: string
+          ip?: string | null
+          meta?: Json | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      partner_ai_simulations: {
+        Row: {
+          color: string | null
+          created_at: string
+          finish: string | null
+          id: string
+          product: string | null
+          project_id: string | null
+          result_image_url: string | null
+          source_image_url: string | null
+          surface_m2: number | null
+          tech_sheet: Json | null
+          user_id: string
+        }
+        Insert: {
+          color?: string | null
+          created_at?: string
+          finish?: string | null
+          id?: string
+          product?: string | null
+          project_id?: string | null
+          result_image_url?: string | null
+          source_image_url?: string | null
+          surface_m2?: number | null
+          tech_sheet?: Json | null
+          user_id: string
+        }
+        Update: {
+          color?: string | null
+          created_at?: string
+          finish?: string | null
+          id?: string
+          product?: string | null
+          project_id?: string | null
+          result_image_url?: string | null
+          source_image_url?: string | null
+          surface_m2?: number | null
+          tech_sheet?: Json | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_ai_simulations_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "partner_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      partner_appointments: {
+        Row: {
+          created_at: string
+          duration_min: number
+          id: string
+          kind: string
+          notes: string | null
+          scheduled_at: string
+          status: string
+          subject: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          duration_min?: number
+          id?: string
+          kind?: string
+          notes?: string | null
+          scheduled_at: string
+          status?: string
+          subject?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          duration_min?: number
+          id?: string
+          kind?: string
+          notes?: string | null
+          scheduled_at?: string
+          status?: string
+          subject?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      partner_clients: {
+        Row: {
+          address: string | null
+          country: string | null
+          created_at: string
+          email: string | null
+          first_name: string | null
+          id: string
+          last_name: string
+          notes: string | null
+          phone: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          address?: string | null
+          country?: string | null
+          created_at?: string
+          email?: string | null
+          first_name?: string | null
+          id?: string
+          last_name: string
+          notes?: string | null
+          phone?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          address?: string | null
+          country?: string | null
+          created_at?: string
+          email?: string | null
+          first_name?: string | null
+          id?: string
+          last_name?: string
+          notes?: string | null
+          phone?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      partner_event_registrations: {
+        Row: {
+          created_at: string
+          event_id: string
+          id: string
+          seats: number
+          status: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          event_id: string
+          id?: string
+          seats?: number
+          status?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          event_id?: string
+          id?: string
+          seats?: number
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_event_registrations_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "partner_events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      partner_events: {
+        Row: {
+          capacity: number
+          cover_url: string | null
+          created_at: string
+          description: string | null
+          ends_at: string | null
+          event_type: string | null
+          id: string
+          location: string | null
+          starts_at: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          capacity?: number
+          cover_url?: string | null
+          created_at?: string
+          description?: string | null
+          ends_at?: string | null
+          event_type?: string | null
+          id?: string
+          location?: string | null
+          starts_at: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          capacity?: number
+          cover_url?: string | null
+          created_at?: string
+          description?: string | null
+          ends_at?: string | null
+          event_type?: string | null
+          id?: string
+          location?: string | null
+          starts_at?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      partner_media_library: {
+        Row: {
+          category: string | null
+          created_at: string
+          description: string | null
+          downloadable: boolean
+          id: string
+          tags: string[] | null
+          thumbnail_url: string | null
+          title: string
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          downloadable?: boolean
+          id?: string
+          tags?: string[] | null
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          downloadable?: boolean
+          id?: string
+          tags?: string[] | null
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string
+          url?: string
+        }
+        Relationships: []
+      }
+      partner_profiles: {
+        Row: {
+          address: string | null
+          admin_documents: Json | null
+          avatar_url: string | null
+          company: string | null
+          country: string | null
+          created_at: string
+          email: string | null
+          first_name: string | null
+          id: string
+          kind: string
+          languages: string[] | null
+          last_name: string | null
+          logo_url: string | null
+          phone: string | null
+          private_gallery: Json | null
+          professional_number: string | null
+          service_areas: string[] | null
+          specialty: string | null
+          updated_at: string
+          user_id: string
+          website: string | null
+          years_experience: number | null
+        }
+        Insert: {
+          address?: string | null
+          admin_documents?: Json | null
+          avatar_url?: string | null
+          company?: string | null
+          country?: string | null
+          created_at?: string
+          email?: string | null
+          first_name?: string | null
+          id?: string
+          kind?: string
+          languages?: string[] | null
+          last_name?: string | null
+          logo_url?: string | null
+          phone?: string | null
+          private_gallery?: Json | null
+          professional_number?: string | null
+          service_areas?: string[] | null
+          specialty?: string | null
+          updated_at?: string
+          user_id: string
+          website?: string | null
+          years_experience?: number | null
+        }
+        Update: {
+          address?: string | null
+          admin_documents?: Json | null
+          avatar_url?: string | null
+          company?: string | null
+          country?: string | null
+          created_at?: string
+          email?: string | null
+          first_name?: string | null
+          id?: string
+          kind?: string
+          languages?: string[] | null
+          last_name?: string | null
+          logo_url?: string | null
+          phone?: string | null
+          private_gallery?: Json | null
+          professional_number?: string | null
+          service_areas?: string[] | null
+          specialty?: string | null
+          updated_at?: string
+          user_id?: string
+          website?: string | null
+          years_experience?: number | null
+        }
+        Relationships: []
+      }
+      partner_project_clients: {
+        Row: {
+          client_id: string
+          project_id: string
+          user_id: string
+        }
+        Insert: {
+          client_id: string
+          project_id: string
+          user_id: string
+        }
+        Update: {
+          client_id?: string
+          project_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_project_clients_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "partner_clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_project_clients_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "partner_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      partner_project_documents: {
+        Row: {
+          created_at: string
+          id: string
+          kind: string
+          name: string
+          project_id: string
+          size_bytes: number | null
+          url: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          kind?: string
+          name: string
+          project_id: string
+          size_bytes?: number | null
+          url: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          kind?: string
+          name?: string
+          project_id?: string
+          size_bytes?: number | null
+          url?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_project_documents_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "partner_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      partner_project_media: {
+        Row: {
+          caption: string | null
+          created_at: string
+          id: string
+          kind: string
+          project_id: string
+          sort_order: number
+          url: string
+          user_id: string
+        }
+        Insert: {
+          caption?: string | null
+          created_at?: string
+          id?: string
+          kind?: string
+          project_id: string
+          sort_order?: number
+          url: string
+          user_id: string
+        }
+        Update: {
+          caption?: string | null
+          created_at?: string
+          id?: string
+          kind?: string
+          project_id?: string
+          sort_order?: number
+          url?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_project_media_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "partner_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      partner_projects: {
+        Row: {
+          classification: string | null
+          cost_labor: number | null
+          cost_material: number | null
+          created_at: string
+          description: string | null
+          estimated_price: number | null
+          floors: number | null
+          history: Json | null
+          id: string
+          internal_comments: string | null
+          location_kind: string | null
+          private_notes: string | null
+          property_type: string | null
+          rooms: number | null
+          status: string
+          surface_m2: number | null
+          surface_sqft: number | null
+          title: string
+          total_budget: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          classification?: string | null
+          cost_labor?: number | null
+          cost_material?: number | null
+          created_at?: string
+          description?: string | null
+          estimated_price?: number | null
+          floors?: number | null
+          history?: Json | null
+          id?: string
+          internal_comments?: string | null
+          location_kind?: string | null
+          private_notes?: string | null
+          property_type?: string | null
+          rooms?: number | null
+          status?: string
+          surface_m2?: number | null
+          surface_sqft?: number | null
+          title: string
+          total_budget?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          classification?: string | null
+          cost_labor?: number | null
+          cost_material?: number | null
+          created_at?: string
+          description?: string | null
+          estimated_price?: number | null
+          floors?: number | null
+          history?: Json | null
+          id?: string
+          internal_comments?: string | null
+          location_kind?: string | null
+          private_notes?: string | null
+          property_type?: string | null
+          rooms?: number | null
+          status?: string
+          surface_m2?: number | null
+          surface_sqft?: number | null
+          title?: string
+          total_budget?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       projects: {
         Row: {
           address: string | null
@@ -457,9 +1041,10 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_partner: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
-      app_role: "admin" | "contractor" | "user"
+      app_role: "admin" | "contractor" | "user" | "architect" | "builder"
       project_priority: "low" | "medium" | "high" | "urgent"
       project_status: "planned" | "in_progress" | "completed" | "on_hold"
     }
@@ -589,7 +1174,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "contractor", "user"],
+      app_role: ["admin", "contractor", "user", "architect", "builder"],
       project_priority: ["low", "medium", "high", "urgent"],
       project_status: ["planned", "in_progress", "completed", "on_hold"],
     },

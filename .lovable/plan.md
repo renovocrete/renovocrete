@@ -1,134 +1,104 @@
-## Objectif
+# Espace privé Architectes & Constructeurs
 
-Étendre l'app RENOVO CRETE avec un espace sous-traitants public + interne, séparation stricte client/admin, calculateur enrichi, historique local et PDF doubles.
+Nouvel espace strictement privé pour les partenaires Architectes/Constructeurs de RENOVO CRETE. Aucune exposition publique, aucun croisement avec les espaces existants (clients, sous-traitants, admin).
 
-## Architecture des accès
+## 1. Modèle de données (migration Supabase)
+
+Nouveau type de rôle et tables dédiées, isolées des tables `contractor_profiles` / `projects` existantes pour garantir la séparation et éviter toute fuite via les vues publiques `*_public`.
 
 ```text
-PUBLIC (clients)         INTERNE (auth requise)
-─────────────────        ─────────────────────────
-/sous-traitants          /dashboard            (admin OU contractor)
-/sous-traitants/:slug    /dashboard/contractors (admin only)
-                         /dashboard/projects
-                         /dashboard/calculator
-                         /dashboard/media
-                         /auth (login)
+app_role enum  → ajouter 'architect', 'builder'
+
+partner_profiles            (1-1 user)        # profil privé
+partner_clients             (n par partner)   # fiches clients
+partner_projects            (n par partner)   # projets avec tous les champs
+partner_project_clients     (n-n)             # association projet↔clients
+partner_project_documents   (fichiers)
+partner_project_media       (photos/vidéos/3D/avant-après)
+partner_media_library       (médiathèque RENOVO, admin-only en écriture)
+partner_ai_simulations      (visualiseur IA + fiche technique JSON)
+partner_appointments        (RDV)
+partner_events              (admin-only écriture)
+partner_event_registrations (inscriptions)
+partner_activity_log        (journal connexions/actions)
 ```
 
-- Rôles existants: `admin`, `contractor`, `user` → on les utilise tels quels
-- `<ProtectedRoute>` vérifie session + rôle via `has_role`
-- Le Dashboard n'apparaît dans la navbar publique que si l'utilisateur est connecté ET (admin OU contractor)
-- Aucun lien public vers `/auth` ou `/dashboard` pour les clients non connectés (lien discret en footer "Espace pro")
+RLS stricte : `user_id = auth.uid()` pour toutes les tables partner_* (sauf `partner_media_library` et `partner_events` = lecture pour partenaires connectés, écriture admin uniquement). Aucune policy `anon`. Aucune vue `*_public`. GRANT uniquement à `authenticated` et `service_role`.
 
-## Côté public
+Storage : nouveau bucket privé `partner-media` (non public), policies basées sur `auth.uid()` en préfixe de chemin.
 
-**`/sous-traitants`** (déjà existe, on le reconstruit proprement)
-- Liste des `contractor_profiles` où `is_published = true`
-- Cartes: avatar, nom, tagline, ville, spécialités, badge "featured"
-- Filtres simples: spécialité, ville
+## 2. Authentification & rôles
 
-**`/sous-traitants/:slug`** (déjà existe partiellement)
-- Header: cover_url, avatar, nom, tagline
-- Bio, spécialités, zone d'intervention (city/country)
-- Galerie images + vidéos depuis `contractor_media`
-- Réalisations: projets de ce contractor où `status='completed'` ET marqués publics
-- Coordonnées (téléphone, email, site, social) UNIQUEMENT si flags activés en interne
-- Bouton "Demander un devis" → préremplit `/devis` avec `contractor_id`
+- `useAuth` étendu : `isArchitect`, `isBuilder`, `isPartner = isArchitect || isBuilder`.
+- `ProtectedRoute` : nouvelle prop `requirePartner`.
+- Inscription partenaire séparée : page `/partenaire/inscription` (demande validée par admin → admin assigne le rôle via Cloud). Pas d'auto-attribution.
+- Trigger DB : à l'attribution du rôle architect/builder, créer automatiquement `partner_profiles`.
 
-**Aucune fuite**: pas d'affichage de revenue, costs, margin, prix internes.
+## 3. Routes & navigation
 
-## Côté interne (Dashboard)
+```text
+/partenaire                 → redirige vers /partenaire/dashboard
+/partenaire/dashboard       → vue d'ensemble + onglets
+/partenaire/projets         → liste + CRUD
+/partenaire/projets/:id     → détail projet (docs, médias, clients)
+/partenaire/mediatheque
+/partenaire/visualiseur
+/partenaire/profil
+/partenaire/rendez-vous
+/partenaire/evenements
+/partenaire/analyses
+/partenaire/inscription     (public, formulaire de demande)
+```
 
-Layout `/dashboard` avec sidebar:
-- **Vue d'ensemble**: KPIs (nombre chantiers, CA, marge, chantiers en cours), graphique mensuel
-- **Mon entreprise / Profil**: édition `contractor_profiles` + toggles visibilité (show_phone, show_email, show_address)
-- **Médias**: upload images/vidéos vers bucket `contractor-media`, réordonner, légender
-- **Chantiers**: CRUD `projects` (titre, client, adresse, surface, produit, statut, priorité, revenue, coûts, dates, photos avant/après, public oui/non)
-- **Calculateur**: nouvelle version enrichie (voir plus bas)
-- **Sous-traitants** (admin only): liste tous, créer/éditer/désactiver n'importe quel profil, forcer `is_published`, `is_featured`
+- Navbar publique : aucun lien vers /partenaire (entrée discrète depuis /auth uniquement).
+- `robots.txt` : `Disallow: /partenaire/`.
+- `sitemap.xml` : exclure toutes les routes /partenaire.
+- Aucune mention dans `/sous-traitants`, `/galerie`, ni aucune vue publique.
 
-## Schéma DB — ajouts
+## 4. Dashboard partenaire (7 onglets)
 
-Migration nécessaire:
-- `contractor_profiles`: `show_phone bool default false`, `show_email bool default false`, `show_address bool default false`, `show_social bool default true`, `service_areas text[] default '{}'`
-- `projects`: `is_public bool default false`, `cost_material numeric default 0`, `cost_labor numeric default 0`, `margin numeric generated always as (revenue - cost_material - cost_labor) stored`
-- `quote_requests`: `contractor_id` déjà présent → s'assurer que le devis public peut cibler un sous-traitant
+Layout dédié `PartnerLayout` (sidebar premium, séparé de MainLayout) :
 
-RLS:
-- Public peut voir `projects` SEULEMENT si `is_public = true` ET le contractor lié est publié → policy `SELECT` ajoutée
-- Owner / admin garde l'accès complet existant
+1. **Projets** — table + formulaire complet (titre, description, statut, type de bien, classification, surfaces, étages, intérieur/extérieur, budgets, notes, documents, galerie, clients associés)
+2. **Médiathèque RENOVO** — grille avec recherche/filtres/catégories, téléchargement
+3. **Visualiseur IA** — upload, génération via edge function `partner-visualize` (réutilise gateway Lovable AI), comparaison avant/après, sélection matériaux/couleurs/finitions, génération fiche technique + export PDF
+4. **Profil** — formulaire privé complet + galerie privée + documents admin
+5. **Rendez-vous** — calendrier interactif (création RDV avec type), confirmation/email
+6. **Événements** — lecture seule + inscription/désinscription
+7. **Analyses** — recharts : nb projets, valeur totale, budget moyen, répartitions, évolution mensuelle, min/moy/max prix
 
-## Calculateur chantier (refonte)
+## 5. Edge functions
 
-Produits supportés (étend l'existant):
-- Epoxy resin, Flakes, Quartz, Overlay, Rubber stone (roberstone), Custom
+- `partner-visualize` — appel Lovable AI Gateway (Gemini image) pour rendu
+- `partner-tech-sheet` — génération fiche technique structurée
+- `partner-appointment-notify` — email de confirmation/rappel (si infra email dispo, sinon log)
+- `request-partner-access` — soumission demande inscription (insert en table `partner_access_requests`, notifie admin)
 
-Champs:
-- Surface m², nombre de couches, ratio A:B, rendement gallon/m², prix/gallon (matière)
-- Taux main-d'œuvre €/m² OU €/h × heures
-- Calcul: `gallons = surface * coats / yield`, arrondi 0.25 sup; `cost_material = gallons * price`; `cost_labor` selon mode; `total_cost`; `sale_price` (entrée OU markup %); `margin = sale - total_cost`; `total_devis`
-- Validation Zod stricte (m² > 0, couches 1-10, etc.) — déjà en place, on étend
+## 6. Sécurité & RGPD
 
-Persistance prix/gallon: déjà en localStorage, on garde.
+- Toutes les tables partner_* : RLS owner-only + admin, `service_role` pour edge functions
+- `partner_activity_log` rempli côté serveur (trigger sur login via edge function ou côté client à chaque action sensible)
+- Aucune donnée partenaire dans les vues `*_public`
+- Bucket storage privé (URLs signées)
 
-## Historique local (IndexedDB via `idb-keyval`)
+## 7. Design
 
-Store `renovo-quotes-history`:
-- id, date, clientName, productKey, surface, totalCost, salePrice, margin, status (`draft`/`sent`/`accepted`/`refused`), payloadComplet
-- UI dans le tab Calculateur: dernières 20 entrées
-- Actions: recharger (réhydrate le formulaire), exporter à nouveau (PDF), supprimer
-- Bouton "Effacer tout"
+- Palette existante respectée (blancs dominants, bleus logo, anthracite)
+- Sidebar premium type "architecte" : typographie Outfit, espacement généreux, accents subtils
+- Pas de SaaS générique, pas de dégradés violets
+- Responsive desktop/tablette/mobile
 
-## PDFs (jspdf + autotable)
+## 8. Livraison par étapes (dans ce loop)
 
-Deux fonctions:
-- `exportClientPDF()`: en-tête RENOVO CRETE, infos client, ligne produit/surface/couches/prix unitaire/total, CGV courtes, signature
-- `exportInternalPDF()`: tableau détaillé prix/gallon, ratio A:B, rendement, gallons calculés, coûts matière/main-d'œuvre, marge, % marge, notes chantier
-- Watermark "INTERNE — NE PAS DIFFUSER" sur le PDF interne
+Étape 1 — Migration DB complète (tables, RLS, GRANTs, trigger, bucket)
+Étape 2 — Auth/rôles + ProtectedRoute + useAuth étendu
+Étape 3 — Layout partenaire + routes + 7 pages (squelette fonctionnel pour tous, profondeur complète sur Projets/Profil/Analyses/Événements)
+Étape 4 — Edge functions visualiseur IA + fiche technique PDF
+Étape 5 — robots.txt + exclusions SEO + page inscription
 
-## Bouton "Copier récapitulatif"
+## Notes techniques
 
-`navigator.clipboard.writeText(...)` avec format texte structuré (produit, surface, couches, ratio, prix, total, coût, marge, date). Toast de confirmation.
-
-## Données test (seed)
-
-Si la table `contractor_profiles` est vide pour l'utilisateur courant côté admin, bouton "Charger données démo" qui insère 3 profils + médias + projets fictifs (uniquement déclenché manuellement, jamais auto).
-
-## Fichiers à créer / modifier
-
-**Nouveaux**
-- `src/components/ProtectedRoute.tsx`
-- `src/layouts/DashboardLayout.tsx` (sidebar + outlet)
-- `src/pages/dashboard/Overview.tsx`
-- `src/pages/dashboard/MyProfile.tsx`
-- `src/pages/dashboard/Media.tsx`
-- `src/pages/dashboard/Projects.tsx`
-- `src/pages/dashboard/Calculator.tsx` (refonte de l'actuel)
-- `src/pages/dashboard/Contractors.tsx` (admin)
-- `src/lib/calculator.ts` (formules + types)
-- `src/lib/quoteHistory.ts` (idb)
-- `src/lib/pdf/clientQuote.ts`
-- `src/lib/pdf/internalQuote.ts`
-- `src/hooks/useAuth.ts`, `src/hooks/useRole.ts`
-
-**Modifiés**
-- `src/App.tsx` — routes dashboard imbriquées + ProtectedRoute
-- `src/pages/SousTraitants.tsx`, `src/pages/SousTraitantProfile.tsx` — affichage public propre, respect des flags visibilité
-- `src/pages/Dashboard.tsx` — devient redirect vers `/dashboard/overview` ou supprimé au profit du nouveau layout
-- `src/components/Navbar.tsx` — affichage conditionnel "Dashboard" si rôle ok
-- `src/components/Footer.tsx` — lien discret "Espace pro"
-- `src/pages/Devis.tsx` — accepter `?contractor=slug`
-
-**Dépendances ajoutées**: `idb-keyval`, `jspdf-autotable`
-
-## Points à tester (livrés en fin)
-
-1. Client non-connecté: `/sous-traitants`, détail, devis OK; `/dashboard` redirige vers `/auth`
-2. Sous-traitant connecté: voit son dashboard, pas la section "Sous-traitants" admin
-3. Admin: voit tout, peut créer/éditer n'importe quel profil
-4. Toggles visibilité: téléphone caché côté public si désactivé
-5. Calculateur: tous produits, validation, mode devis, marge correcte
-6. Historique: ajout/recharge/suppression persistent après reload
-7. PDF client: aucun coût/marge visible. PDF interne: marge présente
-8. Copier: presse-papier contient le récap
-9. RLS: un client ne peut pas SELECT un projet `is_public=false` via API
+- Réutilise `recharts`, `framer-motion`, shadcn déjà installés
+- PDF fiche technique via `jsPDF` (déjà utilisé dans `src/lib/pdf/`)
+- Pas de modification des tables existantes `contractor_profiles` / `projects` — l'espace sous-traitants reste indépendant
+- Visualiseur IA : utilise `google/gemini-2.5-flash-image` via `LOVABLE_API_KEY` (déjà configuré)
