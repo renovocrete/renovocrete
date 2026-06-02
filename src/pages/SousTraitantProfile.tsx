@@ -17,17 +17,16 @@ export default function SousTraitantProfile() {
 
   useEffect(() => {
     (async () => {
-      const { data } = await supabase
-        .from("contractor_profiles")
+      const { data } = await (supabase as any)
+        .from("contractor_profiles_public")
         .select("*")
         .eq("slug", slug as string)
-        .eq("is_published", true)
         .maybeSingle();
       setC(data);
       if (data) {
         const [{ data: m }, { data: pr }] = await Promise.all([
           supabase.from("contractor_media").select("*").eq("contractor_id", data.id).order("sort_order"),
-          supabase.from("projects").select("id,title,short_description,product_type,surface_m2,after_photo,before_photo").eq("user_id", data.user_id).eq("is_public", true).order("created_at", { ascending: false }),
+          (supabase as any).from("projects_public").select("id,title,short_description,product_type,surface_m2,after_photo,before_photo").eq("user_id", data.user_id).order("created_at", { ascending: false }),
         ]);
         setMedia(m || []);
         setShowcase((pr as any) || []);

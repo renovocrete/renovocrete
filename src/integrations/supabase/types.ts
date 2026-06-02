@@ -50,6 +50,13 @@ export type Database = {
             referencedRelation: "contractor_profiles"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "contractor_media_contractor_id_fkey"
+            columns: ["contractor_id"]
+            isOneToOne: false
+            referencedRelation: "contractor_profiles_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       contractor_profiles: {
@@ -265,6 +272,13 @@ export type Database = {
             referencedRelation: "contractor_profiles"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "quote_requests_contractor_id_fkey"
+            columns: ["contractor_id"]
+            isOneToOne: false
+            referencedRelation: "contractor_profiles_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       user_roles: {
@@ -290,7 +304,150 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      contractor_profiles_public: {
+        Row: {
+          address: string | null
+          avatar_url: string | null
+          bio: string | null
+          certifications: string[] | null
+          city: string | null
+          company_name: string | null
+          contact_name: string | null
+          country: string | null
+          cover_url: string | null
+          created_at: string | null
+          email: string | null
+          facebook: string | null
+          id: string | null
+          instagram: string | null
+          is_featured: boolean | null
+          is_published: boolean | null
+          phone: string | null
+          service_areas: string[] | null
+          show_address: boolean | null
+          show_email: boolean | null
+          show_phone: boolean | null
+          show_social: boolean | null
+          slug: string | null
+          specialties: string[] | null
+          tagline: string | null
+          updated_at: string | null
+          user_id: string | null
+          website: string | null
+          years_experience: number | null
+        }
+        Insert: {
+          address?: never
+          avatar_url?: string | null
+          bio?: string | null
+          certifications?: string[] | null
+          city?: string | null
+          company_name?: string | null
+          contact_name?: string | null
+          country?: string | null
+          cover_url?: string | null
+          created_at?: string | null
+          email?: never
+          facebook?: never
+          id?: string | null
+          instagram?: never
+          is_featured?: boolean | null
+          is_published?: boolean | null
+          phone?: never
+          service_areas?: string[] | null
+          show_address?: boolean | null
+          show_email?: boolean | null
+          show_phone?: boolean | null
+          show_social?: boolean | null
+          slug?: string | null
+          specialties?: string[] | null
+          tagline?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+          website?: string | null
+          years_experience?: number | null
+        }
+        Update: {
+          address?: never
+          avatar_url?: string | null
+          bio?: string | null
+          certifications?: string[] | null
+          city?: string | null
+          company_name?: string | null
+          contact_name?: string | null
+          country?: string | null
+          cover_url?: string | null
+          created_at?: string | null
+          email?: never
+          facebook?: never
+          id?: string | null
+          instagram?: never
+          is_featured?: boolean | null
+          is_published?: boolean | null
+          phone?: never
+          service_areas?: string[] | null
+          show_address?: boolean | null
+          show_email?: boolean | null
+          show_phone?: boolean | null
+          show_social?: boolean | null
+          slug?: string | null
+          specialties?: string[] | null
+          tagline?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+          website?: string | null
+          years_experience?: number | null
+        }
+        Relationships: []
+      }
+      projects_public: {
+        Row: {
+          after_photo: string | null
+          before_photo: string | null
+          color: string | null
+          created_at: string | null
+          end_date: string | null
+          id: string | null
+          product_type: string | null
+          short_description: string | null
+          start_date: string | null
+          status: Database["public"]["Enums"]["project_status"] | null
+          surface_m2: number | null
+          title: string | null
+          user_id: string | null
+        }
+        Insert: {
+          after_photo?: string | null
+          before_photo?: string | null
+          color?: string | null
+          created_at?: string | null
+          end_date?: string | null
+          id?: string | null
+          product_type?: string | null
+          short_description?: string | null
+          start_date?: string | null
+          status?: Database["public"]["Enums"]["project_status"] | null
+          surface_m2?: number | null
+          title?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          after_photo?: string | null
+          before_photo?: string | null
+          color?: string | null
+          created_at?: string | null
+          end_date?: string | null
+          id?: string | null
+          product_type?: string | null
+          short_description?: string | null
+          start_date?: string | null
+          status?: Database["public"]["Enums"]["project_status"] | null
+          surface_m2?: number | null
+          title?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       has_role: {
