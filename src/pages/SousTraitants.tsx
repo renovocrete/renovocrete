@@ -21,7 +21,7 @@ export default function SousTraitants() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase.from("contractor_profiles").select("*").eq("is_published", true).order("is_featured", { ascending: false }).order("company_name")
+    (supabase as any).from("contractor_profiles_public").select("*").order("is_featured", { ascending: false }).order("company_name")
       .then(({ data }) => { setList((data as any) || []); setLoading(false); });
   }, []);
 
