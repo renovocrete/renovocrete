@@ -11,7 +11,7 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const { lang, setLang, t } = useLanguage();
-  const { user, canAccessDashboard } = useAuth();
+  const { user, canAccessDashboard, isAdmin, isPartner } = useAuth();
   const dashHref = user ? "/dashboard" : "/dashboard-preview";
   const dashStatus = !user
     ? { label: t("Invité", "Guest"), cls: "bg-muted text-muted-foreground" }
