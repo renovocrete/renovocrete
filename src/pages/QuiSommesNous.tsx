@@ -1,15 +1,19 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, Award, Users, MapPin, Shield } from "lucide-react";
+import { ArrowRight, Award, Users, MapPin, Shield, Sparkles, Wrench, HardHat } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import PageHeader from "@/components/PageHeader";
 import { useLanguage } from "@/i18n/LanguageContext";
-import { teamMembers } from "@/data/mock";
+import galleryHero from "@/assets/hero-epoxy-floor.jpg";
+import galleryCommercial from "@/assets/epoxy-commercial.jpg";
+import galleryIndustrial from "@/assets/epoxy-industrial.jpg";
+import galleryOutdoor from "@/assets/epoxy-outdoor.jpg";
 
 const fadeUp = { initial: { opacity: 0, y: 24 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true } };
 
 const QuiSommesNous = () => {
-  const { lang, t } = useLanguage();
+  const { t } = useLanguage();
+
 
   return (
     <>
