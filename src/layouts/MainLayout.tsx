@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ChatbotWidget from "@/components/ChatbotWidget";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -21,8 +22,10 @@ const MainLayout = () => {
         <Outlet />
       </main>
       <Footer />
+      <ChatbotWidget />
     </div>
   );
 };
 
 export default MainLayout;
+

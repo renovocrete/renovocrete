@@ -2,21 +2,35 @@ User-agent: Googlebot
 Allow: /
 Disallow: /partenaire/
 Disallow: /partenaire
+Disallow: /admin/
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /auth
 
 User-agent: Bingbot
 Allow: /
 Disallow: /partenaire/
 Disallow: /partenaire
+Disallow: /admin/
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /auth
 
 User-agent: Twitterbot
 Allow: /
 Disallow: /partenaire/
+Disallow: /admin/
 
 User-agent: facebookexternalhit
 Allow: /
 Disallow: /partenaire/
+Disallow: /admin/
 
 User-agent: *
 Allow: /
 Disallow: /partenaire/
 Disallow: /partenaire
+Disallow: /admin/
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /auth

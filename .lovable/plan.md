@@ -1,104 +1,127 @@
-# Espace privé Architectes & Constructeurs
+# Extension Super Admin RENOVO CRETE
 
-Nouvel espace strictement privé pour les partenaires Architectes/Constructeurs de RENOVO CRETE. Aucune exposition publique, aucun croisement avec les espaces existants (clients, sous-traitants, admin).
+Énorme périmètre — découpé en 6 modules livrables en étapes successives. Architecture évolutive, RLS stricte, aucune fuite vers les espaces publics ou partenaires.
 
-## 1. Modèle de données (migration Supabase)
-
-Nouveau type de rôle et tables dédiées, isolées des tables `contractor_profiles` / `projects` existantes pour garantir la séparation et éviter toute fuite via les vues publiques `*_public`.
+## 1. Modèle de données (migration unique)
 
 ```text
-app_role enum  → ajouter 'architect', 'builder'
-
-partner_profiles            (1-1 user)        # profil privé
-partner_clients             (n par partner)   # fiches clients
-partner_projects            (n par partner)   # projets avec tous les champs
-partner_project_clients     (n-n)             # association projet↔clients
-partner_project_documents   (fichiers)
-partner_project_media       (photos/vidéos/3D/avant-après)
-partner_media_library       (médiathèque RENOVO, admin-only en écriture)
-partner_ai_simulations      (visualiseur IA + fiche technique JSON)
-partner_appointments        (RDV)
-partner_events              (admin-only écriture)
-partner_event_registrations (inscriptions)
-partner_activity_log        (journal connexions/actions)
+admin_permissions          (clé/valeur libre par user_id, JSONB → permissions personnalisées par architecte/constructeur)
+account_status             (table de statut : user_id, status enum 'active|disabled|suspended|pending', reason, updated_by, updated_at)
+admin_impersonation_log    (audit "Connexion en tant que" : admin_id, target_user_id, started_at, ended_at, reason)
+conversations              (id, created_by, subject, last_message_at)
+conversation_participants  (conversation_id, user_id, role 'admin|member', last_read_at)
+messages                   (conversation_id, sender_id, body, attachments JSONB, created_at)
+message_attachments        (storage paths privés)
+chatbot_conversations      (session_id anon ou user_id, started_at)
+chatbot_messages           (conv_id, role 'user|assistant', content, created_at)
+chatbot_knowledge          (doc_id, title, content, tags) — base documentaire évolutive
 ```
 
-RLS stricte : `user_id = auth.uid()` pour toutes les tables partner_* (sauf `partner_media_library` et `partner_events` = lecture pour partenaires connectés, écriture admin uniquement). Aucune policy `anon`. Aucune vue `*_public`. GRANT uniquement à `authenticated` et `service_role`.
+RLS :
+- Toutes les tables admin_* / impersonation : `has_role(auth.uid(), 'admin')` only
+- `account_status` : admin écrit, user lit son propre statut
+- `admin_permissions` : admin CRUD, user lit ses propres droits
+- `conversations` / `messages` : participant lit/écrit ses messages, admin a accès total via `has_role`
+- `chatbot_*` : insert public (anon ok), select limité au session_id propriétaire + admin global
 
-Storage : nouveau bucket privé `partner-media` (non public), policies basées sur `auth.uid()` en préfixe de chemin.
+Storage : bucket privé `message-attachments` (policies par participant).
 
-## 2. Authentification & rôles
+## 2. Logique de statut de compte
 
-- `useAuth` étendu : `isArchitect`, `isBuilder`, `isPartner = isArchitect || isBuilder`.
-- `ProtectedRoute` : nouvelle prop `requirePartner`.
-- Inscription partenaire séparée : page `/partenaire/inscription` (demande validée par admin → admin assigne le rôle via Cloud). Pas d'auto-attribution.
-- Trigger DB : à l'attribution du rôle architect/builder, créer automatiquement `partner_profiles`.
+- Helper SQL `public.is_account_active(uid)` SECURITY DEFINER
+- Toutes les RLS sensibles (`partner_projects`, `contractor_profiles`, etc.) : ajouter `AND public.is_account_active(auth.uid())`
+- `ProtectedRoute` côté client : affiche un écran "Compte suspendu" si statut ≠ active
+- "Supprimer" = soft-delete (status='deleted') + révocation rôles ; suppression dure via edge function admin uniquement
 
-## 3. Routes & navigation
+## 3. Espace Super Admin (routes `/admin/*`)
+
+Nouveau layout `AdminLayout` (sidebar dédiée, séparée de PartnerLayout/MainLayout) protégée par `requireAdmin`.
 
 ```text
-/partenaire                 → redirige vers /partenaire/dashboard
-/partenaire/dashboard       → vue d'ensemble + onglets
-/partenaire/projets         → liste + CRUD
-/partenaire/projets/:id     → détail projet (docs, médias, clients)
-/partenaire/mediatheque
-/partenaire/visualiseur
-/partenaire/profil
-/partenaire/rendez-vous
-/partenaire/evenements
-/partenaire/analyses
-/partenaire/inscription     (public, formulaire de demande)
+/admin                       → redirige vers /admin/dashboard
+/admin/dashboard             → tableau de bord global (KPIs + activité récente)
+/admin/sous-traitants        → liste + recherche + filtres
+/admin/sous-traitants/:id    → fiche détail (infos, photos, vidéos, projets, actions statut, bouton "Connexion en tant que")
+/admin/partenaires           → liste architectes + constructeurs
+/admin/partenaires/:id       → fiche + onglet "Permissions" (toggles dynamiques) + projets + clients + stats
+/admin/messagerie            → centre messagerie global (toutes conversations)
+/admin/messagerie/:id        → fil de discussion
+/admin/chatbot               → gestion base documentaire chatbot + historique conversations
+/admin/parametres            → préférences globales
 ```
 
-- Navbar publique : aucun lien vers /partenaire (entrée discrète depuis /auth uniquement).
-- `robots.txt` : `Disallow: /partenaire/`.
-- `sitemap.xml` : exclure toutes les routes /partenaire.
-- Aucune mention dans `/sous-traitants`, `/galerie`, ni aucune vue publique.
+### Dashboard global
+- KPIs : clients, sous-traitants, architectes, constructeurs, projets actifs, RDV, événements, revenus (somme `partner_projects.budget`)
+- Camemberts/barres recharts : répartition rôles, statuts comptes, évolution mensuelle
+- Liste activité récente (10 derniers événements via `partner_activity_log` + nouveaux comptes)
 
-## 4. Dashboard partenaire (7 onglets)
+### Fonction "Connexion en tant que"
+- Edge function `admin-impersonate` (admin-only) → génère un magic-link signé court-terme via service_role + log dans `admin_impersonation_log`
+- Bandeau persistant rouge "Mode impersonation — utilisateur X" avec bouton "Quitter"
+- Sessionstorage `impersonation_active=true` + retour automatique sur le compte admin
 
-Layout dédié `PartnerLayout` (sidebar premium, séparé de MainLayout) :
+### Permissions avancées
+- UI : liste de toggles + champs libres (JSONB key/value)
+- Catalogue de droits prédéfinis : `extra_tab`, `premium_features`, `advanced_tools`, `private_docs`, `private_events`, `custom_*`
+- Hook `usePermissions()` côté partenaire : lit `admin_permissions` et affiche/cache les UI conditionnelles
+- Évolutif : ajouter une clé suffit, aucune migration
 
-1. **Projets** — table + formulaire complet (titre, description, statut, type de bien, classification, surfaces, étages, intérieur/extérieur, budgets, notes, documents, galerie, clients associés)
-2. **Médiathèque RENOVO** — grille avec recherche/filtres/catégories, téléchargement
-3. **Visualiseur IA** — upload, génération via edge function `partner-visualize` (réutilise gateway Lovable AI), comparaison avant/après, sélection matériaux/couleurs/finitions, génération fiche technique + export PDF
-4. **Profil** — formulaire privé complet + galerie privée + documents admin
-5. **Rendez-vous** — calendrier interactif (création RDV avec type), confirmation/email
-6. **Événements** — lecture seule + inscription/désinscription
-7. **Analyses** — recharts : nb projets, valeur totale, budget moyen, répartitions, évolution mensuelle, min/moy/max prix
+## 4. Centre de communication (messagerie interne)
 
-## 5. Edge functions
+- Page `/admin/messagerie` (admin) + onglet `Messages` dans chaque profil (`/partenaire/messages`, dashboard sous-traitant)
+- Realtime via `supabase.channel('messages')` sur INSERT
+- Pièces jointes : upload bucket `message-attachments`, URLs signées
+- Composants : `ConversationList`, `MessageThread`, `MessageComposer`
+- Notifications : badge non-lus (count via `last_read_at` < `messages.created_at`)
 
-- `partner-visualize` — appel Lovable AI Gateway (Gemini image) pour rendu
-- `partner-tech-sheet` — génération fiche technique structurée
-- `partner-appointment-notify` — email de confirmation/rappel (si infra email dispo, sinon log)
-- `request-partner-access` — soumission demande inscription (insert en table `partner_access_requests`, notifie admin)
+## 5. Chatbot IA public
 
-## 6. Sécurité & RGPD
+- Composant flottant `<ChatbotWidget />` monté dans `MainLayout` uniquement (jamais dans `PartnerLayout` / `AdminLayout`)
+- Bouton flottant premium (bas droite par défaut), draggable (Pointer events + persist position en localStorage), réductible/fermable
+- Edge function `chatbot-reply` :
+  - Reçoit `session_id` + `message`
+  - Charge le contexte (services, événements, FAQs) depuis `chatbot_knowledge`
+  - Appelle Lovable AI Gateway (`google/gemini-3-flash-preview` par défaut, streaming SSE)
+  - Architecture pluggable : `provider: 'lovable' | 'openai' | 'anthropic' | 'gemini'` (clés futures via secrets)
+- Persistance conversation pour suivi admin
+- Actions intégrées : liens vers `/devis`, `/contact`, `/galerie`, `/types-de-projets`
 
-- Toutes les tables partner_* : RLS owner-only + admin, `service_role` pour edge functions
-- `partner_activity_log` rempli côté serveur (trigger sur login via edge function ou côté client à chaque action sensible)
-- Aucune donnée partenaire dans les vues `*_public`
-- Bucket storage privé (URLs signées)
+## 6. Refonte « Qui sommes-nous »
 
-## 7. Design
+- Supprimer entièrement la section "Notre équipe" + grille `teamMembers`
+- Supprimer les noms cités (Jean-Paul, Jean-Jude Paul, Guy-Paul, Jonathan Fort, Olsen Nelson) du codebase (`src/data/mock.ts`)
+- Nouvelle section institutionnelle "Notre réseau d'experts" avec texte fourni
+- Remplacer la grille de portraits par grille de réalisations (photos chantiers/matériaux/showroom déjà dans `/galerie`)
+- Aucune photo de personne
 
-- Palette existante respectée (blancs dominants, bleus logo, anthracite)
-- Sidebar premium type "architecte" : typographie Outfit, espacement généreux, accents subtils
-- Pas de SaaS générique, pas de dégradés violets
-- Responsive desktop/tablette/mobile
+## Livraison en étapes (dans ce loop)
 
-## 8. Livraison par étapes (dans ce loop)
+**Étape 1** — Migration DB (statuts comptes, permissions, conversations, chatbot, RLS, GRANTs, bucket)
+**Étape 2** — Edge functions (`admin-impersonate`, `chatbot-reply`, `admin-delete-user`)
+**Étape 3** — `AdminLayout` + routes `/admin/*` (dashboard, sous-traitants liste+détail, partenaires liste+détail+permissions)
+**Étape 4** — Centre messagerie (admin + partenaire) avec realtime
+**Étape 5** — Widget chatbot public flottant + intégration `MainLayout`
+**Étape 6** — Refonte `QuiSommesNous.tsx` + nettoyage `mock.ts`
 
-Étape 1 — Migration DB complète (tables, RLS, GRANTs, trigger, bucket)
-Étape 2 — Auth/rôles + ProtectedRoute + useAuth étendu
-Étape 3 — Layout partenaire + routes + 7 pages (squelette fonctionnel pour tous, profondeur complète sur Projets/Profil/Analyses/Événements)
-Étape 4 — Edge functions visualiseur IA + fiche technique PDF
-Étape 5 — robots.txt + exclusions SEO + page inscription
+## Sécurité
+
+- Toutes les actions admin journalisées (`admin_impersonation_log`, `partner_activity_log`)
+- Impersonation : token court-terme, audit obligatoire, bandeau visible
+- Soft-delete par défaut ; suppression dure derrière edge function avec confirmation double
+- Chatbot : rate-limit côté edge function (10 req/min/session)
+- Aucune donnée admin/partenaire dans les vues `*_public`
+- RGPD : log de toute modification de compte par admin
+
+## Design
+
+- AdminLayout : sidebar sombre premium (anthracite + accents bleus logo), distincte de PartnerLayout (plus claire)
+- Bandeau impersonation : rouge vif, sticky, non-fermable sans action
+- Chatbot widget : carte flottante blanche, ombre douce, icône Outfit minimaliste
+- Aucun dégradé violet, aucun look SaaS générique
 
 ## Notes techniques
 
-- Réutilise `recharts`, `framer-motion`, shadcn déjà installés
-- PDF fiche technique via `jsPDF` (déjà utilisé dans `src/lib/pdf/`)
-- Pas de modification des tables existantes `contractor_profiles` / `projects` — l'espace sous-traitants reste indépendant
-- Visualiseur IA : utilise `google/gemini-2.5-flash-image` via `LOVABLE_API_KEY` (déjà configuré)
+- Réutilise `recharts`, `framer-motion`, `lucide-react` déjà installés
+- Realtime activé sur `messages` (`ALTER PUBLICATION supabase_realtime ADD TABLE`)
+- Chatbot stream SSE conforme au pattern Lovable AI
+- Pas de modification des tables existantes (contractor_profiles / partner_*) — uniquement ajouts

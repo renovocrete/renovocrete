@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -30,7 +30,13 @@ import PartnerAppointments from "./pages/partner/PartnerAppointments";
 import PartnerEvents from "./pages/partner/PartnerEvents";
 import PartnerAnalytics from "./pages/partner/PartnerAnalytics";
 import PartnerInscription from "./pages/PartnerInscription";
-import { Navigate } from "react-router-dom";
+import AdminLayout from "./layouts/AdminLayout";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminContractors from "./pages/admin/AdminContractors";
+import AdminPartners from "./pages/admin/AdminPartners";
+import AdminMessaging from "./pages/admin/AdminMessaging";
+import AdminChatbot from "./pages/admin/AdminChatbot";
+import AdminSettings from "./pages/admin/AdminSettings";
 
 const queryClient = new QueryClient();
 
@@ -69,6 +75,15 @@ const App = () => (
               <Route path="rendez-vous" element={<PartnerAppointments />} />
               <Route path="evenements" element={<PartnerEvents />} />
               <Route path="analyses" element={<PartnerAnalytics />} />
+            </Route>
+            <Route path="/admin" element={<ProtectedRoute requireAdmin><AdminLayout /></ProtectedRoute>}>
+              <Route index element={<Navigate to="/admin/dashboard" replace />} />
+              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="sous-traitants" element={<AdminContractors />} />
+              <Route path="partenaires" element={<AdminPartners />} />
+              <Route path="messagerie" element={<AdminMessaging />} />
+              <Route path="chatbot" element={<AdminChatbot />} />
+              <Route path="parametres" element={<AdminSettings />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>

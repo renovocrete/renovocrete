@@ -11,7 +11,7 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const { lang, setLang, t } = useLanguage();
-  const { user, canAccessDashboard } = useAuth();
+  const { user, canAccessDashboard, isAdmin, isPartner } = useAuth();
   const dashHref = user ? "/dashboard" : "/dashboard-preview";
   const dashStatus = !user
     ? { label: t("Invité", "Guest"), cls: "bg-muted text-muted-foreground" }
@@ -94,6 +94,17 @@ const Navbar = () => {
               <span className={`ml-1 px-1.5 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wide ${dashStatus.cls}`}>{dashStatus.label}</span>
             </Link>
           </Button>
+          {isPartner && (
+            <Button asChild variant="ghost" size="sm" className="text-foreground">
+              <Link to="/partenaire/dashboard">Espace pro</Link>
+            </Button>
+          )}
+          {isAdmin && (
+            <Button asChild size="sm" variant="outline" className="border-foreground/30">
+              <Link to="/admin/dashboard">Admin</Link>
+            </Button>
+          )}
+
           <Button asChild size="sm" className="bg-gradient-brand-deep hover:opacity-90 transition-opacity shadow-sm">
             <Link to="/devis">
               <Phone className="w-4 h-4 mr-1.5" />

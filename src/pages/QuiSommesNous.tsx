@@ -1,15 +1,19 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, Award, Users, MapPin, Shield } from "lucide-react";
+import { ArrowRight, Award, Users, MapPin, Shield, Sparkles, Wrench, HardHat } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import PageHeader from "@/components/PageHeader";
 import { useLanguage } from "@/i18n/LanguageContext";
-import { teamMembers } from "@/data/mock";
+import galleryHero from "@/assets/hero-epoxy-floor.jpg";
+import galleryCommercial from "@/assets/epoxy-commercial.jpg";
+import galleryIndustrial from "@/assets/epoxy-industrial.jpg";
+import galleryOutdoor from "@/assets/epoxy-outdoor.jpg";
 
 const fadeUp = { initial: { opacity: 0, y: 24 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true } };
 
 const QuiSommesNous = () => {
-  const { lang, t } = useLanguage();
+  const { t } = useLanguage();
+
 
   return (
     <>
@@ -72,32 +76,57 @@ const QuiSommesNous = () => {
         </div>
       </section>
 
-      {/* Équipe */}
+      {/* Réseau d'experts (institutionnel — pas de portraits) */}
       <section className="py-20 bg-secondary">
         <div className="container mx-auto px-4">
-          <motion.div {...fadeUp} className="text-center mb-14">
-            <span className="text-sm font-semibold uppercase tracking-widest text-primary">{t("Notre équipe", "Our team")}</span>
+          <motion.div {...fadeUp} className="text-center mb-14 max-w-3xl mx-auto">
+            <span className="text-sm font-semibold uppercase tracking-widest text-primary">{t("Notre réseau", "Our network")}</span>
             <h2 className="font-heading text-3xl sm:text-4xl font-bold mt-3 tracking-tight">
-              {t("Les visages derrière", "The faces behind")}{" "}
-              <span className="text-gradient-brand">RENOVO CRETE</span>
+              {t("Un collectif d'experts au service de", "A collective of experts serving")}{" "}
+              <span className="text-gradient-brand">{t("vos projets", "your projects")}</span>
             </h2>
+            <p className="text-muted-foreground leading-relaxed mt-6">
+              {t(
+                "RENOVO CRETE s'appuie sur un réseau d'experts, de techniciens, d'artisans qualifiés, d'architectes et de partenaires spécialisés afin d'offrir des solutions haut de gamme adaptées à chaque projet. Notre priorité est la qualité d'exécution, l'innovation, l'accompagnement client et l'excellence des finitions.",
+                "RENOVO CRETE relies on a network of experts, technicians, qualified craftsmen, architects, and specialized partners to deliver premium solutions tailored to every project. Our priority is execution quality, innovation, client support, and finishing excellence."
+              )}
+            </p>
           </motion.div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {teamMembers.map((member, i) => (
-              <motion.div key={member.name} {...fadeUp} transition={{ delay: i * 0.08 }} className="rounded-xl border border-border bg-background overflow-hidden">
-                <div className="aspect-square bg-muted flex items-center justify-center">
-                  <Users className="w-16 h-16 text-muted-foreground/20" />
-                </div>
-                <div className="p-5">
-                  <h3 className="font-heading text-base font-bold">{member.name}</h3>
-                  <p className="text-primary text-sm font-medium mt-0.5">{lang === "fr" ? member.role : member.roleEn}</p>
-                  <p className="text-muted-foreground text-xs mt-2 leading-relaxed">{lang === "fr" ? member.desc : member.descEn}</p>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              { img: galleryHero, label: t("Excellence des finitions", "Finishing excellence") },
+              { img: galleryCommercial, label: t("Espaces commerciaux", "Commercial spaces") },
+              { img: galleryIndustrial, label: t("Solutions industrielles", "Industrial solutions") },
+              { img: galleryOutdoor, label: t("Aménagements extérieurs", "Outdoor projects") },
+            ].map((card, i) => (
+              <motion.div key={card.label} {...fadeUp} transition={{ delay: i * 0.08 }} className="group relative rounded-xl overflow-hidden aspect-[4/5] border border-border">
+                <img src={card.img} alt={card.label} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-foreground/20 to-transparent" />
+                <div className="absolute bottom-4 left-4 right-4 text-background">
+                  <p className="font-heading text-sm font-semibold">{card.label}</p>
                 </div>
               </motion.div>
             ))}
           </div>
+
+          <div className="grid sm:grid-cols-3 gap-4 mt-10">
+            {[
+              { icon: Sparkles, title: t("Innovation continue", "Continuous innovation"), desc: t("Veille technique permanente sur les matériaux et procédés.", "Permanent technical watch on materials and processes.") },
+              { icon: Wrench, title: t("Savoir-faire d'atelier", "Craftsmanship"), desc: t("Compétences certifiées, équipements professionnels dédiés.", "Certified skills, dedicated professional equipment.") },
+              { icon: HardHat, title: t("Sécurité de chantier", "On-site safety"), desc: t("Protocoles stricts, conformité réglementaire totale.", "Strict protocols, full regulatory compliance.") },
+            ].map((item) => (
+              <div key={item.title} className="p-6 rounded-xl border border-border bg-background">
+                <item.icon className="w-6 h-6 text-primary" />
+                <h3 className="font-heading text-base font-bold mt-3">{item.title}</h3>
+                <p className="text-muted-foreground text-sm mt-1.5 leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
+
+
 
       {/* CTA */}
       <section className="py-16">
