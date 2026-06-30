@@ -96,19 +96,13 @@ const Formations = () => {
     toast.success(t("Inscription envoyée !", "Signup sent!"));
   };
 
+  useEffect(() => {
+    document.title = t("Inscription Formations | Renovo Crete", "Training Signup | Renovo Crete");
+  }, [t]);
+
   return (
     <>
-      <Helmet>
-        <title>{t("Inscription Formations | Renovo Crete", "Training Signup | Renovo Crete")}</title>
-        <meta
-          name="description"
-          content={t(
-            "Inscrivez-vous aux prochaines formations Elite Crete Systems organisées par Renovo Crete : époxy, métallique, overlays, urethane cement et plus.",
-            "Sign up for upcoming Elite Crete Systems trainings hosted by Renovo Crete: epoxy, metallic, overlays, urethane cement and more."
-          )}
-        />
-        <link rel="canonical" href="https://renovocrete.lovable.app/formations" />
-      </Helmet>
+
 
       <section className="bg-gradient-to-b from-secondary/30 to-background border-b border-border/40">
         <div className="container mx-auto px-4 py-16 sm:py-20">
