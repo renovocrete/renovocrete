@@ -73,6 +73,7 @@ const Footer = () => {
               <li><Link to="/qui-sommes-nous" className="hover:text-primary-light transition-colors">{t("Qui sommes-nous", "About us")}</Link></li>
               <li><Link to="/sous-traitants" className="hover:text-primary-light transition-colors">{t("Sous-traitants", "Contractors")}</Link></li>
               <li><Link to="/partenaires" className="hover:text-primary-light transition-colors">{t("Partenaires", "Partners")}</Link></li>
+              <li><Link to="/formations" className="hover:text-primary-light transition-colors">{t("Inscription formations", "Training signup")}</Link></li>
             </ul>
           </div>
 
