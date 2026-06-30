@@ -16,6 +16,7 @@ import QuiSommesNous from "./pages/QuiSommesNous";
 import Partenaires from "./pages/Partenaires";
 import SousTraitants from "./pages/SousTraitants";
 import SousTraitantProfile from "./pages/SousTraitantProfile";
+import Formations from "./pages/Formations";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -60,6 +61,7 @@ const App = () => (
               <Route path="/partenaires" element={<Partenaires />} />
               <Route path="/sous-traitants" element={<SousTraitants />} />
               <Route path="/sous-traitants/:slug" element={<SousTraitantProfile />} />
+              <Route path="/formations" element={<Formations />} />
             </Route>
             <Route path="/auth" element={<Auth />} />
             <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
