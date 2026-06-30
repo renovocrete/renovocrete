@@ -16,6 +16,7 @@ import QuiSommesNous from "./pages/QuiSommesNous";
 import Partenaires from "./pages/Partenaires";
 import SousTraitants from "./pages/SousTraitants";
 import SousTraitantProfile from "./pages/SousTraitantProfile";
+import Formations from "./pages/Formations";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
