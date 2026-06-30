@@ -1120,6 +1120,60 @@ export type Database = {
           },
         ]
       }
+      training_signups: {
+        Row: {
+          city: string
+          company_name: string | null
+          company_website: string | null
+          country: string
+          created_at: string
+          email: string
+          first_name: string
+          id: string
+          interests: string[]
+          last_name: string
+          notes: string | null
+          preferred_location: string | null
+          state_region: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          city: string
+          company_name?: string | null
+          company_website?: string | null
+          country: string
+          created_at?: string
+          email: string
+          first_name: string
+          id?: string
+          interests?: string[]
+          last_name: string
+          notes?: string | null
+          preferred_location?: string | null
+          state_region: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          city?: string
+          company_name?: string | null
+          company_website?: string | null
+          country?: string
+          created_at?: string
+          email?: string
+          first_name?: string
+          id?: string
+          interests?: string[]
+          last_name?: string
+          notes?: string | null
+          preferred_location?: string | null
+          state_region?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
