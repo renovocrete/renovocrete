@@ -18,7 +18,7 @@ Deno.serve(async (req) => {
 
     const anon = createClient(
       Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SUPABASE_PUBLISHABLE_KEY")!,
+      Deno.env.get("SUPABASE_ANON_KEY") ?? Deno.env.get("SUPABASE_PUBLISHABLE_KEY")!,
       { global: { headers: { Authorization: `Bearer ${token}` } } },
     );
     const { data: u } = await anon.auth.getUser();
