@@ -94,25 +94,46 @@ export type Database = {
       }
       chatbot_conversations: {
         Row: {
+          assigned_admin_id: string | null
           id: string
           last_message_at: string
           session_id: string
           started_at: string
+          status: string
+          unread_admin: number
+          unread_visitor: number
+          updated_at: string
           user_id: string | null
+          visitor_email: string | null
+          visitor_name: string | null
         }
         Insert: {
+          assigned_admin_id?: string | null
           id?: string
           last_message_at?: string
           session_id: string
           started_at?: string
+          status?: string
+          unread_admin?: number
+          unread_visitor?: number
+          updated_at?: string
           user_id?: string | null
+          visitor_email?: string | null
+          visitor_name?: string | null
         }
         Update: {
+          assigned_admin_id?: string | null
           id?: string
           last_message_at?: string
           session_id?: string
           started_at?: string
+          status?: string
+          unread_admin?: number
+          unread_visitor?: number
+          updated_at?: string
           user_id?: string | null
+          visitor_email?: string | null
+          visitor_name?: string | null
         }
         Relationships: []
       }
