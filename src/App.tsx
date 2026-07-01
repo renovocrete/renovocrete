@@ -37,6 +37,7 @@ import AdminContractors from "./pages/admin/AdminContractors";
 import AdminPartners from "./pages/admin/AdminPartners";
 import AdminMessaging from "./pages/admin/AdminMessaging";
 import AdminChatbot from "./pages/admin/AdminChatbot";
+import AdminLiveChat from "./pages/admin/AdminLiveChat";
 import AdminSettings from "./pages/admin/AdminSettings";
 
 const queryClient = new QueryClient();
@@ -85,6 +86,7 @@ const App = () => (
               <Route path="partenaires" element={<AdminPartners />} />
               <Route path="messagerie" element={<AdminMessaging />} />
               <Route path="chatbot" element={<AdminChatbot />} />
+              <Route path="live-chat" element={<AdminLiveChat />} />
               <Route path="parametres" element={<AdminSettings />} />
             </Route>
             <Route path="*" element={<NotFound />} />

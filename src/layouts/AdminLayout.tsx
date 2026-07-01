@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { LayoutDashboard, Users, HardHat, MessageSquare, Bot, Settings, ArrowLeft, ShieldCheck } from "lucide-react";
+import { LayoutDashboard, Users, HardHat, MessageSquare, Bot, Settings, ArrowLeft, ShieldCheck, Headset } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
@@ -7,10 +7,11 @@ import { Button } from "@/components/ui/button";
 
 const items = [
   { to: "/admin/dashboard", icon: LayoutDashboard, label: "Tableau de bord" },
+  { to: "/admin/live-chat", icon: Headset, label: "Live Chat visiteurs" },
   { to: "/admin/sous-traitants", icon: Users, label: "Sous-traitants" },
   { to: "/admin/partenaires", icon: HardHat, label: "Architectes & Constructeurs" },
-  { to: "/admin/messagerie", icon: MessageSquare, label: "Messagerie" },
-  { to: "/admin/chatbot", icon: Bot, label: "Assistant IA" },
+  { to: "/admin/messagerie", icon: MessageSquare, label: "Messagerie interne" },
+  { to: "/admin/chatbot", icon: Bot, label: "Base assistant IA" },
   { to: "/admin/parametres", icon: Settings, label: "Paramètres" },
 ];
 
