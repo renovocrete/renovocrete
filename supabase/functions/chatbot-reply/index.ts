@@ -45,8 +45,9 @@ Deno.serve(async (req) => {
 
     // Find or create conversation
     let convId: string | null = null;
-    const { data: existing } = await supabase.from("chatbot_conversations").select("id").eq("session_id", session_id).maybeSingle();
-    if (existing) convId = existing.id;
+    let convStatus: string = "bot";
+    const { data: existing } = await supabase.from("chatbot_conversations").select("id,status").eq("session_id", session_id).maybeSingle();
+    if (existing) { convId = existing.id; convStatus = (existing as any).status || "bot"; }
     else {
       const { data: created } = await supabase.from("chatbot_conversations").insert({ session_id }).select("id").single();
       convId = created?.id || null;
@@ -57,7 +58,20 @@ Deno.serve(async (req) => {
       await supabase.from("chatbot_messages").insert({ conversation_id: convId, role: "user", content: lastUser.content });
     }
 
+    // If a human admin has taken over, don't call the AI — just notify.
+    if (convStatus === "human") {
+
+      await supabase.from("chatbot_conversations").update({
+        last_message_at: new Date().toISOString(),
+      }).eq("id", convId!);
+      // bump unread_admin
+      const { data: c } = await supabase.from("chatbot_conversations").select("unread_admin").eq("id", convId!).maybeSingle();
+      await supabase.from("chatbot_conversations").update({ unread_admin: ((c as any)?.unread_admin || 0) + 1 }).eq("id", convId!);
+      return new Response(JSON.stringify({ reply: "", human: true }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
     const aiRes = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+
       method: "POST",
       headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
       body: JSON.stringify({
