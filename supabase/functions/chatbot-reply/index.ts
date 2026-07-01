@@ -60,7 +60,7 @@ Deno.serve(async (req) => {
 
     // If a human admin has taken over, don't call the AI — just notify.
     if (convStatus === "human") {
-      await supabase.rpc as any;
+
       await supabase.from("chatbot_conversations").update({
         last_message_at: new Date().toISOString(),
       }).eq("id", convId!);
