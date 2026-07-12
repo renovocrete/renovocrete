@@ -553,7 +553,7 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "id": "ECS-SXM-204",
     "label": "5 Gallon - Elite Crete Systems “Mixing Pail” with semi-accurate measurements",
     "product": "5 Gallon - Elite Crete Systems “Mixing Pail” with semi-accurate measurements",
-    "packaging": 0,
+    "packaging": "N/A",
     "category": "Supplemental Products",
     "resaleEUR": 8.58,
     "resaleUSD": 10.3
@@ -562,7 +562,7 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "id": "ECS-SXM-205",
     "label": "6 Gallon - Elite Crete Systems “Mixing Pail” with semi-accurate measurements",
     "product": "6 Gallon - Elite Crete Systems “Mixing Pail” with semi-accurate measurements",
-    "packaging": 0,
+    "packaging": "N/A",
     "category": "Supplemental Products",
     "resaleEUR": 8.58,
     "resaleUSD": 10.3
@@ -571,7 +571,7 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "id": "ECS-SXM-206",
     "label": "5 Quart - Elite Crete Systems “Mixing Pail”",
     "product": "5 Quart - Elite Crete Systems “Mixing Pail”",
-    "packaging": 0,
+    "packaging": "N/A",
     "category": "Supplemental Products",
     "resaleEUR": 3.0,
     "resaleUSD": 3.6
@@ -580,7 +580,7 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "id": "ECS-SXM-207",
     "label": "Full Case of 5 Quart = 50 per",
     "product": "Full Case of 5 Quart = 50 per",
-    "packaging": 0,
+    "packaging": "N/A",
     "category": "Supplemental Products",
     "resaleEUR": 143.54,
     "resaleUSD": 172.25
@@ -589,7 +589,7 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "id": "ECS-SXM-208",
     "label": "2.5 Quart - Elite Crete Systems “Mixing Container”",
     "product": "2.5 Quart - Elite Crete Systems “Mixing Container”",
-    "packaging": 0,
+    "packaging": "N/A",
     "category": "Supplemental Products",
     "resaleEUR": 1.55,
     "resaleUSD": 1.86
@@ -598,7 +598,7 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "id": "ECS-SXM-209",
     "label": "Full Case of 2.5 Quart = 50 per",
     "product": "Full Case of 2.5 Quart = 50 per",
-    "packaging": 0,
+    "packaging": "N/A",
     "category": "Supplemental Products",
     "resaleEUR": 73.37,
     "resaleUSD": 88.04
