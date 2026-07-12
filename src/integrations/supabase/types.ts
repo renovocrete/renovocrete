@@ -247,6 +247,54 @@ export type Database = {
           },
         ]
       }
+      contractor_orders: {
+        Row: {
+          client_sheet_url: string | null
+          contact_phone: string | null
+          created_at: string
+          currency: string
+          id: string
+          items: Json
+          notes: string | null
+          order_number: string
+          shipping_address: string | null
+          status: string
+          subtotal: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          client_sheet_url?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          currency?: string
+          id?: string
+          items?: Json
+          notes?: string | null
+          order_number?: string
+          shipping_address?: string | null
+          status?: string
+          subtotal?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          client_sheet_url?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          currency?: string
+          id?: string
+          items?: Json
+          notes?: string | null
+          order_number?: string
+          shipping_address?: string | null
+          status?: string
+          subtotal?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       contractor_profiles: {
         Row: {
           address: string | null

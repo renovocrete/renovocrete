@@ -9,7 +9,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { LogOut, Plus, Briefcase, Calculator as CalcIcon, Wand2, User, Trash2, Loader2, FileDown, Euro, Copy, History, FileText, Users, Eye, EyeOff, Shield, Info, CheckCircle2, BarChart3 } from "lucide-react";
+import { LogOut, Plus, Briefcase, Calculator as CalcIcon, Wand2, User, Trash2, Loader2, FileDown, Euro, Copy, History, FileText, Users, Eye, EyeOff, Shield, Info, CheckCircle2, BarChart3, ShoppingCart } from "lucide-react";
+import OrdersTab from "@/components/dashboard/OrdersTab";
 import { toast } from "sonner";
 import { CATALOGS, calculateResin, getCatalog, ProductLine, FORMULAS } from "@/data/colors";
 import { useLanguage } from "@/i18n/LanguageContext";
@@ -308,6 +309,7 @@ export default function Dashboard() {
             <TabsTrigger value="calculator"><CalcIcon className="w-4 h-4 mr-1.5" />{t("Calculateur", "Calculator")}</TabsTrigger>
             <TabsTrigger value="visualizer"><Wand2 className="w-4 h-4 mr-1.5" />{t("Visualiseur IA", "AI visualizer")}</TabsTrigger>
             <TabsTrigger value="profile"><User className="w-4 h-4 mr-1.5" />{t("Mon profil public", "Public profile")}</TabsTrigger>
+            <TabsTrigger value="orders"><ShoppingCart className="w-4 h-4 mr-1.5" />{t("Commande produits", "Orders")}</TabsTrigger>
             {isAdmin && <TabsTrigger value="admin"><Users className="w-4 h-4 mr-1.5" />{t("Sous-traitants", "Contractors")}</TabsTrigger>}
           </TabsList>
 
@@ -315,6 +317,7 @@ export default function Dashboard() {
           <TabsContent value="calculator"><CalculatorTab /></TabsContent>
           <TabsContent value="visualizer"><VisualizerTab uid={user.id} /></TabsContent>
           <TabsContent value="profile"><ProfileTab profile={profile} onSaved={() => loadAll(user.id)} /></TabsContent>
+          <TabsContent value="orders"><OrdersTab uid={user.id} isPreview={isPreview} /></TabsContent>
           {isAdmin && <TabsContent value="admin"><AdminContractorsTab /></TabsContent>}
         </Tabs>
       </div>
