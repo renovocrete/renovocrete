@@ -19,6 +19,10 @@ export interface EcsProduct {
   priceUSD: number;
   /** null si prix indisponible — commande bloquée */
   hasPrice: boolean;
+  /** @deprecated alias legacy = priceEUR */
+  resaleEUR: number;
+  /** @deprecated alias legacy = priceUSD */
+  resaleUSD: number;
 }
 
 // Backward-compat aliases (ancien code)
