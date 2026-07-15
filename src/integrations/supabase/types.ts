@@ -247,49 +247,129 @@ export type Database = {
           },
         ]
       }
+      contractor_order_status_history: {
+        Row: {
+          changed_by: string | null
+          created_at: string
+          from_status: string | null
+          id: string
+          note: string | null
+          order_id: string
+          to_status: string
+        }
+        Insert: {
+          changed_by?: string | null
+          created_at?: string
+          from_status?: string | null
+          id?: string
+          note?: string | null
+          order_id: string
+          to_status: string
+        }
+        Update: {
+          changed_by?: string | null
+          created_at?: string
+          from_status?: string | null
+          id?: string
+          note?: string | null
+          order_id?: string
+          to_status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contractor_order_status_history_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "contractor_orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contractor_orders: {
         Row: {
+          assigned_to: string | null
           client_sheet_url: string | null
+          company_name: string | null
+          contact_email: string | null
+          contact_name: string | null
           contact_phone: string | null
           created_at: string
           currency: string
+          delivery_mode: string | null
+          email_error: string | null
+          email_sent_at: string | null
           id: string
           items: Json
+          layers_snapshot: Json | null
           notes: string | null
           order_number: string
+          project_city: string | null
+          project_name: string | null
           shipping_address: string | null
           status: string
           subtotal: number
+          surface_m2: number | null
+          system_key: string | null
+          system_label: string | null
+          terms_accepted: boolean
           updated_at: string
           user_id: string
         }
         Insert: {
+          assigned_to?: string | null
           client_sheet_url?: string | null
+          company_name?: string | null
+          contact_email?: string | null
+          contact_name?: string | null
           contact_phone?: string | null
           created_at?: string
           currency?: string
+          delivery_mode?: string | null
+          email_error?: string | null
+          email_sent_at?: string | null
           id?: string
           items?: Json
+          layers_snapshot?: Json | null
           notes?: string | null
           order_number?: string
+          project_city?: string | null
+          project_name?: string | null
           shipping_address?: string | null
           status?: string
           subtotal?: number
+          surface_m2?: number | null
+          system_key?: string | null
+          system_label?: string | null
+          terms_accepted?: boolean
           updated_at?: string
           user_id: string
         }
         Update: {
+          assigned_to?: string | null
           client_sheet_url?: string | null
+          company_name?: string | null
+          contact_email?: string | null
+          contact_name?: string | null
           contact_phone?: string | null
           created_at?: string
           currency?: string
+          delivery_mode?: string | null
+          email_error?: string | null
+          email_sent_at?: string | null
           id?: string
           items?: Json
+          layers_snapshot?: Json | null
           notes?: string | null
           order_number?: string
+          project_city?: string | null
+          project_name?: string | null
           shipping_address?: string | null
           status?: string
           subtotal?: number
+          surface_m2?: number | null
+          system_key?: string | null
+          system_label?: string | null
+          terms_accepted?: boolean
           updated_at?: string
           user_id?: string
         }
