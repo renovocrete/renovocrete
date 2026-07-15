@@ -1,5 +1,6 @@
-// ECS resale catalog for RENOVO CRETE — prix de revente uniquement (marge 45%).
-// Base MD confidentielle : NE PAS afficher côté client.
+// ECS resale catalog — SOURCE: CRM_-_PRIX_FOURNISSEURS_VBA_GOOD.xlsx feuille "CATALOGUE" colonne "Plafond bon prix EUR/USD"
+// Ne PAS afficher au client les colonnes prix fournisseur / coût.
+
 export type EcsCategory =
   | "Resinous Products"
   | "Cementitious Products"
@@ -13,9 +14,15 @@ export interface EcsProduct {
   product: string;
   packaging: string;
   category: EcsCategory;
-  resaleEUR: number;
-  resaleUSD: number;
+  /** Prix de vente définitif EUR (Plafond bon prix EUR) */
+  priceEUR: number;
+  priceUSD: number;
+  /** null si prix indisponible — commande bloquée */
+  hasPrice: boolean;
 }
+
+// Backward-compat aliases (ancien code)
+export type { EcsProduct as LegacyEcsProduct };
 
 export const ECS_PRODUCTS: EcsProduct[] = [
   {
@@ -24,8 +31,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "E100-PT1™-SHD: Kits",
     "packaging": "3 Gal",
     "category": "Resinous Products",
-    "resaleEUR": 186.6,
-    "resaleUSD": 223.92
+    "priceEUR": 205.26,
+    "priceUSD": 234.0,
+    "hasPrice": true,
+    "resaleEUR": 205.26,
+    "resaleUSD": 234.0
   },
   {
     "id": "ECS-SXM-002",
@@ -33,8 +43,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "E100-PT1™-SHD: Kits",
     "packaging": "48 ea x 3 Gal Kits",
     "category": "Resinous Products",
-    "resaleEUR": 8421.05,
-    "resaleUSD": 10105.26
+    "priceEUR": 9263.16,
+    "priceUSD": 10560.0,
+    "hasPrice": true,
+    "resaleEUR": 9263.16,
+    "resaleUSD": 10560.0
   },
   {
     "id": "ECS-SXM-003",
@@ -42,8 +55,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "E100-PT1™-SHD: Kits",
     "packaging": "15 Gal",
     "category": "Resinous Products",
-    "resaleEUR": 779.9,
-    "resaleUSD": 935.89
+    "priceEUR": 857.89,
+    "priceUSD": 978.0,
+    "hasPrice": true,
+    "resaleEUR": 857.89,
+    "resaleUSD": 978.0
   },
   {
     "id": "ECS-SXM-004",
@@ -51,8 +67,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "E100-PT1™-SHD: Kits",
     "packaging": "12 ea x 15 Gal",
     "category": "Resinous Products",
-    "resaleEUR": 8784.69,
-    "resaleUSD": 10541.63
+    "priceEUR": 9663.16,
+    "priceUSD": 11016.0,
+    "hasPrice": true,
+    "resaleEUR": 9663.16,
+    "resaleUSD": 11016.0
   },
   {
     "id": "ECS-SXM-005",
@@ -60,8 +79,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "E100-PT1™-SHD: Kits",
     "packaging": "156 Gal",
     "category": "Resinous Products",
-    "resaleEUR": 6984.05,
-    "resaleUSD": 8380.86
+    "priceEUR": 7682.46,
+    "priceUSD": 8758.0,
+    "hasPrice": true,
+    "resaleEUR": 7682.46,
+    "resaleUSD": 8758.0
   },
   {
     "id": "ECS-SXM-020",
@@ -69,8 +91,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "E1E100-VR1™: Kits",
     "packaging": "3 Gal",
     "category": "Resinous Products",
-    "resaleEUR": 267.94,
-    "resaleUSD": 321.53
+    "priceEUR": 294.74,
+    "priceUSD": 336.0,
+    "hasPrice": true,
+    "resaleEUR": 294.74,
+    "resaleUSD": 336.0
   },
   {
     "id": "ECS-SXM-021",
@@ -78,8 +103,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "E1E100-VR1™: Kits",
     "packaging": "15 Gal",
     "category": "Resinous Products",
-    "resaleEUR": 1239.23,
-    "resaleUSD": 1487.08
+    "priceEUR": 1363.16,
+    "priceUSD": 1554.0,
+    "hasPrice": true,
+    "resaleEUR": 1363.16,
+    "resaleUSD": 1554.0
   },
   {
     "id": "ECS-SXM-022",
@@ -87,8 +115,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "E1E100-VR1™: Kits",
     "packaging": "12 ea. x 15 Gal",
     "category": "Resinous Products",
-    "resaleEUR": 14296.65,
-    "resaleUSD": 17155.98
+    "priceEUR": 15726.32,
+    "priceUSD": 17928.0,
+    "hasPrice": true,
+    "resaleEUR": 15726.32,
+    "resaleUSD": 17928.0
   },
   {
     "id": "ECS-SXM-023",
@@ -96,8 +127,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "E1E100-VR1™: Kits",
     "packaging": "156 Gal",
     "category": "Resinous Products",
-    "resaleEUR": 11639.55,
-    "resaleUSD": 13967.46
+    "priceEUR": 12803.51,
+    "priceUSD": 14596.0,
+    "hasPrice": true,
+    "resaleEUR": 12803.51,
+    "resaleUSD": 14596.0
   },
   {
     "id": "ECS-SXM-006",
@@ -105,8 +139,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "E100-PT1™-UBC: Kits",
     "packaging": "3 Gal",
     "category": "Resinous Products",
-    "resaleEUR": 132.38,
-    "resaleUSD": 158.85
+    "priceEUR": 145.61,
+    "priceUSD": 166.0,
+    "hasPrice": true,
+    "resaleEUR": 145.61,
+    "resaleUSD": 166.0
   },
   {
     "id": "ECS-SXM-007",
@@ -114,8 +151,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "E100-PT1™-UBC: Kits",
     "packaging": "15 Gal",
     "category": "Resinous Products",
-    "resaleEUR": 617.22,
-    "resaleUSD": 740.67
+    "priceEUR": 678.95,
+    "priceUSD": 774.0,
+    "hasPrice": true,
+    "resaleEUR": 678.95,
+    "resaleUSD": 774.0
   },
   {
     "id": "ECS-SXM-008",
@@ -123,8 +163,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "E100-PT1™-UBC: Kits",
     "packaging": "12 ea. x 15 Gal",
     "category": "Resinous Products",
-    "resaleEUR": 6947.37,
-    "resaleUSD": 8336.84
+    "priceEUR": 7642.11,
+    "priceUSD": 8712.0,
+    "hasPrice": true,
+    "resaleEUR": 7642.11,
+    "resaleUSD": 8712.0
   },
   {
     "id": "ECS-SXM-009",
@@ -132,8 +175,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "E100-PT1™-UBC: Kits",
     "packaging": "156 Gal",
     "category": "Resinous Products",
-    "resaleEUR": 5606.06,
-    "resaleUSD": 6727.27
+    "priceEUR": 6166.67,
+    "priceUSD": 7030.0,
+    "hasPrice": true,
+    "resaleEUR": 6166.67,
+    "resaleUSD": 7030.0
   },
   {
     "id": "ECS-SXM-024",
@@ -141,8 +187,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "E100-PT3™: Kits",
     "packaging": "3 Gal",
     "category": "Resinous Products",
-    "resaleEUR": 269.54,
-    "resaleUSD": 323.44
+    "priceEUR": 296.49,
+    "priceUSD": 338.0,
+    "hasPrice": true,
+    "resaleEUR": 296.49,
+    "resaleUSD": 338.0
   },
   {
     "id": "ECS-SXM-025",
@@ -150,8 +199,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "E100-PT3™: Kits",
     "packaging": "15 Gal",
     "category": "Resinous Products",
-    "resaleEUR": 1295.06,
-    "resaleUSD": 1554.07
+    "priceEUR": 1424.56,
+    "priceUSD": 1624.0,
+    "hasPrice": true,
+    "resaleEUR": 1424.56,
+    "resaleUSD": 1624.0
   },
   {
     "id": "ECS-SXM-026",
@@ -159,8 +211,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "E100-PT3™: Kits",
     "packaging": "12 ea. x 15 Gal",
     "category": "Resinous Products",
-    "resaleEUR": 1250.4,
-    "resaleUSD": 1500.48
+    "priceEUR": 1375.44,
+    "priceUSD": 1568.0,
+    "hasPrice": true,
+    "resaleEUR": 1375.44,
+    "resaleUSD": 1568.0
   },
   {
     "id": "ECS-SXM-027",
@@ -168,8 +223,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "E100-PT4™-SHD: Kits",
     "packaging": "3 Gal",
     "category": "Resinous Products",
-    "resaleEUR": 216.91,
-    "resaleUSD": 260.29
+    "priceEUR": 238.6,
+    "priceUSD": 272.0,
+    "hasPrice": true,
+    "resaleEUR": 238.6,
+    "resaleUSD": 272.0
   },
   {
     "id": "ECS-SXM-028",
@@ -177,8 +235,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "E100-PT4™-SHD: Kits",
     "packaging": "15 Gal",
     "category": "Resinous Products",
-    "resaleEUR": 1055.82,
-    "resaleUSD": 1266.99
+    "priceEUR": 1161.4,
+    "priceUSD": 1324.0,
+    "hasPrice": true,
+    "resaleEUR": 1161.4,
+    "resaleUSD": 1324.0
   },
   {
     "id": "ECS-SXM-029",
@@ -186,8 +247,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "E100-PT4™-SHD: Kits",
     "packaging": "12 ea. x 15 Gal",
     "category": "Resinous Products",
-    "resaleEUR": 12287.08,
-    "resaleUSD": 14744.5
+    "priceEUR": 13515.79,
+    "priceUSD": 15408.0,
+    "hasPrice": true,
+    "resaleEUR": 13515.79,
+    "resaleUSD": 15408.0
   },
   {
     "id": "ECS-SXM-030",
@@ -195,8 +259,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "E100-PT4™-SHD: Kits",
     "packaging": "156 Gal",
     "category": "Resinous Products",
-    "resaleEUR": 9886.76,
-    "resaleUSD": 11864.11
+    "priceEUR": 10875.44,
+    "priceUSD": 12398.0,
+    "hasPrice": true,
+    "resaleEUR": 10875.44,
+    "resaleUSD": 12398.0
   },
   {
     "id": "ECS-SXM-039",
@@ -204,8 +271,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "E100-VB5™: Kits",
     "packaging": "2 Gal",
     "category": "Resinous Products",
-    "resaleEUR": 161.08,
-    "resaleUSD": 193.3
+    "priceEUR": 177.19,
+    "priceUSD": 202.0,
+    "hasPrice": true,
+    "resaleEUR": 177.19,
+    "resaleUSD": 202.0
   },
   {
     "id": "ECS-SXM-040",
@@ -213,8 +283,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "E100-VB5™: Kits",
     "packaging": "10 Gal",
     "category": "Resinous Products",
-    "resaleEUR": 752.79,
-    "resaleUSD": 903.35
+    "priceEUR": 828.07,
+    "priceUSD": 944.0,
+    "hasPrice": true,
+    "resaleEUR": 828.07,
+    "resaleUSD": 944.0
   },
   {
     "id": "ECS-SXM-041",
@@ -222,8 +295,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "E100-VB5™: Kits",
     "packaging": "18 ea. x 10 Gal",
     "category": "Resinous Products",
-    "resaleEUR": 12947.37,
-    "resaleUSD": 15536.84
+    "priceEUR": 14242.11,
+    "priceUSD": 16236.0,
+    "hasPrice": true,
+    "resaleEUR": 14242.11,
+    "resaleUSD": 16236.0
   },
   {
     "id": "ECS-SXM-042",
@@ -231,8 +307,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "E100-VB5™: Kits",
     "packaging": "104 Gal",
     "category": "Resinous Products",
-    "resaleEUR": 6934.61,
-    "resaleUSD": 8321.53
+    "priceEUR": 7628.07,
+    "priceUSD": 8696.0,
+    "hasPrice": true,
+    "resaleEUR": 7628.07,
+    "resaleUSD": 8696.0
   },
   {
     "id": "ECS-SXM-073",
@@ -240,8 +319,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "AUS-V™: Kits",
     "packaging": "1.5 Gal",
     "category": "Resinous Products",
-    "resaleEUR": 202.55,
-    "resaleUSD": 243.06
+    "priceEUR": 222.81,
+    "priceUSD": 254.0,
+    "hasPrice": true,
+    "resaleEUR": 222.81,
+    "resaleUSD": 254.0
   },
   {
     "id": "ECS-SXM-074",
@@ -249,8 +331,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "AUS-V™: Kits",
     "packaging": "3 Gal",
     "category": "Resinous Products",
-    "resaleEUR": 387.56,
-    "resaleUSD": 465.07
+    "priceEUR": 426.32,
+    "priceUSD": 486.0,
+    "hasPrice": true,
+    "resaleEUR": 426.32,
+    "resaleUSD": 486.0
   },
   {
     "id": "ECS-SXM-075",
@@ -258,8 +343,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "AUS-V™: Kits",
     "packaging": "15 Gal",
     "category": "Resinous Products",
-    "resaleEUR": 1848.48,
-    "resaleUSD": 2218.18
+    "priceEUR": 2033.33,
+    "priceUSD": 2318.0,
+    "hasPrice": true,
+    "resaleEUR": 2033.33,
+    "resaleUSD": 2318.0
   },
   {
     "id": "ECS-SXM-076",
@@ -267,8 +355,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "AUS-V™: Kits",
     "packaging": "12 ea. x 15 Gal",
     "category": "Resinous Products",
-    "resaleEUR": 21301.44,
-    "resaleUSD": 25561.72
+    "priceEUR": 23431.58,
+    "priceUSD": 26712.0,
+    "hasPrice": true,
+    "resaleEUR": 23431.58,
+    "resaleUSD": 26712.0
   },
   {
     "id": "ECS-SXM-080",
@@ -276,8 +367,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "SPARTIC-ALL™-MXP: Kits",
     "packaging": "3 Gal",
     "category": "Resinous Products",
-    "resaleEUR": 277.51,
-    "resaleUSD": 333.01
+    "priceEUR": 305.26,
+    "priceUSD": 348.0,
+    "hasPrice": true,
+    "resaleEUR": 305.26,
+    "resaleUSD": 348.0
   },
   {
     "id": "ECS-SXM-081",
@@ -285,8 +379,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "SPARTIC-ALL™-MXP: Kits",
     "packaging": "15 Gal",
     "category": "Resinous Products",
-    "resaleEUR": 1342.9,
-    "resaleUSD": 1611.48
+    "priceEUR": 1477.19,
+    "priceUSD": 1684.0,
+    "hasPrice": true,
+    "resaleEUR": 1477.19,
+    "resaleUSD": 1684.0
   },
   {
     "id": "ECS-SXM-082",
@@ -294,8 +391,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "SPARTIC-ALL™-MXP: Kits",
     "packaging": "12 ea. x 15 Gal",
     "category": "Resinous Products",
-    "resaleEUR": 15674.64,
-    "resaleUSD": 18809.57
+    "priceEUR": 17242.11,
+    "priceUSD": 19656.0,
+    "hasPrice": true,
+    "resaleEUR": 17242.11,
+    "resaleUSD": 19656.0
   },
   {
     "id": "ECS-SXM-103",
@@ -303,8 +403,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "THIN-FINISH™ Pre-Mixed Overlay",
     "packaging": "55 lb. Bag",
     "category": "Cementitious Products",
-    "resaleEUR": 60.61,
-    "resaleUSD": 72.73
+    "priceEUR": 66.67,
+    "priceUSD": 76.0,
+    "hasPrice": true,
+    "resaleEUR": 66.67,
+    "resaleUSD": 76.0
   },
   {
     "id": "ECS-SXM-104",
@@ -312,8 +415,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "THIN-FINISH™ Pre-Mixed Overlay",
     "packaging": "56 Bag/Plt.",
     "category": "Cementitious Products",
-    "resaleEUR": 3126.0,
-    "resaleUSD": 3751.2
+    "priceEUR": 3438.6,
+    "priceUSD": 3920.0,
+    "hasPrice": true,
+    "resaleEUR": 3438.6,
+    "resaleUSD": 3920.0
   },
   {
     "id": "ECS-SXM-105",
@@ -321,8 +427,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "THIN-FINISH™ Pre-Mixed Overlay",
     "packaging": "14 Pallets",
     "category": "Cementitious Products",
-    "resaleEUR": 42513.56,
-    "resaleUSD": 51016.27
+    "priceEUR": 46764.91,
+    "priceUSD": 53312.0,
+    "hasPrice": true,
+    "resaleEUR": 46764.91,
+    "resaleUSD": 53312.0
   },
   {
     "id": "ECS-SXM-106",
@@ -330,8 +439,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "TEXTURE-PAVE™ Pre-Mixed Overlay",
     "packaging": "55 lb. Bag",
     "category": "Cementitious Products",
-    "resaleEUR": 46.25,
-    "resaleUSD": 55.5
+    "priceEUR": 50.88,
+    "priceUSD": 58.0,
+    "hasPrice": true,
+    "resaleEUR": 50.88,
+    "resaleUSD": 58.0
   },
   {
     "id": "ECS-SXM-107",
@@ -339,8 +451,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "TEXTURE-PAVE™ Pre-Mixed Overlay",
     "packaging": "56 Bag/Plt.",
     "category": "Cementitious Products",
-    "resaleEUR": 2322.17,
-    "resaleUSD": 2786.6
+    "priceEUR": 2554.39,
+    "priceUSD": 2912.0,
+    "hasPrice": true,
+    "resaleEUR": 2554.39,
+    "resaleUSD": 2912.0
   },
   {
     "id": "ECS-SXM-108",
@@ -348,8 +463,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "TEXTURE-PAVE™ Pre-Mixed Overlay",
     "packaging": "14 Pallets",
     "category": "Cementitious Products",
-    "resaleEUR": 30009.57,
-    "resaleUSD": 36011.48
+    "priceEUR": 33010.53,
+    "priceUSD": 37632.0,
+    "hasPrice": true,
+    "resaleEUR": 33010.53,
+    "resaleUSD": 37632.0
   },
   {
     "id": "ECS-SXM-109",
@@ -357,8 +475,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "MICRO-FINISH™ Pre-Mixed Overlay",
     "packaging": "30 lb. Bag",
     "category": "Cementitious Products",
-    "resaleEUR": 47.85,
-    "resaleUSD": 57.42
+    "priceEUR": 52.63,
+    "priceUSD": 60.0,
+    "hasPrice": true,
+    "resaleEUR": 52.63,
+    "resaleUSD": 60.0
   },
   {
     "id": "ECS-SXM-110",
@@ -366,8 +487,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "MICRO-FINISH™ Pre-Mixed Overlay",
     "packaging": "56 Bag/Plt.",
     "category": "Cementitious Products",
-    "resaleEUR": 2500.8,
-    "resaleUSD": 3000.96
+    "priceEUR": 2750.88,
+    "priceUSD": 3136.0,
+    "hasPrice": true,
+    "resaleEUR": 2750.88,
+    "resaleUSD": 3136.0
   },
   {
     "id": "ECS-SXM-111",
@@ -375,8 +499,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "MICRO-FINISH™ Pre-Mixed Overlay",
     "packaging": "14 Pallets",
     "category": "Cementitious Products",
-    "resaleEUR": 33760.77,
-    "resaleUSD": 40512.92
+    "priceEUR": 37136.84,
+    "priceUSD": 42336.0,
+    "hasPrice": true,
+    "resaleEUR": 37136.84,
+    "resaleUSD": 42336.0
   },
   {
     "id": "ECS-SXM-112",
@@ -384,8 +511,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "BACE-LINE™ 6.3M",
     "packaging": "50 lb. Bag",
     "category": "Cementitious Products",
-    "resaleEUR": 74.96,
-    "resaleUSD": 89.95
+    "priceEUR": 82.46,
+    "priceUSD": 94.0,
+    "hasPrice": true,
+    "resaleEUR": 82.46,
+    "resaleUSD": 94.0
   },
   {
     "id": "ECS-SXM-113",
@@ -393,26 +523,35 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "BACE-LINE™ 6.3M",
     "packaging": "56 Bag/Plt.",
     "category": "Cementitious Products",
-    "resaleEUR": 4108.45,
-    "resaleUSD": 4930.14
+    "priceEUR": 4519.3,
+    "priceUSD": 5152.0,
+    "hasPrice": true,
+    "resaleEUR": 4519.3,
+    "resaleUSD": 5152.0
   },
   {
     "id": "ECS-SXM-117",
     "label": "JFS-450H™ Joint Filler – “Gray” — 305 ML Tube",
     "product": "JFS-450H™ Joint Filler – “Gray”",
     "packaging": "305 ML Tube",
-    "category": "Cementitious Products",
-    "resaleEUR": 9.57,
-    "resaleUSD": 11.48
+    "category": "Supplemental Products",
+    "priceEUR": 10.53,
+    "priceUSD": 12.0,
+    "hasPrice": true,
+    "resaleEUR": 10.53,
+    "resaleUSD": 12.0
   },
   {
     "id": "ECS-SXM-118",
     "label": "JFS-450H™ Joint Filler – “Gray” — 24 ea. Case",
     "product": "JFS-450H™ Joint Filler – “Gray”",
     "packaging": "24 ea. Case",
-    "category": "Cementitious Products",
-    "resaleEUR": 210.53,
-    "resaleUSD": 252.63
+    "category": "Supplemental Products",
+    "priceEUR": 231.58,
+    "priceUSD": 264.0,
+    "hasPrice": true,
+    "resaleEUR": 231.58,
+    "resaleUSD": 264.0
   },
   {
     "id": "ECS-SXM-122",
@@ -420,8 +559,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "REFLECTOR™ Enhancer Powder",
     "packaging": "32 oz. Jar",
     "category": "Pigment/Colorant/Stain Products",
-    "resaleEUR": 66.99,
-    "resaleUSD": 80.38
+    "priceEUR": 73.68,
+    "priceUSD": 84.0,
+    "hasPrice": true,
+    "resaleEUR": 73.68,
+    "resaleUSD": 84.0
   },
   {
     "id": "ECS-SXM-123",
@@ -429,8 +571,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "REFLECTOR™ Enhancer Powder",
     "packaging": "2 oz. Jar",
     "category": "Pigment/Colorant/Stain Products",
-    "resaleEUR": 9.57,
-    "resaleUSD": 11.48
+    "priceEUR": 10.53,
+    "priceUSD": 12.0,
+    "hasPrice": true,
+    "resaleEUR": 10.53,
+    "resaleUSD": 12.0
   },
   {
     "id": "ECS-SXM-124",
@@ -438,8 +583,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "REFLECTOR™ Enhancer Powder",
     "packaging": "Sample Kit",
     "category": "Pigment/Colorant/Stain Products",
-    "resaleEUR": 175.44,
-    "resaleUSD": 210.53
+    "priceEUR": 192.98,
+    "priceUSD": 220.0,
+    "hasPrice": true,
+    "resaleEUR": 192.98,
+    "resaleUSD": 220.0
   },
   {
     "id": "ECS-SXM-132",
@@ -447,8 +595,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "ULTRA-STONE™ Antiquing Stain",
     "packaging": "1 Gal",
     "category": "Pigment/Colorant/Stain Products",
-    "resaleEUR": 54.23,
-    "resaleUSD": 65.07
+    "priceEUR": 59.65,
+    "priceUSD": 68.0,
+    "hasPrice": true,
+    "resaleEUR": 59.65,
+    "resaleUSD": 68.0
   },
   {
     "id": "ECS-SXM-133",
@@ -456,8 +607,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "ULTRA-STONE™ Antiquing Stain",
     "packaging": "5 Gal",
     "category": "Pigment/Colorant/Stain Products",
-    "resaleEUR": 244.02,
-    "resaleUSD": 292.82
+    "priceEUR": 268.42,
+    "priceUSD": 306.0,
+    "hasPrice": true,
+    "resaleEUR": 268.42,
+    "resaleUSD": 306.0
   },
   {
     "id": "ECS-SXM-134",
@@ -465,8 +619,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "ULTRA-STONE™ Antiquing Stain",
     "packaging": "36 ea. x 5 Gal",
     "category": "Pigment/Colorant/Stain Products",
-    "resaleEUR": 8497.61,
-    "resaleUSD": 10197.13
+    "priceEUR": 9347.37,
+    "priceUSD": 10656.0,
+    "hasPrice": true,
+    "resaleEUR": 9347.37,
+    "resaleUSD": 10656.0
   },
   {
     "id": "ECS-SXM-149",
@@ -474,8 +631,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "CSS EMULSION™ Clear Concentrated Sealer",
     "packaging": "1 Gal",
     "category": "Single Component Sealer Products",
-    "resaleEUR": 62.2,
-    "resaleUSD": 74.64
+    "priceEUR": 68.42,
+    "priceUSD": 78.0,
+    "hasPrice": true,
+    "resaleEUR": 68.42,
+    "resaleUSD": 78.0
   },
   {
     "id": "ECS-SXM-150",
@@ -483,8 +643,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "CSS EMULSION™ Clear Concentrated Sealer",
     "packaging": "5 Gal",
     "category": "Single Component Sealer Products",
-    "resaleEUR": 301.44,
-    "resaleUSD": 361.72
+    "priceEUR": 331.58,
+    "priceUSD": 378.0,
+    "hasPrice": true,
+    "resaleEUR": 331.58,
+    "resaleUSD": 378.0
   },
   {
     "id": "ECS-SXM-151",
@@ -492,8 +655,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "CSS EMULSION™ Clear Concentrated Sealer",
     "packaging": "36 ea. x 5 Gal",
     "category": "Single Component Sealer Products",
-    "resaleEUR": 10564.59,
-    "resaleUSD": 12677.51
+    "priceEUR": 11621.05,
+    "priceUSD": 13248.0,
+    "hasPrice": true,
+    "resaleEUR": 11621.05,
+    "resaleUSD": 13248.0
   },
   {
     "id": "ECS-SXM-152",
@@ -501,8 +667,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "CSS EMULSION™ Clear Concentrated Sealer",
     "packaging": "55 Gal",
     "category": "Single Component Sealer Products",
-    "resaleEUR": 3153.11,
-    "resaleUSD": 3783.73
+    "priceEUR": 3468.42,
+    "priceUSD": 3954.0,
+    "hasPrice": true,
+    "resaleEUR": 3468.42,
+    "resaleUSD": 3954.0
   },
   {
     "id": "ECS-SXM-175",
@@ -510,8 +679,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "MERCAP-445™ Crack Repair",
     "packaging": "900 ML DC",
     "category": "Supplemental Products",
-    "resaleEUR": 59.01,
-    "resaleUSD": 70.81
+    "priceEUR": 64.91,
+    "priceUSD": 74.0,
+    "hasPrice": true,
+    "resaleEUR": 64.91,
+    "resaleUSD": 74.0
   },
   {
     "id": "ECS-SXM-176",
@@ -519,8 +691,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "MERCAP-445™ Crack Repair",
     "packaging": "1.5 Gal Kit",
     "category": "Supplemental Products",
-    "resaleEUR": 183.41,
-    "resaleUSD": 220.1
+    "priceEUR": 201.75,
+    "priceUSD": 230.0,
+    "hasPrice": true,
+    "resaleEUR": 201.75,
+    "resaleUSD": 230.0
   },
   {
     "id": "ECS-SXM-194",
@@ -528,8 +703,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "Silica Quartz [Rounded 40 sieve]",
     "packaging": "80 Lb. Bag",
     "category": "Supplemental Products",
-    "resaleEUR": 27.11,
-    "resaleUSD": 32.54
+    "priceEUR": 29.82,
+    "priceUSD": 34.0,
+    "hasPrice": true,
+    "resaleEUR": 29.82,
+    "resaleUSD": 34.0
   },
   {
     "id": "ECS-SXM-195",
@@ -537,8 +715,11 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "Silica Quartz [Semi Trowel Grade 50 sieve]",
     "packaging": "80 Lb. Bag",
     "category": "Supplemental Products",
-    "resaleEUR": 27.11,
-    "resaleUSD": 32.54
+    "priceEUR": 29.82,
+    "priceUSD": 34.0,
+    "hasPrice": true,
+    "resaleEUR": 29.82,
+    "resaleUSD": 34.0
   },
   {
     "id": "ECS-SXM-196",
@@ -546,61 +727,85 @@ export const ECS_PRODUCTS: EcsProduct[] = [
     "product": "Silica Flour",
     "packaging": "50 Lb. Bag",
     "category": "Supplemental Products",
-    "resaleEUR": 30.3,
-    "resaleUSD": 36.36
+    "priceEUR": 33.33,
+    "priceUSD": 38.0,
+    "hasPrice": true,
+    "resaleEUR": 33.33,
+    "resaleUSD": 38.0
   },
   {
     "id": "ECS-SXM-204",
     "label": "5 Gallon - Elite Crete Systems “Mixing Pail” with semi-accurate measurements",
     "product": "5 Gallon - Elite Crete Systems “Mixing Pail” with semi-accurate measurements",
-    "packaging": "N/A",
+    "packaging": "—",
     "category": "Supplemental Products",
-    "resaleEUR": 8.58,
-    "resaleUSD": 10.3
+    "priceEUR": 9.44,
+    "priceUSD": 10.76,
+    "hasPrice": true,
+    "resaleEUR": 9.44,
+    "resaleUSD": 10.76
   },
   {
     "id": "ECS-SXM-205",
     "label": "6 Gallon - Elite Crete Systems “Mixing Pail” with semi-accurate measurements",
     "product": "6 Gallon - Elite Crete Systems “Mixing Pail” with semi-accurate measurements",
-    "packaging": "N/A",
+    "packaging": "—",
     "category": "Supplemental Products",
-    "resaleEUR": 8.58,
-    "resaleUSD": 10.3
+    "priceEUR": 9.44,
+    "priceUSD": 10.76,
+    "hasPrice": true,
+    "resaleEUR": 9.44,
+    "resaleUSD": 10.76
   },
   {
     "id": "ECS-SXM-206",
     "label": "5 Quart - Elite Crete Systems “Mixing Pail”",
     "product": "5 Quart - Elite Crete Systems “Mixing Pail”",
-    "packaging": "N/A",
+    "packaging": "—",
     "category": "Supplemental Products",
-    "resaleEUR": 3.0,
-    "resaleUSD": 3.6
+    "priceEUR": 3.3,
+    "priceUSD": 3.76,
+    "hasPrice": true,
+    "resaleEUR": 3.3,
+    "resaleUSD": 3.76
   },
   {
     "id": "ECS-SXM-207",
     "label": "Full Case of 5 Quart = 50 per",
     "product": "Full Case of 5 Quart = 50 per",
-    "packaging": "N/A",
+    "packaging": "—",
     "category": "Supplemental Products",
-    "resaleEUR": 143.54,
-    "resaleUSD": 172.25
+    "priceEUR": 157.89,
+    "priceUSD": 180.0,
+    "hasPrice": true,
+    "resaleEUR": 157.89,
+    "resaleUSD": 180.0
   },
   {
     "id": "ECS-SXM-208",
     "label": "2.5 Quart - Elite Crete Systems “Mixing Container”",
     "product": "2.5 Quart - Elite Crete Systems “Mixing Container”",
-    "packaging": "N/A",
+    "packaging": "—",
     "category": "Supplemental Products",
-    "resaleEUR": 1.55,
-    "resaleUSD": 1.86
+    "priceEUR": 1.7,
+    "priceUSD": 1.94,
+    "hasPrice": true,
+    "resaleEUR": 1.7,
+    "resaleUSD": 1.94
   },
   {
     "id": "ECS-SXM-209",
     "label": "Full Case of 2.5 Quart = 50 per",
     "product": "Full Case of 2.5 Quart = 50 per",
-    "packaging": "N/A",
+    "packaging": "—",
     "category": "Supplemental Products",
-    "resaleEUR": 73.37,
-    "resaleUSD": 88.04
+    "priceEUR": 80.7,
+    "priceUSD": 92.0,
+    "hasPrice": true,
+    "resaleEUR": 80.7,
+    "resaleUSD": 92.0
   }
 ];
+
+export const findProduct = (id: string) => ECS_PRODUCTS.find(p => p.id === id);
+export const findByFamily = (family: string) => ECS_PRODUCTS.filter(p => p.product === family);
