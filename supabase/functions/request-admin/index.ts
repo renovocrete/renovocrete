@@ -16,18 +16,14 @@ Deno.serve(async (req) => {
     const token = authHeader.replace(/^Bearer\s+/i, "");
     if (!token) return json({ ok: false, code: "no_session", message: "Vous devez être connecté." }, 401);
 
-    const anon = createClient(
-      Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SUPABASE_ANON_KEY") ?? Deno.env.get("SUPABASE_PUBLISHABLE_KEY")!,
-      { global: { headers: { Authorization: `Bearer ${token}` } } },
-    );
-    const { data: u } = await anon.auth.getUser();
-    if (!u?.user) return json({ ok: false, code: "invalid_session", message: "Session invalide." }, 401);
-
-    const admin = createClient(
-      Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
-    );
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+    if (!supabaseUrl || !serviceKey) {
+      return json({ ok: false, code: "config_error", message: "Server configuration error" }, 500);
+    }
+    const admin = createClient(supabaseUrl, serviceKey);
+    const { data: u, error: uErr } = await admin.auth.getUser(token);
+    if (uErr || !u?.user) return json({ ok: false, code: "invalid_session", message: "Session invalide." }, 401);
 
     const email = u.user.email || "";
     const matchesAllowlist = ALLOWED_PATTERNS.some((re) => re.test(email));
