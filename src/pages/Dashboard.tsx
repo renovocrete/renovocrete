@@ -310,14 +310,16 @@ export default function Dashboard() {
             <TabsTrigger value="visualizer"><Wand2 className="w-4 h-4 mr-1.5" />{t("Visualiseur IA", "AI visualizer")}</TabsTrigger>
             <TabsTrigger value="profile"><User className="w-4 h-4 mr-1.5" />{t("Mon profil public", "Public profile")}</TabsTrigger>
             <TabsTrigger value="orders"><ShoppingCart className="w-4 h-4 mr-1.5" />{t("Commande produits", "Orders")}</TabsTrigger>
+            <TabsTrigger value="chat"><Info className="w-4 h-4 mr-1.5" />{t("Chat", "Chat")}</TabsTrigger>
             {isAdmin && <TabsTrigger value="admin"><Users className="w-4 h-4 mr-1.5" />{t("Sous-traitants", "Contractors")}</TabsTrigger>}
           </TabsList>
 
           <TabsContent value="projects"><ProjectsTab uid={user.id} projects={projects} onChange={() => loadAll(user.id)} /></TabsContent>
-          <TabsContent value="calculator"><CalculatorTab /></TabsContent>
+          <TabsContent value="calculator"><CalculatorTab isAdmin={isAdmin} /></TabsContent>
           <TabsContent value="visualizer"><VisualizerTab uid={user.id} /></TabsContent>
           <TabsContent value="profile"><ProfileTab profile={profile} onSaved={() => loadAll(user.id)} /></TabsContent>
           <TabsContent value="orders"><OrdersTab uid={user.id} isPreview={isPreview} /></TabsContent>
+          <TabsContent value="chat"><ChatTab /></TabsContent>
           {isAdmin && <TabsContent value="admin"><AdminContractorsTab /></TabsContent>}
         </Tabs>
       </div>
@@ -417,7 +419,7 @@ const DEFAULT_PRICES: Record<ProductLine, number> = {
 };
 const PRODUCT_IDS = CATALOGS.map((c) => c.id) as [ProductLine, ...ProductLine[]];
 
-function CalculatorTab() {
+function CalculatorTab({ isAdmin = false }: { isAdmin?: boolean }) {
   const { t, lang } = useLanguage();
   const [product, setProduct] = useState<ProductLine>("reflector");
   const [surface, setSurface] = useState("30");
@@ -576,11 +578,13 @@ function CalculatorTab() {
       <Card className="p-6">
         <div className="flex items-start justify-between flex-wrap gap-3 mb-1">
           <h2 className="font-heading text-xl font-semibold">{t("Calculateur chantier", "Project calculator")}</h2>
-          <div className="flex items-center gap-2 text-sm">
-            <Euro className="w-4 h-4 text-muted-foreground" />
-            <Label htmlFor="quote-mode" className="cursor-pointer">{t("Mode devis", "Quote mode")}</Label>
-            <Switch id="quote-mode" checked={quoteMode} onCheckedChange={setQuoteMode} />
-          </div>
+          {isAdmin && (
+            <div className="flex items-center gap-2 text-sm">
+              <Euro className="w-4 h-4 text-muted-foreground" />
+              <Label htmlFor="quote-mode" className="cursor-pointer">{t("Mode devis (admin)", "Quote mode (admin)")}</Label>
+              <Switch id="quote-mode" checked={quoteMode} onCheckedChange={setQuoteMode} />
+            </div>
+          )}
         </div>
         <p className="text-sm text-muted-foreground mb-6">
           {t("Volumes A+B, coûts matière et main-d'œuvre, marge et prix de vente.", "A+B volumes, material & labor costs, margin and sale price.")}
@@ -603,16 +607,18 @@ function CalculatorTab() {
               onBlur={validate} className={errors.surface ? "border-destructive" : ""} />
             {errors.surface && <p className="text-xs text-destructive mt-1">{errors.surface}</p>}
           </div>
-          <div>
-            <Label>{t("Couches", "Coats")}</Label>
-            <Input type="number" min="1" max="10" step="1" value={coats}
-              onChange={(e) => { setCoats(e.target.value); if (errors.coats) setErrors({ ...errors, coats: undefined }); }}
-              onBlur={validate} className={errors.coats ? "border-destructive" : ""} />
-            {errors.coats && <p className="text-xs text-destructive mt-1">{errors.coats}</p>}
-          </div>
+          {isAdmin && (
+            <div>
+              <Label>{t("Couches", "Coats")}</Label>
+              <Input type="number" min="1" max="10" step="1" value={coats}
+                onChange={(e) => { setCoats(e.target.value); if (errors.coats) setErrors({ ...errors, coats: undefined }); }}
+                onBlur={validate} className={errors.coats ? "border-destructive" : ""} />
+              {errors.coats && <p className="text-xs text-destructive mt-1">{errors.coats}</p>}
+            </div>
+          )}
         </div>
 
-        {quoteMode && (
+        {isAdmin && quoteMode && (
           <div className="grid sm:grid-cols-3 gap-4 mb-4 p-4 rounded-lg bg-secondary/40 border">
             <div>
               <Label>{t("Prix par gallon (€)", "Price per gallon (€)")}</Label>
@@ -659,7 +665,7 @@ function CalculatorTab() {
               <Card className="p-4 bg-secondary"><div className="text-xs text-muted-foreground">Part A</div><div className="text-2xl font-bold mt-1">{out.partA} gal</div></Card>
               <Card className="p-4 bg-secondary"><div className="text-xs text-muted-foreground">Part B</div><div className="text-2xl font-bold mt-1">{out.partB || "—"} {out.partB ? "gal" : ""}</div></Card>
             </div>
-            {quoteMode && (
+            {isAdmin && quoteMode && (
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <Card className="p-3"><div className="text-[11px] text-muted-foreground">{t("Coût matière", "Material")}</div><div className="font-bold">{out.costMaterial.toFixed(2)} €</div></Card>
                 <Card className="p-3"><div className="text-[11px] text-muted-foreground">{t("Main-d'œuvre", "Labor")}</div><div className="font-bold">{out.costLabor.toFixed(2)} €</div></Card>
@@ -676,15 +682,15 @@ function CalculatorTab() {
 
         <div className="flex flex-wrap justify-end gap-2 mt-6">
           <Button onClick={copyRecap} disabled={!out} variant="outline"><Copy className="w-4 h-4 mr-2" />{t("Copier récap", "Copy summary")}</Button>
-          <Button onClick={exportInternal} disabled={!out} variant="outline"><FileDown className="w-4 h-4 mr-2" />{t("PDF interne", "Internal PDF")}</Button>
+          {isAdmin && <Button onClick={exportInternal} disabled={!out} variant="outline"><FileDown className="w-4 h-4 mr-2" />{t("PDF interne", "Internal PDF")}</Button>}
           <Button onClick={exportClient} disabled={!out} className="bg-gradient-brand-deep"><FileText className="w-4 h-4 mr-2" />{t("PDF client", "Client PDF")}</Button>
         </div>
       </Card>
 
-      {/* Price grid for all products */}
-      {quoteMode && (
+      {/* Price grid for all products — admin only */}
+      {isAdmin && quoteMode && (
         <Card className="p-4">
-          <Label className="mb-2 block text-sm">{t("Prix par gallon (€) — toutes gammes (sauvegardés localement)", "Price per gallon (€) — all lines (saved locally)")}</Label>
+          <Label className="mb-2 block text-sm">{t("Prix par gallon (€) — toutes gammes (admin uniquement)", "Price per gallon (€) — all lines (admin only)")}</Label>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-2">
             {CATALOGS.map((c) => (
               <div key={c.id} className={`p-2 rounded border ${product === c.id ? "border-primary bg-primary/5" : "border-border"}`}>
@@ -996,5 +1002,24 @@ function AdminContractorsTab() {
         </div>
       )}
     </div>
+  );
+}
+
+function ChatTab() {
+  return (
+    <Card className="p-6">
+      <h2 className="font-heading text-xl font-semibold mb-2">Chat avec RENOVO CRETE</h2>
+      <p className="text-sm text-muted-foreground mb-4">
+        Utilisez la bulle Chat en bas à droite de l'écran pour discuter en direct avec un administrateur RENOVO CRETE.
+        Vos questions techniques (systèmes, couleurs, quantités) sont priorisées.
+      </p>
+      <div className="rounded-lg border bg-secondary/30 p-4 text-sm">
+        <p className="font-semibold mb-1">Support pro</p>
+        <p className="text-muted-foreground">
+          Horaires : 8h–17h (heure Saint-Martin). En dehors, le chatbot IA répond automatiquement
+          et un admin reprend la conversation à la réouverture.
+        </p>
+      </div>
+    </Card>
   );
 }

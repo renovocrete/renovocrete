@@ -287,6 +287,7 @@ export type Database = {
       }
       contractor_orders: {
         Row: {
+          applied_price_tier: string
           assigned_to: string | null
           client_sheet_url: string | null
           company_name: string | null
@@ -306,16 +307,20 @@ export type Database = {
           project_city: string | null
           project_name: string | null
           shipping_address: string | null
+          shipping_fee_amount: number
+          shipping_fee_note: string | null
           status: string
           subtotal: number
           surface_m2: number | null
           system_key: string | null
           system_label: string | null
           terms_accepted: boolean
+          total_amount: number | null
           updated_at: string
           user_id: string
         }
         Insert: {
+          applied_price_tier?: string
           assigned_to?: string | null
           client_sheet_url?: string | null
           company_name?: string | null
@@ -335,16 +340,20 @@ export type Database = {
           project_city?: string | null
           project_name?: string | null
           shipping_address?: string | null
+          shipping_fee_amount?: number
+          shipping_fee_note?: string | null
           status?: string
           subtotal?: number
           surface_m2?: number | null
           system_key?: string | null
           system_label?: string | null
           terms_accepted?: boolean
+          total_amount?: number | null
           updated_at?: string
           user_id: string
         }
         Update: {
+          applied_price_tier?: string
           assigned_to?: string | null
           client_sheet_url?: string | null
           company_name?: string | null
@@ -364,12 +373,15 @@ export type Database = {
           project_city?: string | null
           project_name?: string | null
           shipping_address?: string | null
+          shipping_fee_amount?: number
+          shipping_fee_note?: string | null
           status?: string
           subtotal?: number
           surface_m2?: number | null
           system_key?: string | null
           system_label?: string | null
           terms_accepted?: boolean
+          total_amount?: number | null
           updated_at?: string
           user_id?: string
         }
@@ -393,7 +405,9 @@ export type Database = {
           instagram: string | null
           is_featured: boolean
           is_published: boolean
+          is_sxm: boolean
           phone: string | null
+          price_tier: string
           service_areas: string[]
           show_address: boolean
           show_email: boolean
@@ -424,7 +438,9 @@ export type Database = {
           instagram?: string | null
           is_featured?: boolean
           is_published?: boolean
+          is_sxm?: boolean
           phone?: string | null
+          price_tier?: string
           service_areas?: string[]
           show_address?: boolean
           show_email?: boolean
@@ -455,7 +471,9 @@ export type Database = {
           instagram?: string | null
           is_featured?: boolean
           is_published?: boolean
+          is_sxm?: boolean
           phone?: string | null
+          price_tier?: string
           service_areas?: string[]
           show_address?: boolean
           show_email?: boolean
