@@ -605,14 +605,15 @@ function CalculatorTab({ isAdmin = false }: { isAdmin?: boolean }) {
               onBlur={validate} className={errors.surface ? "border-destructive" : ""} />
             {errors.surface && <p className="text-xs text-destructive mt-1">{errors.surface}</p>}
           </div>
-          <div>
-            <Label>{t("Couches", "Coats")}</Label>
-            <Input type="number" min="1" max="10" step="1" value={coats}
-              onChange={(e) => { setCoats(e.target.value); if (errors.coats) setErrors({ ...errors, coats: undefined }); }}
-              onBlur={validate} className={errors.coats ? "border-destructive" : ""} />
-            {errors.coats && <p className="text-xs text-destructive mt-1">{errors.coats}</p>}
-          </div>
-        </div>
+          {isAdmin && (
+            <div>
+              <Label>{t("Couches", "Coats")}</Label>
+              <Input type="number" min="1" max="10" step="1" value={coats}
+                onChange={(e) => { setCoats(e.target.value); if (errors.coats) setErrors({ ...errors, coats: undefined }); }}
+                onBlur={validate} className={errors.coats ? "border-destructive" : ""} />
+              {errors.coats && <p className="text-xs text-destructive mt-1">{errors.coats}</p>}
+            </div>
+          )}
 
         {quoteMode && (
           <div className="grid sm:grid-cols-3 gap-4 mb-4 p-4 rounded-lg bg-secondary/40 border">
