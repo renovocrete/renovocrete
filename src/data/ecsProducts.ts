@@ -113,3 +113,18 @@ export const ECS_PRODUCTS: EcsProduct[] = [
   resaleEUR: p.tiers.conseille.EUR,
   resaleUSD: p.tiers.conseille.USD,
 })) as EcsProduct[];
+
+/** Lookup by SKU id. */
+export function findProduct(id: string): EcsProduct | undefined {
+  return ECS_PRODUCTS.find((p) => p.id === id);
+}
+/** Lookup by product family + optional packaging keyword. */
+export function findByFamily(family: string, packagingHint?: string): EcsProduct | undefined {
+  const list = ECS_PRODUCTS.filter((p) => p.product.toLowerCase().includes(family.toLowerCase()));
+  if (packagingHint) {
+    const h = packagingHint.toLowerCase();
+    const match = list.find((p) => p.packaging.toLowerCase().includes(h));
+    if (match) return match;
+  }
+  return list[0];
+}
