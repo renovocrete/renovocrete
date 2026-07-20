@@ -614,8 +614,9 @@ function CalculatorTab({ isAdmin = false }: { isAdmin?: boolean }) {
               {errors.coats && <p className="text-xs text-destructive mt-1">{errors.coats}</p>}
             </div>
           )}
+        </div>
 
-        {quoteMode && (
+        {isAdmin && quoteMode && (
           <div className="grid sm:grid-cols-3 gap-4 mb-4 p-4 rounded-lg bg-secondary/40 border">
             <div>
               <Label>{t("Prix par gallon (€)", "Price per gallon (€)")}</Label>
