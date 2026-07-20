@@ -663,7 +663,7 @@ function CalculatorTab({ isAdmin = false }: { isAdmin?: boolean }) {
               <Card className="p-4 bg-secondary"><div className="text-xs text-muted-foreground">Part A</div><div className="text-2xl font-bold mt-1">{out.partA} gal</div></Card>
               <Card className="p-4 bg-secondary"><div className="text-xs text-muted-foreground">Part B</div><div className="text-2xl font-bold mt-1">{out.partB || "—"} {out.partB ? "gal" : ""}</div></Card>
             </div>
-            {quoteMode && (
+            {isAdmin && quoteMode && (
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <Card className="p-3"><div className="text-[11px] text-muted-foreground">{t("Coût matière", "Material")}</div><div className="font-bold">{out.costMaterial.toFixed(2)} €</div></Card>
                 <Card className="p-3"><div className="text-[11px] text-muted-foreground">{t("Main-d'œuvre", "Labor")}</div><div className="font-bold">{out.costLabor.toFixed(2)} €</div></Card>
