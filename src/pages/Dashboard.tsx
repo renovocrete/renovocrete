@@ -419,7 +419,7 @@ const DEFAULT_PRICES: Record<ProductLine, number> = {
 };
 const PRODUCT_IDS = CATALOGS.map((c) => c.id) as [ProductLine, ...ProductLine[]];
 
-function CalculatorTab() {
+function CalculatorTab({ isAdmin = false }: { isAdmin?: boolean }) {
   const { t, lang } = useLanguage();
   const [product, setProduct] = useState<ProductLine>("reflector");
   const [surface, setSurface] = useState("30");
