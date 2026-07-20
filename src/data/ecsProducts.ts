@@ -1,5 +1,7 @@
-// ECS resale catalog — SOURCE: CRM_-_PRIX_FOURNISSEURS_VBA_GOOD.xlsx feuille "CATALOGUE" colonne "Plafond bon prix EUR/USD"
-// Ne PAS afficher au client les colonnes prix fournisseur / coût.
+// ECS resale catalog — 3 tiers (Prix Conseillé, Gros Chantier, Premium)
+// USD = prix revente USD (x1.20 depuis Elite Crete). EUR = prix revente EUR.
+// ⚠️ Prix visibles UNIQUEMENT côté administrateur pour l'onglet "grille".
+// Côté client / sous-traitant / partenaire : ne montrer QUE le prix appliqué (selon tier assigné) et le total.
 
 export type EcsCategory =
   | "Resinous Products"
@@ -8,808 +10,106 @@ export type EcsCategory =
   | "Single Component Sealer Products"
   | "Supplemental Products";
 
+export type PriceTier = "conseille" | "gros_chantier" | "premium";
+export type Currency = "EUR" | "USD";
+
+export interface TierPrice { USD: number; EUR: number }
+
 export interface EcsProduct {
   id: string;
   label: string;
   product: string;
   packaging: string;
   category: EcsCategory;
-  /** Prix de vente définitif EUR (Plafond bon prix EUR) */
-  priceEUR: number;
-  priceUSD: number;
-  /** null si prix indisponible — commande bloquée */
+  tiers: Record<PriceTier, TierPrice>;
   hasPrice: boolean;
-  /** @deprecated alias legacy = priceEUR */
-  resaleEUR: number;
-  /** @deprecated alias legacy = priceUSD */
-  resaleUSD: number;
+  /** @deprecated compat */ priceEUR?: number;
+  /** @deprecated compat */ priceUSD?: number;
+  /** @deprecated compat */ resaleEUR?: number;
+  /** @deprecated compat */ resaleUSD?: number;
 }
 
-// Backward-compat aliases (ancien code)
-export type { EcsProduct as LegacyEcsProduct };
+export const TIER_LABEL: Record<PriceTier, string> = {
+  conseille: "Prix conseillé",
+  gros_chantier: "Prix gros chantier",
+  premium: "Prix premium",
+};
+
+export function getPrice(p: EcsProduct, tier: PriceTier, currency: Currency): number {
+  return p.tiers[tier][currency];
+}
 
 export const ECS_PRODUCTS: EcsProduct[] = [
-  {
-    "id": "ECS-SXM-001",
-    "label": "E100-PT1™-SHD: Kits — 3 Gal",
-    "product": "E100-PT1™-SHD: Kits",
-    "packaging": "3 Gal",
-    "category": "Resinous Products",
-    "priceEUR": 205.26,
-    "priceUSD": 234.0,
-    "hasPrice": true,
-    "resaleEUR": 205.26,
-    "resaleUSD": 234.0
-  },
-  {
-    "id": "ECS-SXM-002",
-    "label": "E100-PT1™-SHD: Kits — 48 ea x 3 Gal Kits",
-    "product": "E100-PT1™-SHD: Kits",
-    "packaging": "48 ea x 3 Gal Kits",
-    "category": "Resinous Products",
-    "priceEUR": 9263.16,
-    "priceUSD": 10560.0,
-    "hasPrice": true,
-    "resaleEUR": 9263.16,
-    "resaleUSD": 10560.0
-  },
-  {
-    "id": "ECS-SXM-003",
-    "label": "E100-PT1™-SHD: Kits — 15 Gal",
-    "product": "E100-PT1™-SHD: Kits",
-    "packaging": "15 Gal",
-    "category": "Resinous Products",
-    "priceEUR": 857.89,
-    "priceUSD": 978.0,
-    "hasPrice": true,
-    "resaleEUR": 857.89,
-    "resaleUSD": 978.0
-  },
-  {
-    "id": "ECS-SXM-004",
-    "label": "E100-PT1™-SHD: Kits — 12 ea x 15 Gal",
-    "product": "E100-PT1™-SHD: Kits",
-    "packaging": "12 ea x 15 Gal",
-    "category": "Resinous Products",
-    "priceEUR": 9663.16,
-    "priceUSD": 11016.0,
-    "hasPrice": true,
-    "resaleEUR": 9663.16,
-    "resaleUSD": 11016.0
-  },
-  {
-    "id": "ECS-SXM-005",
-    "label": "E100-PT1™-SHD: Kits — 156 Gal",
-    "product": "E100-PT1™-SHD: Kits",
-    "packaging": "156 Gal",
-    "category": "Resinous Products",
-    "priceEUR": 7682.46,
-    "priceUSD": 8758.0,
-    "hasPrice": true,
-    "resaleEUR": 7682.46,
-    "resaleUSD": 8758.0
-  },
-  {
-    "id": "ECS-SXM-020",
-    "label": "E1E100-VR1™: Kits — 3 Gal",
-    "product": "E1E100-VR1™: Kits",
-    "packaging": "3 Gal",
-    "category": "Resinous Products",
-    "priceEUR": 294.74,
-    "priceUSD": 336.0,
-    "hasPrice": true,
-    "resaleEUR": 294.74,
-    "resaleUSD": 336.0
-  },
-  {
-    "id": "ECS-SXM-021",
-    "label": "E1E100-VR1™: Kits — 15 Gal",
-    "product": "E1E100-VR1™: Kits",
-    "packaging": "15 Gal",
-    "category": "Resinous Products",
-    "priceEUR": 1363.16,
-    "priceUSD": 1554.0,
-    "hasPrice": true,
-    "resaleEUR": 1363.16,
-    "resaleUSD": 1554.0
-  },
-  {
-    "id": "ECS-SXM-022",
-    "label": "E1E100-VR1™: Kits — 12 ea. x 15 Gal",
-    "product": "E1E100-VR1™: Kits",
-    "packaging": "12 ea. x 15 Gal",
-    "category": "Resinous Products",
-    "priceEUR": 15726.32,
-    "priceUSD": 17928.0,
-    "hasPrice": true,
-    "resaleEUR": 15726.32,
-    "resaleUSD": 17928.0
-  },
-  {
-    "id": "ECS-SXM-023",
-    "label": "E1E100-VR1™: Kits — 156 Gal",
-    "product": "E1E100-VR1™: Kits",
-    "packaging": "156 Gal",
-    "category": "Resinous Products",
-    "priceEUR": 12803.51,
-    "priceUSD": 14596.0,
-    "hasPrice": true,
-    "resaleEUR": 12803.51,
-    "resaleUSD": 14596.0
-  },
-  {
-    "id": "ECS-SXM-006",
-    "label": "E100-PT1™-UBC: Kits — 3 Gal",
-    "product": "E100-PT1™-UBC: Kits",
-    "packaging": "3 Gal",
-    "category": "Resinous Products",
-    "priceEUR": 145.61,
-    "priceUSD": 166.0,
-    "hasPrice": true,
-    "resaleEUR": 145.61,
-    "resaleUSD": 166.0
-  },
-  {
-    "id": "ECS-SXM-007",
-    "label": "E100-PT1™-UBC: Kits — 15 Gal",
-    "product": "E100-PT1™-UBC: Kits",
-    "packaging": "15 Gal",
-    "category": "Resinous Products",
-    "priceEUR": 678.95,
-    "priceUSD": 774.0,
-    "hasPrice": true,
-    "resaleEUR": 678.95,
-    "resaleUSD": 774.0
-  },
-  {
-    "id": "ECS-SXM-008",
-    "label": "E100-PT1™-UBC: Kits — 12 ea. x 15 Gal",
-    "product": "E100-PT1™-UBC: Kits",
-    "packaging": "12 ea. x 15 Gal",
-    "category": "Resinous Products",
-    "priceEUR": 7642.11,
-    "priceUSD": 8712.0,
-    "hasPrice": true,
-    "resaleEUR": 7642.11,
-    "resaleUSD": 8712.0
-  },
-  {
-    "id": "ECS-SXM-009",
-    "label": "E100-PT1™-UBC: Kits — 156 Gal",
-    "product": "E100-PT1™-UBC: Kits",
-    "packaging": "156 Gal",
-    "category": "Resinous Products",
-    "priceEUR": 6166.67,
-    "priceUSD": 7030.0,
-    "hasPrice": true,
-    "resaleEUR": 6166.67,
-    "resaleUSD": 7030.0
-  },
-  {
-    "id": "ECS-SXM-024",
-    "label": "E100-PT3™: Kits — 3 Gal",
-    "product": "E100-PT3™: Kits",
-    "packaging": "3 Gal",
-    "category": "Resinous Products",
-    "priceEUR": 296.49,
-    "priceUSD": 338.0,
-    "hasPrice": true,
-    "resaleEUR": 296.49,
-    "resaleUSD": 338.0
-  },
-  {
-    "id": "ECS-SXM-025",
-    "label": "E100-PT3™: Kits — 15 Gal",
-    "product": "E100-PT3™: Kits",
-    "packaging": "15 Gal",
-    "category": "Resinous Products",
-    "priceEUR": 1424.56,
-    "priceUSD": 1624.0,
-    "hasPrice": true,
-    "resaleEUR": 1424.56,
-    "resaleUSD": 1624.0
-  },
-  {
-    "id": "ECS-SXM-026",
-    "label": "E100-PT3™: Kits — 12 ea. x 15 Gal",
-    "product": "E100-PT3™: Kits",
-    "packaging": "12 ea. x 15 Gal",
-    "category": "Resinous Products",
-    "priceEUR": 1375.44,
-    "priceUSD": 1568.0,
-    "hasPrice": true,
-    "resaleEUR": 1375.44,
-    "resaleUSD": 1568.0
-  },
-  {
-    "id": "ECS-SXM-027",
-    "label": "E100-PT4™-SHD: Kits — 3 Gal",
-    "product": "E100-PT4™-SHD: Kits",
-    "packaging": "3 Gal",
-    "category": "Resinous Products",
-    "priceEUR": 238.6,
-    "priceUSD": 272.0,
-    "hasPrice": true,
-    "resaleEUR": 238.6,
-    "resaleUSD": 272.0
-  },
-  {
-    "id": "ECS-SXM-028",
-    "label": "E100-PT4™-SHD: Kits — 15 Gal",
-    "product": "E100-PT4™-SHD: Kits",
-    "packaging": "15 Gal",
-    "category": "Resinous Products",
-    "priceEUR": 1161.4,
-    "priceUSD": 1324.0,
-    "hasPrice": true,
-    "resaleEUR": 1161.4,
-    "resaleUSD": 1324.0
-  },
-  {
-    "id": "ECS-SXM-029",
-    "label": "E100-PT4™-SHD: Kits — 12 ea. x 15 Gal",
-    "product": "E100-PT4™-SHD: Kits",
-    "packaging": "12 ea. x 15 Gal",
-    "category": "Resinous Products",
-    "priceEUR": 13515.79,
-    "priceUSD": 15408.0,
-    "hasPrice": true,
-    "resaleEUR": 13515.79,
-    "resaleUSD": 15408.0
-  },
-  {
-    "id": "ECS-SXM-030",
-    "label": "E100-PT4™-SHD: Kits — 156 Gal",
-    "product": "E100-PT4™-SHD: Kits",
-    "packaging": "156 Gal",
-    "category": "Resinous Products",
-    "priceEUR": 10875.44,
-    "priceUSD": 12398.0,
-    "hasPrice": true,
-    "resaleEUR": 10875.44,
-    "resaleUSD": 12398.0
-  },
-  {
-    "id": "ECS-SXM-039",
-    "label": "E100-VB5™: Kits — 2 Gal",
-    "product": "E100-VB5™: Kits",
-    "packaging": "2 Gal",
-    "category": "Resinous Products",
-    "priceEUR": 177.19,
-    "priceUSD": 202.0,
-    "hasPrice": true,
-    "resaleEUR": 177.19,
-    "resaleUSD": 202.0
-  },
-  {
-    "id": "ECS-SXM-040",
-    "label": "E100-VB5™: Kits — 10 Gal",
-    "product": "E100-VB5™: Kits",
-    "packaging": "10 Gal",
-    "category": "Resinous Products",
-    "priceEUR": 828.07,
-    "priceUSD": 944.0,
-    "hasPrice": true,
-    "resaleEUR": 828.07,
-    "resaleUSD": 944.0
-  },
-  {
-    "id": "ECS-SXM-041",
-    "label": "E100-VB5™: Kits — 18 ea. x 10 Gal",
-    "product": "E100-VB5™: Kits",
-    "packaging": "18 ea. x 10 Gal",
-    "category": "Resinous Products",
-    "priceEUR": 14242.11,
-    "priceUSD": 16236.0,
-    "hasPrice": true,
-    "resaleEUR": 14242.11,
-    "resaleUSD": 16236.0
-  },
-  {
-    "id": "ECS-SXM-042",
-    "label": "E100-VB5™: Kits — 104 Gal",
-    "product": "E100-VB5™: Kits",
-    "packaging": "104 Gal",
-    "category": "Resinous Products",
-    "priceEUR": 7628.07,
-    "priceUSD": 8696.0,
-    "hasPrice": true,
-    "resaleEUR": 7628.07,
-    "resaleUSD": 8696.0
-  },
-  {
-    "id": "ECS-SXM-073",
-    "label": "AUS-V™: Kits — 1.5 Gal",
-    "product": "AUS-V™: Kits",
-    "packaging": "1.5 Gal",
-    "category": "Resinous Products",
-    "priceEUR": 222.81,
-    "priceUSD": 254.0,
-    "hasPrice": true,
-    "resaleEUR": 222.81,
-    "resaleUSD": 254.0
-  },
-  {
-    "id": "ECS-SXM-074",
-    "label": "AUS-V™: Kits — 3 Gal",
-    "product": "AUS-V™: Kits",
-    "packaging": "3 Gal",
-    "category": "Resinous Products",
-    "priceEUR": 426.32,
-    "priceUSD": 486.0,
-    "hasPrice": true,
-    "resaleEUR": 426.32,
-    "resaleUSD": 486.0
-  },
-  {
-    "id": "ECS-SXM-075",
-    "label": "AUS-V™: Kits — 15 Gal",
-    "product": "AUS-V™: Kits",
-    "packaging": "15 Gal",
-    "category": "Resinous Products",
-    "priceEUR": 2033.33,
-    "priceUSD": 2318.0,
-    "hasPrice": true,
-    "resaleEUR": 2033.33,
-    "resaleUSD": 2318.0
-  },
-  {
-    "id": "ECS-SXM-076",
-    "label": "AUS-V™: Kits — 12 ea. x 15 Gal",
-    "product": "AUS-V™: Kits",
-    "packaging": "12 ea. x 15 Gal",
-    "category": "Resinous Products",
-    "priceEUR": 23431.58,
-    "priceUSD": 26712.0,
-    "hasPrice": true,
-    "resaleEUR": 23431.58,
-    "resaleUSD": 26712.0
-  },
-  {
-    "id": "ECS-SXM-080",
-    "label": "SPARTIC-ALL™-MXP: Kits — 3 Gal",
-    "product": "SPARTIC-ALL™-MXP: Kits",
-    "packaging": "3 Gal",
-    "category": "Resinous Products",
-    "priceEUR": 305.26,
-    "priceUSD": 348.0,
-    "hasPrice": true,
-    "resaleEUR": 305.26,
-    "resaleUSD": 348.0
-  },
-  {
-    "id": "ECS-SXM-081",
-    "label": "SPARTIC-ALL™-MXP: Kits — 15 Gal",
-    "product": "SPARTIC-ALL™-MXP: Kits",
-    "packaging": "15 Gal",
-    "category": "Resinous Products",
-    "priceEUR": 1477.19,
-    "priceUSD": 1684.0,
-    "hasPrice": true,
-    "resaleEUR": 1477.19,
-    "resaleUSD": 1684.0
-  },
-  {
-    "id": "ECS-SXM-082",
-    "label": "SPARTIC-ALL™-MXP: Kits — 12 ea. x 15 Gal",
-    "product": "SPARTIC-ALL™-MXP: Kits",
-    "packaging": "12 ea. x 15 Gal",
-    "category": "Resinous Products",
-    "priceEUR": 17242.11,
-    "priceUSD": 19656.0,
-    "hasPrice": true,
-    "resaleEUR": 17242.11,
-    "resaleUSD": 19656.0
-  },
-  {
-    "id": "ECS-SXM-103",
-    "label": "THIN-FINISH™ Pre-Mixed Overlay — 55 lb. Bag",
-    "product": "THIN-FINISH™ Pre-Mixed Overlay",
-    "packaging": "55 lb. Bag",
-    "category": "Cementitious Products",
-    "priceEUR": 66.67,
-    "priceUSD": 76.0,
-    "hasPrice": true,
-    "resaleEUR": 66.67,
-    "resaleUSD": 76.0
-  },
-  {
-    "id": "ECS-SXM-104",
-    "label": "THIN-FINISH™ Pre-Mixed Overlay — 56 Bag/Plt.",
-    "product": "THIN-FINISH™ Pre-Mixed Overlay",
-    "packaging": "56 Bag/Plt.",
-    "category": "Cementitious Products",
-    "priceEUR": 3438.6,
-    "priceUSD": 3920.0,
-    "hasPrice": true,
-    "resaleEUR": 3438.6,
-    "resaleUSD": 3920.0
-  },
-  {
-    "id": "ECS-SXM-105",
-    "label": "THIN-FINISH™ Pre-Mixed Overlay — 14 Pallets",
-    "product": "THIN-FINISH™ Pre-Mixed Overlay",
-    "packaging": "14 Pallets",
-    "category": "Cementitious Products",
-    "priceEUR": 46764.91,
-    "priceUSD": 53312.0,
-    "hasPrice": true,
-    "resaleEUR": 46764.91,
-    "resaleUSD": 53312.0
-  },
-  {
-    "id": "ECS-SXM-106",
-    "label": "TEXTURE-PAVE™ Pre-Mixed Overlay — 55 lb. Bag",
-    "product": "TEXTURE-PAVE™ Pre-Mixed Overlay",
-    "packaging": "55 lb. Bag",
-    "category": "Cementitious Products",
-    "priceEUR": 50.88,
-    "priceUSD": 58.0,
-    "hasPrice": true,
-    "resaleEUR": 50.88,
-    "resaleUSD": 58.0
-  },
-  {
-    "id": "ECS-SXM-107",
-    "label": "TEXTURE-PAVE™ Pre-Mixed Overlay — 56 Bag/Plt.",
-    "product": "TEXTURE-PAVE™ Pre-Mixed Overlay",
-    "packaging": "56 Bag/Plt.",
-    "category": "Cementitious Products",
-    "priceEUR": 2554.39,
-    "priceUSD": 2912.0,
-    "hasPrice": true,
-    "resaleEUR": 2554.39,
-    "resaleUSD": 2912.0
-  },
-  {
-    "id": "ECS-SXM-108",
-    "label": "TEXTURE-PAVE™ Pre-Mixed Overlay — 14 Pallets",
-    "product": "TEXTURE-PAVE™ Pre-Mixed Overlay",
-    "packaging": "14 Pallets",
-    "category": "Cementitious Products",
-    "priceEUR": 33010.53,
-    "priceUSD": 37632.0,
-    "hasPrice": true,
-    "resaleEUR": 33010.53,
-    "resaleUSD": 37632.0
-  },
-  {
-    "id": "ECS-SXM-109",
-    "label": "MICRO-FINISH™ Pre-Mixed Overlay — 30 lb. Bag",
-    "product": "MICRO-FINISH™ Pre-Mixed Overlay",
-    "packaging": "30 lb. Bag",
-    "category": "Cementitious Products",
-    "priceEUR": 52.63,
-    "priceUSD": 60.0,
-    "hasPrice": true,
-    "resaleEUR": 52.63,
-    "resaleUSD": 60.0
-  },
-  {
-    "id": "ECS-SXM-110",
-    "label": "MICRO-FINISH™ Pre-Mixed Overlay — 56 Bag/Plt.",
-    "product": "MICRO-FINISH™ Pre-Mixed Overlay",
-    "packaging": "56 Bag/Plt.",
-    "category": "Cementitious Products",
-    "priceEUR": 2750.88,
-    "priceUSD": 3136.0,
-    "hasPrice": true,
-    "resaleEUR": 2750.88,
-    "resaleUSD": 3136.0
-  },
-  {
-    "id": "ECS-SXM-111",
-    "label": "MICRO-FINISH™ Pre-Mixed Overlay — 14 Pallets",
-    "product": "MICRO-FINISH™ Pre-Mixed Overlay",
-    "packaging": "14 Pallets",
-    "category": "Cementitious Products",
-    "priceEUR": 37136.84,
-    "priceUSD": 42336.0,
-    "hasPrice": true,
-    "resaleEUR": 37136.84,
-    "resaleUSD": 42336.0
-  },
-  {
-    "id": "ECS-SXM-112",
-    "label": "BACE-LINE™ 6.3M — 50 lb. Bag",
-    "product": "BACE-LINE™ 6.3M",
-    "packaging": "50 lb. Bag",
-    "category": "Cementitious Products",
-    "priceEUR": 82.46,
-    "priceUSD": 94.0,
-    "hasPrice": true,
-    "resaleEUR": 82.46,
-    "resaleUSD": 94.0
-  },
-  {
-    "id": "ECS-SXM-113",
-    "label": "BACE-LINE™ 6.3M — 56 Bag/Plt.",
-    "product": "BACE-LINE™ 6.3M",
-    "packaging": "56 Bag/Plt.",
-    "category": "Cementitious Products",
-    "priceEUR": 4519.3,
-    "priceUSD": 5152.0,
-    "hasPrice": true,
-    "resaleEUR": 4519.3,
-    "resaleUSD": 5152.0
-  },
-  {
-    "id": "ECS-SXM-117",
-    "label": "JFS-450H™ Joint Filler – “Gray” — 305 ML Tube",
-    "product": "JFS-450H™ Joint Filler – “Gray”",
-    "packaging": "305 ML Tube",
-    "category": "Supplemental Products",
-    "priceEUR": 10.53,
-    "priceUSD": 12.0,
-    "hasPrice": true,
-    "resaleEUR": 10.53,
-    "resaleUSD": 12.0
-  },
-  {
-    "id": "ECS-SXM-118",
-    "label": "JFS-450H™ Joint Filler – “Gray” — 24 ea. Case",
-    "product": "JFS-450H™ Joint Filler – “Gray”",
-    "packaging": "24 ea. Case",
-    "category": "Supplemental Products",
-    "priceEUR": 231.58,
-    "priceUSD": 264.0,
-    "hasPrice": true,
-    "resaleEUR": 231.58,
-    "resaleUSD": 264.0
-  },
-  {
-    "id": "ECS-SXM-122",
-    "label": "REFLECTOR™ Enhancer Powder — 32 oz. Jar",
-    "product": "REFLECTOR™ Enhancer Powder",
-    "packaging": "32 oz. Jar",
-    "category": "Pigment/Colorant/Stain Products",
-    "priceEUR": 73.68,
-    "priceUSD": 84.0,
-    "hasPrice": true,
-    "resaleEUR": 73.68,
-    "resaleUSD": 84.0
-  },
-  {
-    "id": "ECS-SXM-123",
-    "label": "REFLECTOR™ Enhancer Powder — 2 oz. Jar",
-    "product": "REFLECTOR™ Enhancer Powder",
-    "packaging": "2 oz. Jar",
-    "category": "Pigment/Colorant/Stain Products",
-    "priceEUR": 10.53,
-    "priceUSD": 12.0,
-    "hasPrice": true,
-    "resaleEUR": 10.53,
-    "resaleUSD": 12.0
-  },
-  {
-    "id": "ECS-SXM-124",
-    "label": "REFLECTOR™ Enhancer Powder — Sample Kit",
-    "product": "REFLECTOR™ Enhancer Powder",
-    "packaging": "Sample Kit",
-    "category": "Pigment/Colorant/Stain Products",
-    "priceEUR": 192.98,
-    "priceUSD": 220.0,
-    "hasPrice": true,
-    "resaleEUR": 192.98,
-    "resaleUSD": 220.0
-  },
-  {
-    "id": "ECS-SXM-132",
-    "label": "ULTRA-STONE™ Antiquing Stain — 1 Gal",
-    "product": "ULTRA-STONE™ Antiquing Stain",
-    "packaging": "1 Gal",
-    "category": "Pigment/Colorant/Stain Products",
-    "priceEUR": 59.65,
-    "priceUSD": 68.0,
-    "hasPrice": true,
-    "resaleEUR": 59.65,
-    "resaleUSD": 68.0
-  },
-  {
-    "id": "ECS-SXM-133",
-    "label": "ULTRA-STONE™ Antiquing Stain — 5 Gal",
-    "product": "ULTRA-STONE™ Antiquing Stain",
-    "packaging": "5 Gal",
-    "category": "Pigment/Colorant/Stain Products",
-    "priceEUR": 268.42,
-    "priceUSD": 306.0,
-    "hasPrice": true,
-    "resaleEUR": 268.42,
-    "resaleUSD": 306.0
-  },
-  {
-    "id": "ECS-SXM-134",
-    "label": "ULTRA-STONE™ Antiquing Stain — 36 ea. x 5 Gal",
-    "product": "ULTRA-STONE™ Antiquing Stain",
-    "packaging": "36 ea. x 5 Gal",
-    "category": "Pigment/Colorant/Stain Products",
-    "priceEUR": 9347.37,
-    "priceUSD": 10656.0,
-    "hasPrice": true,
-    "resaleEUR": 9347.37,
-    "resaleUSD": 10656.0
-  },
-  {
-    "id": "ECS-SXM-149",
-    "label": "CSS EMULSION™ Clear Concentrated Sealer — 1 Gal",
-    "product": "CSS EMULSION™ Clear Concentrated Sealer",
-    "packaging": "1 Gal",
-    "category": "Single Component Sealer Products",
-    "priceEUR": 68.42,
-    "priceUSD": 78.0,
-    "hasPrice": true,
-    "resaleEUR": 68.42,
-    "resaleUSD": 78.0
-  },
-  {
-    "id": "ECS-SXM-150",
-    "label": "CSS EMULSION™ Clear Concentrated Sealer — 5 Gal",
-    "product": "CSS EMULSION™ Clear Concentrated Sealer",
-    "packaging": "5 Gal",
-    "category": "Single Component Sealer Products",
-    "priceEUR": 331.58,
-    "priceUSD": 378.0,
-    "hasPrice": true,
-    "resaleEUR": 331.58,
-    "resaleUSD": 378.0
-  },
-  {
-    "id": "ECS-SXM-151",
-    "label": "CSS EMULSION™ Clear Concentrated Sealer — 36 ea. x 5 Gal",
-    "product": "CSS EMULSION™ Clear Concentrated Sealer",
-    "packaging": "36 ea. x 5 Gal",
-    "category": "Single Component Sealer Products",
-    "priceEUR": 11621.05,
-    "priceUSD": 13248.0,
-    "hasPrice": true,
-    "resaleEUR": 11621.05,
-    "resaleUSD": 13248.0
-  },
-  {
-    "id": "ECS-SXM-152",
-    "label": "CSS EMULSION™ Clear Concentrated Sealer — 55 Gal",
-    "product": "CSS EMULSION™ Clear Concentrated Sealer",
-    "packaging": "55 Gal",
-    "category": "Single Component Sealer Products",
-    "priceEUR": 3468.42,
-    "priceUSD": 3954.0,
-    "hasPrice": true,
-    "resaleEUR": 3468.42,
-    "resaleUSD": 3954.0
-  },
-  {
-    "id": "ECS-SXM-175",
-    "label": "MERCAP-445™ Crack Repair — 900 ML DC",
-    "product": "MERCAP-445™ Crack Repair",
-    "packaging": "900 ML DC",
-    "category": "Supplemental Products",
-    "priceEUR": 64.91,
-    "priceUSD": 74.0,
-    "hasPrice": true,
-    "resaleEUR": 64.91,
-    "resaleUSD": 74.0
-  },
-  {
-    "id": "ECS-SXM-176",
-    "label": "MERCAP-445™ Crack Repair — 1.5 Gal Kit",
-    "product": "MERCAP-445™ Crack Repair",
-    "packaging": "1.5 Gal Kit",
-    "category": "Supplemental Products",
-    "priceEUR": 201.75,
-    "priceUSD": 230.0,
-    "hasPrice": true,
-    "resaleEUR": 201.75,
-    "resaleUSD": 230.0
-  },
-  {
-    "id": "ECS-SXM-194",
-    "label": "Silica Quartz [Rounded 40 sieve] — 80 Lb. Bag",
-    "product": "Silica Quartz [Rounded 40 sieve]",
-    "packaging": "80 Lb. Bag",
-    "category": "Supplemental Products",
-    "priceEUR": 29.82,
-    "priceUSD": 34.0,
-    "hasPrice": true,
-    "resaleEUR": 29.82,
-    "resaleUSD": 34.0
-  },
-  {
-    "id": "ECS-SXM-195",
-    "label": "Silica Quartz [Semi Trowel Grade 50 sieve] — 80 Lb. Bag",
-    "product": "Silica Quartz [Semi Trowel Grade 50 sieve]",
-    "packaging": "80 Lb. Bag",
-    "category": "Supplemental Products",
-    "priceEUR": 29.82,
-    "priceUSD": 34.0,
-    "hasPrice": true,
-    "resaleEUR": 29.82,
-    "resaleUSD": 34.0
-  },
-  {
-    "id": "ECS-SXM-196",
-    "label": "Silica Flour — 50 Lb. Bag",
-    "product": "Silica Flour",
-    "packaging": "50 Lb. Bag",
-    "category": "Supplemental Products",
-    "priceEUR": 33.33,
-    "priceUSD": 38.0,
-    "hasPrice": true,
-    "resaleEUR": 33.33,
-    "resaleUSD": 38.0
-  },
-  {
-    "id": "ECS-SXM-204",
-    "label": "5 Gallon - Elite Crete Systems “Mixing Pail” with semi-accurate measurements",
-    "product": "5 Gallon - Elite Crete Systems “Mixing Pail” with semi-accurate measurements",
-    "packaging": "—",
-    "category": "Supplemental Products",
-    "priceEUR": 9.44,
-    "priceUSD": 10.76,
-    "hasPrice": true,
-    "resaleEUR": 9.44,
-    "resaleUSD": 10.76
-  },
-  {
-    "id": "ECS-SXM-205",
-    "label": "6 Gallon - Elite Crete Systems “Mixing Pail” with semi-accurate measurements",
-    "product": "6 Gallon - Elite Crete Systems “Mixing Pail” with semi-accurate measurements",
-    "packaging": "—",
-    "category": "Supplemental Products",
-    "priceEUR": 9.44,
-    "priceUSD": 10.76,
-    "hasPrice": true,
-    "resaleEUR": 9.44,
-    "resaleUSD": 10.76
-  },
-  {
-    "id": "ECS-SXM-206",
-    "label": "5 Quart - Elite Crete Systems “Mixing Pail”",
-    "product": "5 Quart - Elite Crete Systems “Mixing Pail”",
-    "packaging": "—",
-    "category": "Supplemental Products",
-    "priceEUR": 3.3,
-    "priceUSD": 3.76,
-    "hasPrice": true,
-    "resaleEUR": 3.3,
-    "resaleUSD": 3.76
-  },
-  {
-    "id": "ECS-SXM-207",
-    "label": "Full Case of 5 Quart = 50 per",
-    "product": "Full Case of 5 Quart = 50 per",
-    "packaging": "—",
-    "category": "Supplemental Products",
-    "priceEUR": 157.89,
-    "priceUSD": 180.0,
-    "hasPrice": true,
-    "resaleEUR": 157.89,
-    "resaleUSD": 180.0
-  },
-  {
-    "id": "ECS-SXM-208",
-    "label": "2.5 Quart - Elite Crete Systems “Mixing Container”",
-    "product": "2.5 Quart - Elite Crete Systems “Mixing Container”",
-    "packaging": "—",
-    "category": "Supplemental Products",
-    "priceEUR": 1.7,
-    "priceUSD": 1.94,
-    "hasPrice": true,
-    "resaleEUR": 1.7,
-    "resaleUSD": 1.94
-  },
-  {
-    "id": "ECS-SXM-209",
-    "label": "Full Case of 2.5 Quart = 50 per",
-    "product": "Full Case of 2.5 Quart = 50 per",
-    "packaging": "—",
-    "category": "Supplemental Products",
-    "priceEUR": 80.7,
-    "priceUSD": 92.0,
-    "hasPrice": true,
-    "resaleEUR": 80.7,
-    "resaleUSD": 92.0
-  }
-];
-
-export const findProduct = (id: string) => ECS_PRODUCTS.find(p => p.id === id);
-export const findByFamily = (family: string) => ECS_PRODUCTS.filter(p => p.product === family);
+  {"id": "ECS-E100-PT1-SHD-KITS-01", "label": "E100-PT1™-SHD: Kits — 3 Gal", "product": "E100-PT1™-SHD: Kits", "packaging": "3 Gal", "category": "Resinous Products", "tiers": {"conseille": {"USD": 291.8, "EUR": 243.17}, "gros_chantier": {"USD": 265.27, "EUR": 221.06}, "premium": {"USD": 332.63, "EUR": 277.19}}, "hasPrice": true},
+  {"id": "ECS-E100-PT1-SHD-KITS-02", "label": "E100-PT1™-SHD: Kits — 48 ea x 3 Gal Kits", "product": "E100-PT1™-SHD: Kits", "packaging": "48 ea x 3 Gal Kits", "category": "Resinous Products", "tiers": {"conseille": {"USD": 1216.96, "EUR": 1014.13}, "gros_chantier": {"USD": 1106.32, "EUR": 921.94}, "premium": {"USD": 1387.24, "EUR": 1156.03}}, "hasPrice": true},
+  {"id": "ECS-E100-PT1-SHD-KITS-03", "label": "E100-PT1™-SHD: Kits — 15 Gal", "product": "E100-PT1™-SHD: Kits", "packaging": "15 Gal", "category": "Resinous Products", "tiers": {"conseille": {"USD": 1106.12, "EUR": 921.77}, "gros_chantier": {"USD": 1005.56, "EUR": 837.97}, "premium": {"USD": 1260.89, "EUR": 1050.74}}, "hasPrice": true},
+  {"id": "ECS-E100-PT1-SHD-KITS-04", "label": "E100-PT1™-SHD: Kits — 12 ea x 15 Gal", "product": "E100-PT1™-SHD: Kits", "packaging": "12 ea x 15 Gal", "category": "Resinous Products", "tiers": {"conseille": {"USD": 13734.86, "EUR": 11445.72}, "gros_chantier": {"USD": 12486.24, "EUR": 10405.2}, "premium": {"USD": 15656.73, "EUR": 13047.27}}, "hasPrice": true},
+  {"id": "ECS-E100-PT1-SHD-KITS-05", "label": "E100-PT1™-SHD: Kits — 156 Gal", "product": "E100-PT1™-SHD: Kits", "packaging": "156 Gal", "category": "Resinous Products", "tiers": {"conseille": {"USD": 10828.19, "EUR": 9023.5}, "gros_chantier": {"USD": 9843.81, "EUR": 8203.18}, "premium": {"USD": 12343.34, "EUR": 10286.12}}, "hasPrice": true},
+  {"id": "ECS-E100-VR1-KITS-01", "label": "E100-VR1™: Kits — 3 Gal", "product": "E100-VR1™: Kits", "packaging": "3 Gal", "category": "Resinous Products", "tiers": {"conseille": {"USD": 427.52, "EUR": 356.27}, "gros_chantier": {"USD": 388.65, "EUR": 323.88}, "premium": {"USD": 487.34, "EUR": 406.12}}, "hasPrice": true},
+  {"id": "ECS-E100-VR1-KITS-02", "label": "E100-VR1™: Kits — 15 Gal", "product": "E100-VR1™: Kits", "packaging": "15 Gal", "category": "Resinous Products", "tiers": {"conseille": {"USD": 1931.75, "EUR": 1609.79}, "gros_chantier": {"USD": 1756.13, "EUR": 1463.45}, "premium": {"USD": 2202.05, "EUR": 1835.04}}, "hasPrice": true},
+  {"id": "ECS-E100-VR1-KITS-03", "label": "E100-VR1™: Kits — 12 ea. x 15 Gal", "product": "E100-VR1™: Kits", "packaging": "12 ea. x 15 Gal", "category": "Resinous Products", "tiers": {"conseille": {"USD": 22312.37, "EUR": 18593.64}, "gros_chantier": {"USD": 20283.97, "EUR": 16903.31}, "premium": {"USD": 25434.45, "EUR": 21195.37}}, "hasPrice": true},
+  {"id": "ECS-E100-VR1-KITS-04", "label": "E100-VR1™: Kits — 156 Gal", "product": "E100-VR1™: Kits", "packaging": "156 Gal", "category": "Resinous Products", "tiers": {"conseille": {"USD": 18138.98, "EUR": 15115.82}, "gros_chantier": {"USD": 16489.98, "EUR": 13741.65}, "premium": {"USD": 20677.09, "EUR": 17230.91}}, "hasPrice": true},
+  {"id": "ECS-E100-PT1-UBC-KITS-01", "label": "E100-PT1™-UBC: Kits — 3 Gal", "product": "E100-PT1™-UBC: Kits", "packaging": "3 Gal", "category": "Resinous Products", "tiers": {"conseille": {"USD": 187.75, "EUR": 156.46}, "gros_chantier": {"USD": 170.68, "EUR": 142.23}, "premium": {"USD": 214.02, "EUR": 178.35}}, "hasPrice": true},
+  {"id": "ECS-E100-PT1-UBC-KITS-02", "label": "E100-PT1™-UBC: Kits — 15 Gal", "product": "E100-PT1™-UBC: Kits", "packaging": "15 Gal", "category": "Resinous Products", "tiers": {"conseille": {"USD": 875.39, "EUR": 729.5}, "gros_chantier": {"USD": 795.81, "EUR": 663.18}, "premium": {"USD": 997.88, "EUR": 831.57}}, "hasPrice": true},
+  {"id": "ECS-E100-PT1-UBC-KITS-03", "label": "E100-PT1™-UBC: Kits — 12 ea. x 15 Gal", "product": "E100-PT1™-UBC: Kits", "packaging": "12 ea. x 15 Gal", "category": "Resinous Products", "tiers": {"conseille": {"USD": 9853.27, "EUR": 8211.06}, "gros_chantier": {"USD": 8957.52, "EUR": 7464.6}, "premium": {"USD": 11232.0, "EUR": 9360.0}}, "hasPrice": true},
+  {"id": "ECS-E100-PT1-UBC-KITS-04", "label": "E100-PT1™-UBC: Kits — 156 Gal", "product": "E100-PT1™-UBC: Kits", "packaging": "156 Gal", "category": "Resinous Products", "tiers": {"conseille": {"USD": 7950.93, "EUR": 6625.78}, "gros_chantier": {"USD": 7228.12, "EUR": 6023.43}, "premium": {"USD": 9063.47, "EUR": 7552.89}}, "hasPrice": true},
+  {"id": "ECS-E100-PT3-KITS-01", "label": "E100-PT3™: Kits — 3 Gal", "product": "E100-PT3™: Kits", "packaging": "3 Gal", "category": "Resinous Products", "tiers": {"conseille": {"USD": 382.28, "EUR": 318.57}, "gros_chantier": {"USD": 347.53, "EUR": 289.6}, "premium": {"USD": 435.77, "EUR": 363.14}}, "hasPrice": true},
+  {"id": "ECS-E100-PT3-KITS-02", "label": "E100-PT3™: Kits — 15 Gal", "product": "E100-PT3™: Kits", "packaging": "15 Gal", "category": "Resinous Products", "tiers": {"conseille": {"USD": 1836.74, "EUR": 1530.62}, "gros_chantier": {"USD": 1669.77, "EUR": 1391.47}, "premium": {"USD": 2093.75, "EUR": 1744.79}}, "hasPrice": true},
+  {"id": "ECS-E100-PT3-KITS-03", "label": "E100-PT3™: Kits — 12 ea. x 15 Gal", "product": "E100-PT3™: Kits", "packaging": "12 ea. x 15 Gal", "category": "Resinous Products", "tiers": {"conseille": {"USD": 1773.41, "EUR": 1477.84}, "gros_chantier": {"USD": 1612.19, "EUR": 1343.49}, "premium": {"USD": 2021.55, "EUR": 1684.63}}, "hasPrice": true},
+  {"id": "ECS-E100-PT4-SHD-KITS-01", "label": "E100-PT4™-SHD: Kits — 3 Gal", "product": "E100-PT4™-SHD: Kits", "packaging": "3 Gal", "category": "Resinous Products", "tiers": {"conseille": {"USD": 307.63, "EUR": 256.36}, "gros_chantier": {"USD": 279.67, "EUR": 233.05}, "premium": {"USD": 350.68, "EUR": 292.23}}, "hasPrice": true},
+  {"id": "ECS-E100-PT4-SHD-KITS-02", "label": "E100-PT4™-SHD: Kits — 15 Gal", "product": "E100-PT4™-SHD: Kits", "packaging": "15 Gal", "category": "Resinous Products", "tiers": {"conseille": {"USD": 1497.44, "EUR": 1247.87}, "gros_chantier": {"USD": 1361.31, "EUR": 1134.43}, "premium": {"USD": 1706.98, "EUR": 1422.48}}, "hasPrice": true},
+  {"id": "ECS-E100-PT4-SHD-KITS-03", "label": "E100-PT4™-SHD: Kits — 12 ea. x 15 Gal", "product": "E100-PT4™-SHD: Kits", "packaging": "12 ea. x 15 Gal", "category": "Resinous Products", "tiers": {"conseille": {"USD": 17426.45, "EUR": 14522.04}, "gros_chantier": {"USD": 15842.23, "EUR": 13201.85}, "premium": {"USD": 19864.86, "EUR": 16554.05}}, "hasPrice": true},
+  {"id": "ECS-E100-PT4-SHD-KITS-04", "label": "E100-PT4™-SHD: Kits — 156 Gal", "product": "E100-PT4™-SHD: Kits", "packaging": "156 Gal", "category": "Resinous Products", "tiers": {"conseille": {"USD": 14022.14, "EUR": 11685.12}, "gros_chantier": {"USD": 12747.4, "EUR": 10622.83}, "premium": {"USD": 15984.2, "EUR": 13320.17}}, "hasPrice": true},
+  {"id": "ECS-E100-VB5-KITS-01", "label": "E100-VB5™: Kits — 2 Gal", "product": "E100-VB5™: Kits", "packaging": "2 Gal", "category": "Resinous Products", "tiers": {"conseille": {"USD": 228.46, "EUR": 190.39}, "gros_chantier": {"USD": 207.69, "EUR": 173.08}, "premium": {"USD": 260.43, "EUR": 217.02}}, "hasPrice": true},
+  {"id": "ECS-E100-VB5-KITS-02", "label": "E100-VB5™: Kits — 10 Gal", "product": "E100-VB5™: Kits", "packaging": "10 Gal", "category": "Resinous Products", "tiers": {"conseille": {"USD": 1067.66, "EUR": 889.72}, "gros_chantier": {"USD": 970.6, "EUR": 808.84}, "premium": {"USD": 1217.06, "EUR": 1014.21}}, "hasPrice": true},
+  {"id": "ECS-E100-VB5-KITS-03", "label": "E100-VB5™: Kits — 18 ea. x 10 Gal", "product": "E100-VB5™: Kits", "packaging": "18 ea. x 10 Gal", "category": "Resinous Products", "tiers": {"conseille": {"USD": 18362.92, "EUR": 15302.43}, "gros_chantier": {"USD": 16693.56, "EUR": 13911.3}, "premium": {"USD": 20932.36, "EUR": 17443.64}}, "hasPrice": true},
+  {"id": "ECS-E100-VB5-KITS-04", "label": "E100-VB5™: Kits — 104 Gal", "product": "E100-VB5™: Kits", "packaging": "104 Gal", "category": "Resinous Products", "tiers": {"conseille": {"USD": 9835.18, "EUR": 8195.98}, "gros_chantier": {"USD": 8941.07, "EUR": 7450.89}, "premium": {"USD": 11211.37, "EUR": 9342.81}}, "hasPrice": true},
+  {"id": "ECS-AUS-V-KITS-01", "label": "AUS-V™: Kits — 1.5 Gal", "product": "AUS-V™: Kits", "packaging": "1.5 Gal", "category": "Resinous Products", "tiers": {"conseille": {"USD": 287.27, "EUR": 239.4}, "gros_chantier": {"USD": 261.16, "EUR": 217.63}, "premium": {"USD": 327.47, "EUR": 272.89}}, "hasPrice": true},
+  {"id": "ECS-AUS-V-KITS-02", "label": "AUS-V™: Kits — 3 Gal", "product": "AUS-V™: Kits", "packaging": "3 Gal", "category": "Resinous Products", "tiers": {"conseille": {"USD": 549.67, "EUR": 458.06}, "gros_chantier": {"USD": 499.7, "EUR": 416.41}, "premium": {"USD": 626.58, "EUR": 522.15}}, "hasPrice": true},
+  {"id": "ECS-AUS-V-KITS-03", "label": "AUS-V™: Kits — 15 Gal", "product": "AUS-V™: Kits", "packaging": "15 Gal", "category": "Resinous Products", "tiers": {"conseille": {"USD": 2621.66, "EUR": 2184.72}, "gros_chantier": {"USD": 2383.33, "EUR": 1986.1}, "premium": {"USD": 2988.5, "EUR": 2490.41}}, "hasPrice": true},
+  {"id": "ECS-AUS-V-KITS-04", "label": "AUS-V™: Kits — 12 ea. x 15 Gal", "product": "AUS-V™: Kits", "packaging": "12 ea. x 15 Gal", "category": "Resinous Products", "tiers": {"conseille": {"USD": 30211.27, "EUR": 25176.06}, "gros_chantier": {"USD": 27464.79, "EUR": 22887.33}, "premium": {"USD": 34438.61, "EUR": 28698.84}}, "hasPrice": true},
+  {"id": "ECS-SPARTIC-ALL-MXP-KITS-01", "label": "SPARTIC-ALL™-MXP: Kits — 3 Gal", "product": "SPARTIC-ALL™-MXP: Kits", "packaging": "3 Gal", "category": "Resinous Products", "tiers": {"conseille": {"USD": 393.59, "EUR": 327.99}, "gros_chantier": {"USD": 357.81, "EUR": 298.17}, "premium": {"USD": 448.66, "EUR": 373.88}}, "hasPrice": true},
+  {"id": "ECS-SPARTIC-ALL-MXP-KITS-02", "label": "SPARTIC-ALL™-MXP: Kits — 15 Gal", "product": "SPARTIC-ALL™-MXP: Kits", "packaging": "15 Gal", "category": "Resinous Products", "tiers": {"conseille": {"USD": 1904.6, "EUR": 1587.17}, "gros_chantier": {"USD": 1731.46, "EUR": 1442.88}, "premium": {"USD": 2171.11, "EUR": 1809.26}}, "hasPrice": true},
+  {"id": "ECS-SPARTIC-ALL-MXP-KITS-03", "label": "SPARTIC-ALL™-MXP: Kits — 12 ea. x 15 Gal", "product": "SPARTIC-ALL™-MXP: Kits", "packaging": "12 ea. x 15 Gal", "category": "Resinous Products", "tiers": {"conseille": {"USD": 22230.94, "EUR": 18525.78}, "gros_chantier": {"USD": 20209.94, "EUR": 16841.62}, "premium": {"USD": 25341.62, "EUR": 21118.02}}, "hasPrice": true},
+  {"id": "ECS-THIN-FINISH-PRE-MIXED-OVERLAY-01", "label": "THIN-FINISH™ Pre-Mixed Overlay — 55 lb. Bag", "product": "THIN-FINISH™ Pre-Mixed Overlay", "packaging": "55 lb. Bag", "category": "Cementitious Products", "tiers": {"conseille": {"USD": 101.79, "EUR": 84.83}, "gros_chantier": {"USD": 92.54, "EUR": 77.11}, "premium": {"USD": 116.03, "EUR": 96.69}}, "hasPrice": true},
+  {"id": "ECS-THIN-FINISH-PRE-MIXED-OVERLAY-02", "label": "THIN-FINISH™ Pre-Mixed Overlay — 56 Bag/Plt.", "product": "THIN-FINISH™ Pre-Mixed Overlay", "packaging": "56 Bag/Plt.", "category": "Cementitious Products", "tiers": {"conseille": {"USD": 90.48, "EUR": 75.4}, "gros_chantier": {"USD": 82.25, "EUR": 68.55}, "premium": {"USD": 103.14, "EUR": 85.95}}, "hasPrice": true},
+  {"id": "ECS-THIN-FINISH-PRE-MIXED-OVERLAY-03", "label": "THIN-FINISH™ Pre-Mixed Overlay — 14 Pallets", "product": "THIN-FINISH™ Pre-Mixed Overlay", "packaging": "14 Pallets", "category": "Cementitious Products", "tiers": {"conseille": {"USD": 79.17, "EUR": 65.98}, "gros_chantier": {"USD": 71.97, "EUR": 59.98}, "premium": {"USD": 90.25, "EUR": 75.21}}, "hasPrice": true},
+  {"id": "ECS-TEXTURE-PAVE-PRE-MIXED-OVERLAY-01", "label": "TEXTURE-PAVE™ Pre-Mixed Overlay — 55 lb. Bag", "product": "TEXTURE-PAVE™ Pre-Mixed Overlay", "packaging": "55 lb. Bag", "category": "Cementitious Products", "tiers": {"conseille": {"USD": 65.6, "EUR": 54.67}, "gros_chantier": {"USD": 59.63, "EUR": 49.7}, "premium": {"USD": 74.78, "EUR": 62.31}}, "hasPrice": true},
+  {"id": "ECS-TEXTURE-PAVE-PRE-MIXED-OVERLAY-02", "label": "TEXTURE-PAVE™ Pre-Mixed Overlay — 56 Bag/Plt.", "product": "TEXTURE-PAVE™ Pre-Mixed Overlay", "packaging": "56 Bag/Plt.", "category": "Cementitious Products", "tiers": {"conseille": {"USD": 3293.47, "EUR": 2744.56}, "gros_chantier": {"USD": 2994.07, "EUR": 2495.05}, "premium": {"USD": 3754.31, "EUR": 3128.6}}, "hasPrice": true},
+  {"id": "ECS-TEXTURE-PAVE-PRE-MIXED-OVERLAY-03", "label": "TEXTURE-PAVE™ Pre-Mixed Overlay — 14 Pallets", "product": "TEXTURE-PAVE™ Pre-Mixed Overlay", "packaging": "14 Pallets", "category": "Cementitious Products", "tiers": {"conseille": {"USD": 42561.79, "EUR": 35468.16}, "gros_chantier": {"USD": 38692.54, "EUR": 32243.78}, "premium": {"USD": 48517.29, "EUR": 40431.07}}, "hasPrice": true},
+  {"id": "ECS-MICRO-FINISH-PRE-MIXED-OVERLAY-01", "label": "MICRO-FINISH™ Pre-Mixed Overlay — 30 lb. Bag", "product": "MICRO-FINISH™ Pre-Mixed Overlay", "packaging": "30 lb. Bag", "category": "Cementitious Products", "tiers": {"conseille": {"USD": 67.86, "EUR": 56.55}, "gros_chantier": {"USD": 61.69, "EUR": 51.41}, "premium": {"USD": 77.36, "EUR": 64.46}}, "hasPrice": true},
+  {"id": "ECS-MICRO-FINISH-PRE-MIXED-OVERLAY-02", "label": "MICRO-FINISH™ Pre-Mixed Overlay — 56 Bag/Plt.", "product": "MICRO-FINISH™ Pre-Mixed Overlay", "packaging": "56 Bag/Plt.", "category": "Cementitious Products", "tiers": {"conseille": {"USD": 3546.82, "EUR": 2955.68}, "gros_chantier": {"USD": 3224.38, "EUR": 2686.98}, "premium": {"USD": 4043.11, "EUR": 3369.26}}, "hasPrice": true},
+  {"id": "ECS-MICRO-FINISH-PRE-MIXED-OVERLAY-03", "label": "MICRO-FINISH™ Pre-Mixed Overlay — 14 Pallets", "product": "MICRO-FINISH™ Pre-Mixed Overlay", "packaging": "14 Pallets", "category": "Cementitious Products", "tiers": {"conseille": {"USD": 47882.02, "EUR": 39901.68}, "gros_chantier": {"USD": 43529.11, "EUR": 36274.25}, "premium": {"USD": 54581.95, "EUR": 45484.96}}, "hasPrice": true},
+  {"id": "ECS-BACE-LINE-6-3M-01", "label": "BACE-LINE™ 6.3M — 50 lb. Bag", "product": "BACE-LINE™ 6.3M", "packaging": "50 lb. Bag", "category": "Cementitious Products", "tiers": {"conseille": {"USD": 124.41, "EUR": 103.68}, "gros_chantier": {"USD": 113.1, "EUR": 94.25}, "premium": {"USD": 141.82, "EUR": 118.18}}, "hasPrice": true},
+  {"id": "ECS-BACE-LINE-6-3M-02", "label": "BACE-LINE™ 6.3M — 56 Bag/Plt.", "product": "BACE-LINE™ 6.3M", "packaging": "56 Bag/Plt.", "category": "Cementitious Products", "tiers": {"conseille": {"USD": 6460.27, "EUR": 5383.56}, "gros_chantier": {"USD": 5872.97, "EUR": 4894.15}, "premium": {"USD": 7364.23, "EUR": 6136.86}}, "hasPrice": true},
+  {"id": "ECS-JFS-450H-JOINT-FILLER-GRAY-01", "label": "JFS-450H™ Joint Filler Gray — 305 ML Tube", "product": "JFS-450H™ Joint Filler Gray", "packaging": "305 ML Tube", "category": "Supplemental Products", "tiers": {"conseille": {"USD": 13.57, "EUR": 11.31}, "gros_chantier": {"USD": 12.34, "EUR": 10.28}, "premium": {"USD": 15.47, "EUR": 12.89}}, "hasPrice": true},
+  {"id": "ECS-JFS-450H-JOINT-FILLER-GRAY-02", "label": "JFS-450H™ Joint Filler Gray — 24 ea. Case", "product": "JFS-450H™ Joint Filler Gray", "packaging": "24 ea. Case", "category": "Supplemental Products", "tiers": {"conseille": {"USD": 298.58, "EUR": 248.82}, "gros_chantier": {"USD": 271.44, "EUR": 226.2}, "premium": {"USD": 340.36, "EUR": 283.64}}, "hasPrice": true},
+  {"id": "ECS-REFLECTOR-ENHANCER-POWDER-01", "label": "REFLECTOR™ Enhancer Powder — 32 oz. Jar", "product": "REFLECTOR™ Enhancer Powder", "packaging": "32 oz. Jar", "category": "Pigment/Colorant/Stain Products", "tiers": {"conseille": {"USD": 106.31, "EUR": 88.6}, "gros_chantier": {"USD": 96.65, "EUR": 80.54}, "premium": {"USD": 121.19, "EUR": 100.99}}, "hasPrice": true},
+  {"id": "ECS-REFLECTOR-ENHANCER-POWDER-02", "label": "REFLECTOR™ Enhancer Powder — 2 oz. Jar", "product": "REFLECTOR™ Enhancer Powder", "packaging": "2 oz. Jar", "category": "Pigment/Colorant/Stain Products", "tiers": {"conseille": {"USD": 13.57, "EUR": 11.31}, "gros_chantier": {"USD": 12.34, "EUR": 10.28}, "premium": {"USD": 15.47, "EUR": 12.89}}, "hasPrice": true},
+  {"id": "ECS-REFLECTOR-ENHANCER-POWDER-03", "label": "REFLECTOR™ Enhancer Powder — Sample Kit", "product": "REFLECTOR™ Enhancer Powder", "packaging": "Sample Kit", "category": "Pigment/Colorant/Stain Products", "tiers": {"conseille": {"USD": 248.82, "EUR": 207.35}, "gros_chantier": {"USD": 226.2, "EUR": 188.5}, "premium": {"USD": 283.64, "EUR": 236.36}}, "hasPrice": true},
+  {"id": "ECS-ULTRA-STONE-ANTIQUING-STAIN-01", "label": "ULTRA-STONE™ Antiquing Stain — 1 Gal", "product": "ULTRA-STONE™ Antiquing Stain", "packaging": "1 Gal", "category": "Pigment/Colorant/Stain Products", "tiers": {"conseille": {"USD": 76.91, "EUR": 64.09}, "gros_chantier": {"USD": 69.92, "EUR": 58.26}, "premium": {"USD": 87.67, "EUR": 73.06}}, "hasPrice": true},
+  {"id": "ECS-ULTRA-STONE-ANTIQUING-STAIN-02", "label": "ULTRA-STONE™ Antiquing Stain — 5 Gal", "product": "ULTRA-STONE™ Antiquing Stain", "packaging": "5 Gal", "category": "Pigment/Colorant/Stain Products", "tiers": {"conseille": {"USD": 346.09, "EUR": 288.41}, "gros_chantier": {"USD": 314.62, "EUR": 262.19}, "premium": {"USD": 394.51, "EUR": 328.76}}, "hasPrice": true},
+  {"id": "ECS-ULTRA-STONE-ANTIQUING-STAIN-03", "label": "ULTRA-STONE™ Antiquing Stain — 36 ea. x 5 Gal", "product": "ULTRA-STONE™ Antiquing Stain", "packaging": "36 ea. x 5 Gal", "category": "Pigment/Colorant/Stain Products", "tiers": {"conseille": {"USD": 12051.94, "EUR": 10043.28}, "gros_chantier": {"USD": 10956.31, "EUR": 9130.25}, "premium": {"USD": 13738.31, "EUR": 11448.6}}, "hasPrice": true},
+  {"id": "ECS-CSS-EMULSION-CLEAR-CONCENTRATED-SEALER-01", "label": "CSS EMULSION™ Clear Concentrated Sealer — 1 Gal", "product": "CSS EMULSION™ Clear Concentrated Sealer", "packaging": "1 Gal", "category": "Single Component Sealer Products", "tiers": {"conseille": {"USD": 88.22, "EUR": 73.52}, "gros_chantier": {"USD": 80.2, "EUR": 66.83}, "premium": {"USD": 100.56, "EUR": 83.8}}, "hasPrice": true},
+  {"id": "ECS-CSS-EMULSION-CLEAR-CONCENTRATED-SEALER-02", "label": "CSS EMULSION™ Clear Concentrated Sealer — 5 Gal", "product": "CSS EMULSION™ Clear Concentrated Sealer", "packaging": "5 Gal", "category": "Single Component Sealer Products", "tiers": {"conseille": {"USD": 427.52, "EUR": 356.27}, "gros_chantier": {"USD": 388.65, "EUR": 323.88}, "premium": {"USD": 487.34, "EUR": 406.12}}, "hasPrice": true},
+  {"id": "ECS-CSS-EMULSION-CLEAR-CONCENTRATED-SEALER-03", "label": "CSS EMULSION™ Clear Concentrated Sealer — 36 ea. x 5 Gal", "product": "CSS EMULSION™ Clear Concentrated Sealer", "packaging": "36 ea. x 5 Gal", "category": "Single Component Sealer Products", "tiers": {"conseille": {"USD": 14983.49, "EUR": 12486.24}, "gros_chantier": {"USD": 13621.35, "EUR": 11351.13}, "premium": {"USD": 17080.07, "EUR": 14233.39}}, "hasPrice": true},
+  {"id": "ECS-CSS-EMULSION-CLEAR-CONCENTRATED-SEALER-04", "label": "CSS EMULSION™ Clear Concentrated Sealer — 55 Gal", "product": "CSS EMULSION™ Clear Concentrated Sealer", "packaging": "55 Gal", "category": "Single Component Sealer Products", "tiers": {"conseille": {"USD": 4471.97, "EUR": 3726.65}, "gros_chantier": {"USD": 4065.43, "EUR": 3387.86}, "premium": {"USD": 5097.72, "EUR": 4248.1}}, "hasPrice": true},
+  {"id": "ECS-MERCAP-445-CRACK-REPAIR-01", "label": "MERCAP-445™ Crack Repair — 900 ML DC", "product": "MERCAP-445™ Crack Repair", "packaging": "900 ML DC", "category": "Supplemental Products", "tiers": {"conseille": {"USD": 83.69, "EUR": 69.75}, "gros_chantier": {"USD": 76.09, "EUR": 63.4}, "premium": {"USD": 95.4, "EUR": 79.5}}, "hasPrice": true},
+  {"id": "ECS-MERCAP-445-CRACK-REPAIR-02", "label": "MERCAP-445™ Crack Repair — 1.5 Gal Kit", "product": "MERCAP-445™ Crack Repair", "packaging": "1.5 Gal Kit", "category": "Supplemental Products", "tiers": {"conseille": {"USD": 260.13, "EUR": 216.78}, "gros_chantier": {"USD": 236.48, "EUR": 197.07}, "premium": {"USD": 296.53, "EUR": 247.11}}, "hasPrice": true},
+  {"id": "ECS-SILICA-QUARTZ-ROUNDED-40-SIEVE-01", "label": "Silica Quartz Rounded 40 sieve — 80 Lb. Bag", "product": "Silica Quartz Rounded 40 sieve", "packaging": "80 Lb. Bag", "category": "Supplemental Products", "tiers": {"conseille": {"USD": 38.45, "EUR": 32.05}, "gros_chantier": {"USD": 34.96, "EUR": 29.13}, "premium": {"USD": 43.83, "EUR": 36.53}}, "hasPrice": true},
+  {"id": "ECS-SILICA-QUARTZ-SEMI-TROWEL-50-SIEVE-01", "label": "Silica Quartz Semi Trowel 50 sieve — 80 Lb. Bag", "product": "Silica Quartz Semi Trowel 50 sieve", "packaging": "80 Lb. Bag", "category": "Supplemental Products", "tiers": {"conseille": {"USD": 38.45, "EUR": 32.05}, "gros_chantier": {"USD": 34.96, "EUR": 29.13}, "premium": {"USD": 43.83, "EUR": 36.53}}, "hasPrice": true},
+  {"id": "ECS-SILICA-FLOUR-01", "label": "Silica Flour — 50 Lb. Bag", "product": "Silica Flour", "packaging": "50 Lb. Bag", "category": "Supplemental Products", "tiers": {"conseille": {"USD": 42.98, "EUR": 35.82}, "gros_chantier": {"USD": 39.07, "EUR": 32.56}, "premium": {"USD": 48.99, "EUR": 40.83}}, "hasPrice": true},
+  {"id": "ECS-MIXING-PAIL-5-GALLON-01", "label": "Mixing Pail 5 Gallon — 1 ea", "product": "Mixing Pail 5 Gallon", "packaging": "1 ea", "category": "Supplemental Products", "tiers": {"conseille": {"USD": 12.17, "EUR": 10.14}, "gros_chantier": {"USD": 11.06, "EUR": 9.22}, "premium": {"USD": 13.87, "EUR": 11.56}}, "hasPrice": true},
+  {"id": "ECS-MIXING-PAIL-6-GALLON-01", "label": "Mixing Pail 6 Gallon — 1 ea", "product": "Mixing Pail 6 Gallon", "packaging": "1 ea", "category": "Supplemental Products", "tiers": {"conseille": {"USD": 12.17, "EUR": 10.14}, "gros_chantier": {"USD": 11.06, "EUR": 9.22}, "premium": {"USD": 13.87, "EUR": 11.56}}, "hasPrice": true},
+  {"id": "ECS-MIXING-PAIL-5-QUART-01", "label": "Mixing Pail 5 Quart — 1 ea", "product": "Mixing Pail 5 Quart", "packaging": "1 ea", "category": "Supplemental Products", "tiers": {"conseille": {"USD": 4.25, "EUR": 3.54}, "gros_chantier": {"USD": 3.87, "EUR": 3.22}, "premium": {"USD": 4.85, "EUR": 4.04}}, "hasPrice": true},
+  {"id": "ECS-MIXING-PAIL-5-QUART-CASE-OF-50-01", "label": "Mixing Pail 5 Quart Case of 50 — Case 50", "product": "Mixing Pail 5 Quart Case of 50", "packaging": "Case 50", "category": "Supplemental Products", "tiers": {"conseille": {"USD": 203.58, "EUR": 169.65}, "gros_chantier": {"USD": 185.07, "EUR": 154.23}, "premium": {"USD": 232.07, "EUR": 193.39}}, "hasPrice": true},
+  {"id": "ECS-MIXING-CONTAINER-2-5-QUART-01", "label": "Mixing Container 2.5 Quart — 1 ea", "product": "Mixing Container 2.5 Quart", "packaging": "1 ea", "category": "Supplemental Products", "tiers": {"conseille": {"USD": 2.19, "EUR": 1.83}, "gros_chantier": {"USD": 1.99, "EUR": 1.66}, "premium": {"USD": 2.5, "EUR": 2.08}}, "hasPrice": true},
+  {"id": "ECS-MIXING-CONTAINER-2-5-QUART-CASE-OF-50-01", "label": "Mixing Container 2.5 Quart Case of 50 — Case 50", "product": "Mixing Container 2.5 Quart Case of 50", "packaging": "Case 50", "category": "Supplemental Products", "tiers": {"conseille": {"USD": 104.05, "EUR": 86.71}, "gros_chantier": {"USD": 94.59, "EUR": 78.83}, "premium": {"USD": 118.61, "EUR": 98.84}}, "hasPrice": true}
+].map((p) => ({
+  ...p,
+  // legacy compat aliases (le code existant peut lire priceEUR/resaleEUR)
+  priceEUR: p.tiers.conseille.EUR,
+  priceUSD: p.tiers.conseille.USD,
+  resaleEUR: p.tiers.conseille.EUR,
+  resaleUSD: p.tiers.conseille.USD,
+})) as EcsProduct[];
