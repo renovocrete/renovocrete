@@ -1004,3 +1004,22 @@ function AdminContractorsTab() {
     </div>
   );
 }
+
+function ChatTab() {
+  return (
+    <Card className="p-6">
+      <h2 className="font-heading text-xl font-semibold mb-2">Chat avec RENOVO CRETE</h2>
+      <p className="text-sm text-muted-foreground mb-4">
+        Utilisez la bulle Chat en bas à droite de l'écran pour discuter en direct avec un administrateur RENOVO CRETE.
+        Vos questions techniques (systèmes, couleurs, quantités) sont priorisées.
+      </p>
+      <div className="rounded-lg border bg-secondary/30 p-4 text-sm">
+        <p className="font-semibold mb-1">Support pro</p>
+        <p className="text-muted-foreground">
+          Horaires : 8h–17h (heure Saint-Martin). En dehors, le chatbot IA répond automatiquement
+          et un admin reprend la conversation à la réouverture.
+        </p>
+      </div>
+    </Card>
+  );
+}
