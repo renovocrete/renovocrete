@@ -682,7 +682,7 @@ function CalculatorTab({ isAdmin = false }: { isAdmin?: boolean }) {
 
         <div className="flex flex-wrap justify-end gap-2 mt-6">
           <Button onClick={copyRecap} disabled={!out} variant="outline"><Copy className="w-4 h-4 mr-2" />{t("Copier récap", "Copy summary")}</Button>
-          <Button onClick={exportInternal} disabled={!out} variant="outline"><FileDown className="w-4 h-4 mr-2" />{t("PDF interne", "Internal PDF")}</Button>
+          {isAdmin && <Button onClick={exportInternal} disabled={!out} variant="outline"><FileDown className="w-4 h-4 mr-2" />{t("PDF interne", "Internal PDF")}</Button>}
           <Button onClick={exportClient} disabled={!out} className="bg-gradient-brand-deep"><FileText className="w-4 h-4 mr-2" />{t("PDF client", "Client PDF")}</Button>
         </div>
       </Card>
