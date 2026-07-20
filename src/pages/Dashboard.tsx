@@ -578,11 +578,13 @@ function CalculatorTab({ isAdmin = false }: { isAdmin?: boolean }) {
       <Card className="p-6">
         <div className="flex items-start justify-between flex-wrap gap-3 mb-1">
           <h2 className="font-heading text-xl font-semibold">{t("Calculateur chantier", "Project calculator")}</h2>
-          <div className="flex items-center gap-2 text-sm">
-            <Euro className="w-4 h-4 text-muted-foreground" />
-            <Label htmlFor="quote-mode" className="cursor-pointer">{t("Mode devis", "Quote mode")}</Label>
-            <Switch id="quote-mode" checked={quoteMode} onCheckedChange={setQuoteMode} />
-          </div>
+          {isAdmin && (
+            <div className="flex items-center gap-2 text-sm">
+              <Euro className="w-4 h-4 text-muted-foreground" />
+              <Label htmlFor="quote-mode" className="cursor-pointer">{t("Mode devis (admin)", "Quote mode (admin)")}</Label>
+              <Switch id="quote-mode" checked={quoteMode} onCheckedChange={setQuoteMode} />
+            </div>
+          )}
         </div>
         <p className="text-sm text-muted-foreground mb-6">
           {t("Volumes A+B, coûts matière et main-d'œuvre, marge et prix de vente.", "A+B volumes, material & labor costs, margin and sale price.")}
