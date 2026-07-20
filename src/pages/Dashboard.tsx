@@ -685,10 +685,10 @@ function CalculatorTab({ isAdmin = false }: { isAdmin?: boolean }) {
         </div>
       </Card>
 
-      {/* Price grid for all products */}
-      {quoteMode && (
+      {/* Price grid for all products — admin only */}
+      {isAdmin && quoteMode && (
         <Card className="p-4">
-          <Label className="mb-2 block text-sm">{t("Prix par gallon (€) — toutes gammes (sauvegardés localement)", "Price per gallon (€) — all lines (saved locally)")}</Label>
+          <Label className="mb-2 block text-sm">{t("Prix par gallon (€) — toutes gammes (admin uniquement)", "Price per gallon (€) — all lines (admin only)")}</Label>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-2">
             {CATALOGS.map((c) => (
               <div key={c.id} className={`p-2 rounded border ${product === c.id ? "border-primary bg-primary/5" : "border-border"}`}>
