@@ -453,6 +453,54 @@ function CalculatorTab({ isAdmin = false, uid, isPreview, reloadEntry, onReloadH
 
   useEffect(() => { listHistory().then(setHistory); }, []);
 
+  useEffect(() => {
+    if (!reloadEntry) return;
+    setProduct(reloadEntry.productKey as ProductLine);
+    setSurface(String(reloadEntry.surface));
+    setCoats(String(reloadEntry.coats));
+    setClientName(reloadEntry.clientName === "—" ? "" : (reloadEntry.clientName || ""));
+    setSiteAddress(reloadEntry.siteAddress || "");
+    setNotes(reloadEntry.notes || "");
+    if (reloadEntry.pricePerGallon) updatePrice(reloadEntry.productKey as ProductLine, String(reloadEntry.pricePerGallon));
+    toast.success(t("Devis rechargé — modifiez puis renvoyez", "Quote reloaded — edit then resend"));
+    onReloadHandled?.();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reloadEntry]);
+
+  const [sending, setSending] = useState(false);
+  const sendOrder = async () => {
+    if (!validate() || !out) return toast.error(t("Corrigez les erreurs", "Fix the errors"));
+    if (isPreview || !uid) return toast.info(t("Aperçu — connectez-vous pour envoyer.", "Preview — sign in to send."));
+    setSending(true);
+    const entry: any = {
+      productKey: product, productName: out.productName,
+      surface: parsed.data!.surface, coats: parsed.data!.coats,
+      ratio: out.ratio, totalGallons: out.totalGallons, partA: out.partA, partB: out.partB,
+      pricePerGallon: unitPrice,
+      costMaterial: out.costMaterial, costLabor: out.costLabor, totalCost: out.totalCost,
+      salePrice: out.salePrice, marginAmount: out.marginAmount, marginPct: out.marginPct,
+      clientName: clientName || "—", siteAddress, notes,
+    };
+    const items = [{
+      id: product, product: out.productName, packaging: `${out.totalGallons} gal`,
+      qty: out.totalGallons, unit_price: unitPrice, line_total: +(unitPrice * out.totalGallons).toFixed(2),
+      quote_entry: entry,
+    }];
+    const subtotal = +(unitPrice * out.totalGallons).toFixed(2);
+    const { error } = await (supabase as any).from("contractor_orders").insert({
+      user_id: uid, status: "submitted", currency: "EUR", items, subtotal,
+      notes: notes || null,
+      project_name: clientName || null, project_city: siteAddress || null,
+      system_label: out.productName, surface_m2: parsed.data!.surface,
+      terms_accepted: true,
+    });
+    setSending(false);
+    if (error) return toast.error(error.message);
+    await persistHistory();
+    toast.success(t("Commande envoyée à l'administrateur", "Order sent to admin"));
+    onOrderSent?.();
+  };
+
   const schema = z.object({
     product: z.enum(PRODUCT_IDS, { errorMap: () => ({ message: t("Produit ECS invalide", "Invalid ECS product") }) }),
     surface: z.coerce.number({ invalid_type_error: t("Surface invalide", "Invalid surface") })
