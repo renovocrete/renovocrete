@@ -303,29 +303,40 @@ export default function Dashboard() {
         </div>
 
 
-        <Tabs defaultValue="projects">
+        <DashboardTabs user={user} isAdmin={isAdmin} isPreview={isPreview} projects={projects} profile={profile} loadAll={loadAll} />
+      </div>
+    </div>
+  );
+}
+
+function DashboardTabs({ user, isAdmin, isPreview, projects, profile, loadAll }: any) {
+  const { t } = useLanguage();
+  const [tab, setTab] = useState("projects");
+  const [reloadEntry, setReloadEntry] = useState<any>(null);
+  const openCalculatorWith = (entry: any) => { setReloadEntry(entry); setTab("calculator"); };
+  return (
+        <Tabs value={tab} onValueChange={setTab}>
           <TabsList className="mb-4 flex-wrap h-auto">
             <TabsTrigger value="projects"><Briefcase className="w-4 h-4 mr-1.5" />{t("Chantiers", "Projects")}</TabsTrigger>
             <TabsTrigger value="calculator"><CalcIcon className="w-4 h-4 mr-1.5" />{t("Calculateur", "Calculator")}</TabsTrigger>
             <TabsTrigger value="visualizer"><Wand2 className="w-4 h-4 mr-1.5" />{t("Visualiseur IA", "AI visualizer")}</TabsTrigger>
             <TabsTrigger value="profile"><User className="w-4 h-4 mr-1.5" />{t("Mon profil public", "Public profile")}</TabsTrigger>
-            <TabsTrigger value="orders"><ShoppingCart className="w-4 h-4 mr-1.5" />{t("Commande produits", "Orders")}</TabsTrigger>
+            <TabsTrigger value="orders"><ShoppingCart className="w-4 h-4 mr-1.5" />{t("Mes commandes", "My orders")}</TabsTrigger>
             <TabsTrigger value="chat"><Info className="w-4 h-4 mr-1.5" />{t("Chat", "Chat")}</TabsTrigger>
             {isAdmin && <TabsTrigger value="admin"><Users className="w-4 h-4 mr-1.5" />{t("Sous-traitants", "Contractors")}</TabsTrigger>}
           </TabsList>
 
           <TabsContent value="projects"><ProjectsTab uid={user.id} projects={projects} onChange={() => loadAll(user.id)} /></TabsContent>
-          <TabsContent value="calculator"><CalculatorTab isAdmin={isAdmin} /></TabsContent>
+          <TabsContent value="calculator"><CalculatorTab isAdmin={isAdmin} uid={user.id} isPreview={isPreview} reloadEntry={reloadEntry} onReloadHandled={() => setReloadEntry(null)} onOrderSent={() => setTab("orders")} /></TabsContent>
           <TabsContent value="visualizer"><VisualizerTab uid={user.id} /></TabsContent>
           <TabsContent value="profile"><ProfileTab profile={profile} onSaved={() => loadAll(user.id)} /></TabsContent>
-          <TabsContent value="orders"><OrdersTab uid={user.id} isPreview={isPreview} /></TabsContent>
+          <TabsContent value="orders"><OrdersTab uid={user.id} isPreview={isPreview} onModify={openCalculatorWith} /></TabsContent>
           <TabsContent value="chat"><ChatTab /></TabsContent>
           {isAdmin && <TabsContent value="admin"><AdminContractorsTab /></TabsContent>}
         </Tabs>
-      </div>
-    </div>
   );
 }
+
 
 function ProjectsTab({ uid, projects, onChange }: { uid: string; projects: any[]; onChange: () => void }) {
   const { t } = useLanguage();
