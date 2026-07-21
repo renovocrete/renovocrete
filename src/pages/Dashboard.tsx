@@ -303,29 +303,40 @@ export default function Dashboard() {
         </div>
 
 
-        <Tabs defaultValue="projects">
+        <DashboardTabs user={user} isAdmin={isAdmin} isPreview={isPreview} projects={projects} profile={profile} loadAll={loadAll} />
+      </div>
+    </div>
+  );
+}
+
+function DashboardTabs({ user, isAdmin, isPreview, projects, profile, loadAll }: any) {
+  const { t } = useLanguage();
+  const [tab, setTab] = useState("projects");
+  const [reloadEntry, setReloadEntry] = useState<any>(null);
+  const openCalculatorWith = (entry: any) => { setReloadEntry(entry); setTab("calculator"); };
+  return (
+        <Tabs value={tab} onValueChange={setTab}>
           <TabsList className="mb-4 flex-wrap h-auto">
             <TabsTrigger value="projects"><Briefcase className="w-4 h-4 mr-1.5" />{t("Chantiers", "Projects")}</TabsTrigger>
             <TabsTrigger value="calculator"><CalcIcon className="w-4 h-4 mr-1.5" />{t("Calculateur", "Calculator")}</TabsTrigger>
             <TabsTrigger value="visualizer"><Wand2 className="w-4 h-4 mr-1.5" />{t("Visualiseur IA", "AI visualizer")}</TabsTrigger>
             <TabsTrigger value="profile"><User className="w-4 h-4 mr-1.5" />{t("Mon profil public", "Public profile")}</TabsTrigger>
-            <TabsTrigger value="orders"><ShoppingCart className="w-4 h-4 mr-1.5" />{t("Commande produits", "Orders")}</TabsTrigger>
+            <TabsTrigger value="orders"><ShoppingCart className="w-4 h-4 mr-1.5" />{t("Mes commandes", "My orders")}</TabsTrigger>
             <TabsTrigger value="chat"><Info className="w-4 h-4 mr-1.5" />{t("Chat", "Chat")}</TabsTrigger>
             {isAdmin && <TabsTrigger value="admin"><Users className="w-4 h-4 mr-1.5" />{t("Sous-traitants", "Contractors")}</TabsTrigger>}
           </TabsList>
 
           <TabsContent value="projects"><ProjectsTab uid={user.id} projects={projects} onChange={() => loadAll(user.id)} /></TabsContent>
-          <TabsContent value="calculator"><CalculatorTab isAdmin={isAdmin} /></TabsContent>
+          <TabsContent value="calculator"><CalculatorTab isAdmin={isAdmin} uid={user.id} isPreview={isPreview} reloadEntry={reloadEntry} onReloadHandled={() => setReloadEntry(null)} onOrderSent={() => setTab("orders")} /></TabsContent>
           <TabsContent value="visualizer"><VisualizerTab uid={user.id} /></TabsContent>
           <TabsContent value="profile"><ProfileTab profile={profile} onSaved={() => loadAll(user.id)} /></TabsContent>
-          <TabsContent value="orders"><OrdersTab uid={user.id} isPreview={isPreview} /></TabsContent>
+          <TabsContent value="orders"><OrdersTab uid={user.id} isPreview={isPreview} onModify={openCalculatorWith} /></TabsContent>
           <TabsContent value="chat"><ChatTab /></TabsContent>
           {isAdmin && <TabsContent value="admin"><AdminContractorsTab /></TabsContent>}
         </Tabs>
-      </div>
-    </div>
   );
 }
+
 
 function ProjectsTab({ uid, projects, onChange }: { uid: string; projects: any[]; onChange: () => void }) {
   const { t } = useLanguage();
@@ -419,7 +430,7 @@ const DEFAULT_PRICES: Record<ProductLine, number> = {
 };
 const PRODUCT_IDS = CATALOGS.map((c) => c.id) as [ProductLine, ...ProductLine[]];
 
-function CalculatorTab({ isAdmin = false }: { isAdmin?: boolean }) {
+function CalculatorTab({ isAdmin = false, uid, isPreview, reloadEntry, onReloadHandled, onOrderSent }: { isAdmin?: boolean; uid?: string; isPreview?: boolean; reloadEntry?: any; onReloadHandled?: () => void; onOrderSent?: () => void }) {
   const { t, lang } = useLanguage();
   const [product, setProduct] = useState<ProductLine>("reflector");
   const [surface, setSurface] = useState("30");
@@ -441,6 +452,54 @@ function CalculatorTab({ isAdmin = false }: { isAdmin?: boolean }) {
   const [history, setHistory] = useState<QuoteHistoryEntry[]>([]);
 
   useEffect(() => { listHistory().then(setHistory); }, []);
+
+  useEffect(() => {
+    if (!reloadEntry) return;
+    setProduct(reloadEntry.productKey as ProductLine);
+    setSurface(String(reloadEntry.surface));
+    setCoats(String(reloadEntry.coats));
+    setClientName(reloadEntry.clientName === "—" ? "" : (reloadEntry.clientName || ""));
+    setSiteAddress(reloadEntry.siteAddress || "");
+    setNotes(reloadEntry.notes || "");
+    if (reloadEntry.pricePerGallon) updatePrice(reloadEntry.productKey as ProductLine, String(reloadEntry.pricePerGallon));
+    toast.success(t("Devis rechargé — modifiez puis renvoyez", "Quote reloaded — edit then resend"));
+    onReloadHandled?.();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reloadEntry]);
+
+  const [sending, setSending] = useState(false);
+  const sendOrder = async () => {
+    if (!validate() || !out) return toast.error(t("Corrigez les erreurs", "Fix the errors"));
+    if (isPreview || !uid) return toast.info(t("Aperçu — connectez-vous pour envoyer.", "Preview — sign in to send."));
+    setSending(true);
+    const entry: any = {
+      productKey: product, productName: out.productName,
+      surface: parsed.data!.surface, coats: parsed.data!.coats,
+      ratio: out.ratio, totalGallons: out.totalGallons, partA: out.partA, partB: out.partB,
+      pricePerGallon: unitPrice,
+      costMaterial: out.costMaterial, costLabor: out.costLabor, totalCost: out.totalCost,
+      salePrice: out.salePrice, marginAmount: out.marginAmount, marginPct: out.marginPct,
+      clientName: clientName || "—", siteAddress, notes,
+    };
+    const items = [{
+      id: product, product: out.productName, packaging: `${out.totalGallons} gal`,
+      qty: out.totalGallons, unit_price: unitPrice, line_total: +(unitPrice * out.totalGallons).toFixed(2),
+      quote_entry: entry,
+    }];
+    const subtotal = +(unitPrice * out.totalGallons).toFixed(2);
+    const { error } = await (supabase as any).from("contractor_orders").insert({
+      user_id: uid, status: "submitted", currency: "EUR", items, subtotal,
+      notes: notes || null,
+      project_name: clientName || null, project_city: siteAddress || null,
+      system_label: out.productName, surface_m2: parsed.data!.surface,
+      terms_accepted: true,
+    });
+    setSending(false);
+    if (error) return toast.error(error.message);
+    await persistHistory();
+    toast.success(t("Commande envoyée à l'administrateur", "Order sent to admin"));
+    onOrderSent?.();
+  };
 
   const schema = z.object({
     product: z.enum(PRODUCT_IDS, { errorMap: () => ({ message: t("Produit ECS invalide", "Invalid ECS product") }) }),
@@ -683,7 +742,11 @@ function CalculatorTab({ isAdmin = false }: { isAdmin?: boolean }) {
         <div className="flex flex-wrap justify-end gap-2 mt-6">
           <Button onClick={copyRecap} disabled={!out} variant="outline"><Copy className="w-4 h-4 mr-2" />{t("Copier récap", "Copy summary")}</Button>
           {isAdmin && <Button onClick={exportInternal} disabled={!out} variant="outline"><FileDown className="w-4 h-4 mr-2" />{t("PDF interne", "Internal PDF")}</Button>}
-          <Button onClick={exportClient} disabled={!out} className="bg-gradient-brand-deep"><FileText className="w-4 h-4 mr-2" />{t("PDF client", "Client PDF")}</Button>
+          <Button onClick={exportClient} disabled={!out} variant="outline"><FileText className="w-4 h-4 mr-2" />{t("PDF client", "Client PDF")}</Button>
+          <Button onClick={sendOrder} disabled={!out || sending} className="bg-gradient-brand-deep">
+            {sending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <ShoppingCart className="w-4 h-4 mr-2" />}
+            {t("Envoyer la commande", "Send order")}
+          </Button>
         </div>
       </Card>
 
