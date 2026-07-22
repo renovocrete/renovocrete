@@ -17,7 +17,7 @@ Deno.serve(async (req) => {
     if (!token) return json({ ok: false, code: "no_session", message: "Vous devez être connecté." }, 401);
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL");
-    const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+    const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || Deno.env.get("SUPABASE_ANON_KEY");
     if (!supabaseUrl || !serviceKey) {
       return json({ ok: false, code: "config_error", message: "Server configuration error" }, 500);
     }
