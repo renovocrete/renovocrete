@@ -74,7 +74,10 @@ export default function AdminLayout() {
               }
             >
               <it.icon className="w-4 h-4" />
-              {it.label}
+              <span className="flex-1">{it.label}</span>
+              {(it as any).badgeKey === "orders" && pendingOrders > 0 && (
+                <span className="ml-auto bg-destructive text-destructive-foreground text-[10px] font-bold rounded-full px-1.5 py-0.5 min-w-[18px] text-center">{pendingOrders}</span>
+              )}
             </NavLink>
           ))}
         </nav>
