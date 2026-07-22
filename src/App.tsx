@@ -89,6 +89,7 @@ const App = () => (
               <Route path="chatbot" element={<AdminChatbot />} />
               <Route path="live-chat" element={<AdminLiveChat />} />
               <Route path="parametres" element={<AdminSettings />} />
+              <Route path="commandes" element={<AdminOrders />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
