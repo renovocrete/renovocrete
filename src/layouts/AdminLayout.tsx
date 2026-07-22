@@ -20,10 +20,22 @@ export default function AdminLayout() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [impersonating, setImpersonating] = useState<string | null>(null);
+  const [pendingOrders, setPendingOrders] = useState(0);
 
   useEffect(() => {
     const v = sessionStorage.getItem("impersonation_active");
     setImpersonating(v);
+    const loadPending = async () => {
+      const { count } = await (supabase as any)
+        .from("contractor_orders").select("id", { count: "exact", head: true }).eq("status", "submitted");
+      setPendingOrders(count || 0);
+    };
+    loadPending();
+    const ch = supabase
+      .channel("admin-orders-nav")
+      .on("postgres_changes", { event: "*", schema: "public", table: "contractor_orders" }, loadPending)
+      .subscribe();
+    return () => { supabase.removeChannel(ch); };
   }, []);
 
   return (
