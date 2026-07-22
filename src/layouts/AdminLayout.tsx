@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { LayoutDashboard, Users, HardHat, MessageSquare, Bot, Settings, ArrowLeft, ShieldCheck, Headset } from "lucide-react";
+import { LayoutDashboard, Users, HardHat, MessageSquare, Bot, Settings, ArrowLeft, ShieldCheck, Headset, ShoppingCart } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
