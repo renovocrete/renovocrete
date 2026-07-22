@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 
 const items = [
   { to: "/admin/dashboard", icon: LayoutDashboard, label: "Tableau de bord" },
+  { to: "/admin/commandes", icon: ShoppingCart, label: "Commandes", badgeKey: "orders" as const },
   { to: "/admin/live-chat", icon: Headset, label: "Live Chat visiteurs" },
   { to: "/admin/sous-traitants", icon: Users, label: "Sous-traitants" },
   { to: "/admin/partenaires", icon: HardHat, label: "Architectes & Constructeurs" },
