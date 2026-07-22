@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { LayoutDashboard, Users, HardHat, MessageSquare, Bot, Settings, ArrowLeft, ShieldCheck, Headset } from "lucide-react";
+import { LayoutDashboard, Users, HardHat, MessageSquare, Bot, Settings, ArrowLeft, ShieldCheck, Headset, ShoppingCart } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 
 const items = [
   { to: "/admin/dashboard", icon: LayoutDashboard, label: "Tableau de bord" },
+  { to: "/admin/commandes", icon: ShoppingCart, label: "Commandes", badgeKey: "orders" as const },
   { to: "/admin/live-chat", icon: Headset, label: "Live Chat visiteurs" },
   { to: "/admin/sous-traitants", icon: Users, label: "Sous-traitants" },
   { to: "/admin/partenaires", icon: HardHat, label: "Architectes & Constructeurs" },
@@ -19,10 +20,22 @@ export default function AdminLayout() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [impersonating, setImpersonating] = useState<string | null>(null);
+  const [pendingOrders, setPendingOrders] = useState(0);
 
   useEffect(() => {
     const v = sessionStorage.getItem("impersonation_active");
     setImpersonating(v);
+    const loadPending = async () => {
+      const { count } = await (supabase as any)
+        .from("contractor_orders").select("id", { count: "exact", head: true }).eq("status", "submitted");
+      setPendingOrders(count || 0);
+    };
+    loadPending();
+    const ch = supabase
+      .channel("admin-orders-nav")
+      .on("postgres_changes", { event: "*", schema: "public", table: "contractor_orders" }, loadPending)
+      .subscribe();
+    return () => { supabase.removeChannel(ch); };
   }, []);
 
   return (
@@ -61,7 +74,10 @@ export default function AdminLayout() {
               }
             >
               <it.icon className="w-4 h-4" />
-              {it.label}
+              <span className="flex-1">{it.label}</span>
+              {(it as any).badgeKey === "orders" && pendingOrders > 0 && (
+                <span className="ml-auto bg-destructive text-destructive-foreground text-[10px] font-bold rounded-full px-1.5 py-0.5 min-w-[18px] text-center">{pendingOrders}</span>
+              )}
             </NavLink>
           ))}
         </nav>

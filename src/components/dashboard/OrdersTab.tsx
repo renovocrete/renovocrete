@@ -71,9 +71,12 @@ export default function OrdersTab({ uid, isPreview, onModify }: Props) {
   };
 
   const statusLabel: Record<string, string> = {
-    draft: "Brouillon", submitted: "Envoyée", confirmed: "Confirmée", paid: "Payée", cancelled: "Annulée",
+    draft: "Brouillon", submitted: "Envoyée", modified: "Modifiée",
+    confirmed: "Confirmée", paid: "Payée", cancelled: "Annulée",
   };
-  const statusVariant = (s: string): any => s === "paid" ? "default" : s === "submitted" || s === "confirmed" ? "secondary" : "outline";
+  const statusVariant = (s: string): any =>
+    s === "paid" ? "default" : s === "submitted" ? "destructive" :
+    s === "modified" || s === "confirmed" ? "secondary" : "outline";
 
   if (isPreview) {
     return <Card className="p-8 text-center text-muted-foreground">Aperçu — connectez-vous pour voir vos commandes.</Card>;
