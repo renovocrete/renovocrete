@@ -19,6 +19,7 @@ import SousTraitantProfile from "./pages/SousTraitantProfile";
 import Formations from "./pages/Formations";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
+import EspacePro from "./pages/EspacePro";
 import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from "./pages/NotFound";
 import PartnerLayout from "./layouts/PartnerLayout";
@@ -66,8 +67,10 @@ const App = () => (
               <Route path="/formations" element={<Formations />} />
             </Route>
             <Route path="/auth" element={<Auth />} />
-            <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-            <Route path="/dashboard-preview" element={<Dashboard />} />
+            <Route path="/dashboard" element={<EspacePro />} />
+            <Route path="/dashboard-preview" element={<EspacePro />} />
+            <Route path="/espace-pro" element={<EspacePro />} />
+            <Route path="/dashboard-legacy" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="/partenaire/inscription" element={<PartnerInscription />} />
             <Route path="/partenaire" element={<ProtectedRoute requirePartner><PartnerLayout /></ProtectedRoute>}>
               <Route index element={<Navigate to="/partenaire/dashboard" replace />} />
