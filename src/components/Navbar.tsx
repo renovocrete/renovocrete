@@ -67,20 +67,31 @@ const Navbar = () => {
 
         <div className="hidden xl:flex items-center gap-2 flex-shrink-0">
           {/* Language switcher */}
-          <div className="flex items-center border border-border rounded-lg overflow-hidden mr-2">
-            <button
-              onClick={() => setLang("fr")}
-              className={`px-2.5 py-1.5 text-xs font-semibold transition-colors ${lang === "fr" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
-            >
-              FR
-            </button>
-            <button
-              onClick={() => setLang("en")}
-              className={`px-2.5 py-1.5 text-xs font-semibold transition-colors ${lang === "en" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
-            >
-              EN
-            </button>
-          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm" className="gap-1.5 px-2.5" aria-label={t("Langue", "Language")}>
+                <Languages className="w-4 h-4" />
+                <span className="text-xs font-semibold uppercase">{lang}</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="z-[60] min-w-[9rem] bg-popover">
+              {([
+                { code: "en", label: "English" },
+                { code: "fr", label: "Français" },
+                { code: "es", label: "Español" },
+              ] as const).map((l) => (
+                <DropdownMenuItem
+                  key={l.code}
+                  onClick={() => setLang(l.code)}
+                  className={lang === l.code ? "font-semibold text-primary" : ""}
+                >
+                  <span className="w-7 text-xs font-semibold uppercase">{l.code}</span>
+                  {l.label}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           <Button asChild variant="outline" size="sm" className="border-primary/20 text-primary hover:bg-primary/5">
             <Link to="/visualisation">
               <Eye className="w-4 h-4 mr-1.5" />
