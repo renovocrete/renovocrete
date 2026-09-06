@@ -578,7 +578,7 @@ function CalculatorTab({ isAdmin = false, uid, isPreview, reloadEntry, onReloadH
     if (!validate() || !out) return toast.error(t("Corrigez les erreurs", "Fix the errors"));
     exportClientQuotePDF({
       clientName: clientName || "Client", siteAddress, product: out.productName,
-      surface: parsed.data.surface, coats: parsed.data.coats, lang,
+      surface: parsed.data.surface, coats: parsed.data.coats, lang: lang === "fr" ? "fr" : "en",
     }, out);
     await persistHistory();
     toast.success(t("PDF client exporté", "Client PDF exported"));
@@ -588,7 +588,7 @@ function CalculatorTab({ isAdmin = false, uid, isPreview, reloadEntry, onReloadH
     if (!validate() || !out) return toast.error(t("Corrigez les erreurs", "Fix the errors"));
     exportInternalQuotePDF({
       clientName: clientName || "Chantier", siteAddress, product: out.productName,
-      surface: parsed.data.surface, coats: parsed.data.coats, pricePerGallon: unitPrice, notes, lang,
+      surface: parsed.data.surface, coats: parsed.data.coats, pricePerGallon: unitPrice, notes, lang: lang === "fr" ? "fr" : "en",
     }, out);
     await persistHistory();
     toast.success(t("PDF interne exporté", "Internal PDF exported"));
