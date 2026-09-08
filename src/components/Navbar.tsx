@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useAuth } from "@/hooks/useAuth";
+import { ESPACE_PRO_HREF } from "@/lib/espacePro";
 import logo from "@/assets/renovo-crete-logo.png";
 
 const Navbar = () => {
@@ -18,7 +19,6 @@ const Navbar = () => {
   const location = useLocation();
   const { lang, setLang, t } = useLanguage();
   const { user, canAccessDashboard, isAdmin, isPartner } = useAuth();
-  const dashHref = user ? "/dashboard" : "/dashboard-preview";
   const dashStatus = !user
     ? { label: t("Invité", "Guest"), cls: "bg-muted text-muted-foreground" }
     : canAccessDashboard
@@ -105,11 +105,11 @@ const Navbar = () => {
             </Link>
           </Button>
           <Button asChild variant="ghost" size="sm" className="text-foreground gap-1.5">
-            <Link to={dashHref}>
+            <a href={ESPACE_PRO_HREF}>
               <LayoutDashboard className="w-4 h-4" />
-              Dashboard
+              {t("Espace Pro", "Pro Portal")}
               <span className={`ml-1 px-1.5 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wide ${dashStatus.cls}`}>{dashStatus.label}</span>
-            </Link>
+            </a>
           </Button>
           {isPartner && (
             <Button asChild variant="ghost" size="sm" className="text-foreground">
@@ -170,11 +170,11 @@ const Navbar = () => {
               </Link>
             </Button>
             <Button asChild variant="ghost" className="w-full gap-1.5">
-              <Link to={dashHref} onClick={() => setIsOpen(false)}>
+              <a href={ESPACE_PRO_HREF} onClick={() => setIsOpen(false)}>
                 <LayoutDashboard className="w-4 h-4 mr-2" />
-                Dashboard
+                {t("Espace Pro", "Pro Portal")}
                 <span className={`ml-1 px-1.5 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wide ${dashStatus.cls}`}>{dashStatus.label}</span>
-              </Link>
+              </a>
             </Button>
             <Button asChild className="w-full bg-gradient-brand-deep">
               <Link to="/devis" onClick={() => setIsOpen(false)}>

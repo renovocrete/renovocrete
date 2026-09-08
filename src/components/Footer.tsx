@@ -105,9 +105,9 @@ const Footer = () => {
             <span className="hover:text-primary-foreground/60 cursor-pointer transition-colors">{t("Politique de confidentialité", "Privacy Policy")}</span>
             <span className="hover:text-primary-foreground/60 cursor-pointer transition-colors">{t("Conditions d'utilisation", "Terms of Service")}</span>
             <span className="hover:text-primary-foreground/60 cursor-pointer transition-colors">{t("Mentions légales", "Legal Notice")}</span>
-            <Link to="/auth" className="text-primary-foreground/40 hover:text-primary-light transition-colors flex items-center gap-2">
+            <a href="/espace-pro/index.html" className="text-primary-foreground/40 hover:text-primary-light transition-colors flex items-center gap-2">
               {t("Espace pro", "Pro area")} <DashboardStatusBadge compact />
-            </Link>
+            </a>
           </div>
         </div>
       </div>

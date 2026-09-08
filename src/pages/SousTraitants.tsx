@@ -44,7 +44,7 @@ export default function SousTraitants() {
               <Link to="/auth">{t("Se connecter", "Sign in")} <ArrowRight className="w-4 h-4 ml-2" /></Link>
             </Button>
             <Button asChild variant="outline" className="border-primary-foreground/40 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground">
-              <Link to="/dashboard-preview">{t("Aperçu du Dashboard", "Preview Dashboard")}</Link>
+              <a href="/espace-pro/index.html">{t("Aperçu du Dashboard", "Preview Dashboard")}</a>
             </Button>
           </div>
         </Card>
