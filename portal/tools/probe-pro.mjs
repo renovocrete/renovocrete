@@ -36,28 +36,36 @@ await page.reload({ waitUntil: 'load' });
 await page.waitForTimeout(1500);
 
 const report = { views: [] };
-const visited = new Set();
+
+const expandGroups = () =>
+  page.evaluate(() => {
+    document.querySelectorAll('.nav button:not([data-view])').forEach((b) => b.click());
+  });
+
+await expandGroups();
+await page.waitForTimeout(400);
+const views = await page.$$eval('.nav button[data-view]', (bs) => bs.map((b) => b.dataset.view));
+
 let index = 0;
-for (let pass = 0; pass < 80; pass++) {
-  const buttons = await page.$$('.nav button');
-  let clicked = false;
-  for (const button of buttons) {
-    if (!(await button.isVisible())) continue;
-    const label = (await button.textContent()).trim().replace(/\s+/g, ' ');
-    if (visited.has(label)) continue;
-    visited.add(label);
-    clicked = true;
-    const before = problems.length;
-    await button.click();
-    await page.waitForTimeout(600);
-    const title = await page.textContent('#pageTitle').catch(() => '');
-    const contentLen = await page.$eval('#content', (e) => e.innerText.trim().length).catch(() => 0);
-    const safe = String(index++).padStart(2, '0') + '-' + label.replace(/[^a-z0-9]+/gi, '_').slice(0, 40);
-    await page.screenshot({ path: `${outDir}/pro-${safe}.png` });
-    report.views.push({ label, title, contentLen, newProblems: problems.slice(before) });
-    break;
+for (const view of views) {
+  const before = problems.length;
+  await expandGroups();
+  await page.waitForTimeout(150);
+  const clicked = await page.evaluate((v) => {
+    const b = document.querySelector(`.nav button[data-view="${CSS.escape(v)}"]`);
+    if (!b) return false;
+    b.click();
+    return true;
+  }, view);
+  if (!clicked) {
+    report.views.push({ view, missing: true });
+    continue;
   }
-  if (!clicked) break;
+  await page.waitForTimeout(650);
+  const title = await page.textContent('#pageTitle').catch(() => '');
+  const contentLen = await page.$eval('#content', (e) => e.innerText.trim().length).catch(() => 0);
+  await page.screenshot({ path: `${outDir}/pro-${String(index++).padStart(2, '0')}-${view}.png` });
+  report.views.push({ view, title, contentLen, newProblems: problems.slice(before) });
 }
 
 // Visualizer deep check: load the demo photo, pick a palette sample and confirm

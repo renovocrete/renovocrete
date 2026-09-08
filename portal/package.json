@@ -3,7 +3,7 @@
   "version": "29.0.0",
   "private": true,
   "description": "RENOVO CRETE Global Professional Portal — buildable source tree derived from the legacy single-file export.",
-  "type": "module",
+  "comment:type": "Deliberately not \"module\": src/**/*.js are classic browser scripts, and esbuild must parse them in sloppy mode. The build tooling uses .mjs.",
   "scripts": {
     "split": "node tools/split.mjs legacy/RENOVO_CRETE_V29_LAUNCH_READY.html src",
     "build": "node tools/build.mjs",

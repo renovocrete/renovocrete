@@ -17,6 +17,9 @@ page.on('console', (m) => {
 });
 page.on('pageerror', (e) => problems.push(`[pageerror] ${e.message}`));
 page.on('requestfailed', (r) => problems.push(`[requestfailed] ${r.url()} ${r.failure()?.errorText}`));
+page.on('response', (r) => {
+  if (r.status() >= 400) problems.push(`[http ${r.status()}] ${r.url()}`);
+});
 
 const t0 = Date.now();
 await page.goto(url, { waitUntil: 'load' });
@@ -31,34 +34,41 @@ await page.waitForTimeout(1500);
 await page.screenshot({ path: `${outDir}/01-after-login.png` });
 
 const report = { loadMs, views: [] };
-const visited = new Set();
-let index = 0;
 
-// The sidebar is a collapsible tree: expanding a group reveals new buttons, so
-// re-query after every click until no unvisited button remains.
-for (let pass = 0; pass < 80; pass++) {
-  const buttons = await page.$$('.nav button');
-  let clicked = false;
-  for (const button of buttons) {
-    if (!(await button.isVisible())) continue;
-    const label = (await button.textContent()).trim().replace(/\s+/g, ' ');
-    if (visited.has(label)) continue;
-    visited.add(label);
-    clicked = true;
-    const before = problems.length;
-    await button.click();
-    await page.waitForTimeout(600);
-    const title = await page.textContent('#pageTitle').catch(() => '');
-    const contentLen = await page.$eval('#content', (e) => e.innerText.trim().length).catch(() => 0);
-    const safe = String(index++).padStart(2, '0') + '-' + label.replace(/[^a-z0-9]+/gi, '_').slice(0, 40);
-    await page.screenshot({ path: `${outDir}/view-${safe}.png` });
-    report.views.push({ label, title, contentLen, newProblems: problems.slice(before) });
-    break;
+// Sidebar entries are keyed on data-view, not on the label: later patch layers
+// rename groups a few hundred milliseconds after hydration.
+const expandGroups = () =>
+  page.evaluate(() => {
+    document.querySelectorAll('.nav button:not([data-view])').forEach((b) => b.click());
+  });
+
+await expandGroups();
+await page.waitForTimeout(400);
+const views = await page.$$eval('.nav button[data-view]', (bs) => bs.map((b) => b.dataset.view));
+
+let index = 0;
+for (const view of views) {
+  const before = problems.length;
+  await expandGroups();
+  await page.waitForTimeout(150);
+  const clicked = await page.evaluate((v) => {
+    const b = document.querySelector(`.nav button[data-view="${CSS.escape(v)}"]`);
+    if (!b) return false;
+    b.click();
+    return true;
+  }, view);
+  if (!clicked) {
+    report.views.push({ view, missing: true });
+    continue;
   }
-  if (!clicked) break;
+  await page.waitForTimeout(650);
+  const title = await page.textContent('#pageTitle').catch(() => '');
+  const contentLen = await page.$eval('#content', (e) => e.innerText.trim().length).catch(() => 0);
+  await page.screenshot({ path: `${outDir}/view-${String(index++).padStart(2, '0')}-${view}.png` });
+  report.views.push({ view, title, contentLen, newProblems: problems.slice(before) });
 }
 
 report.problems = problems;
 writeFileSync(`${outDir}/report.json`, JSON.stringify(report, null, 2));
-console.log(JSON.stringify({ loadMs, navCount: report.views.length, problemCount: problems.length }, null, 2));
+console.log(JSON.stringify({ loadMs, views: report.views.length, problemCount: problems.length }, null, 2));
 await browser.close();

@@ -1,0 +1,10 @@
+{
+  "comment": "Known cross-layer references that are deliberately left unresolved. Anything not listed here fails the check. Each entry must carry a reason.",
+  "allow": [
+    {
+      "file": "32-v21-layout-nav-reorder-script.js",
+      "name": "rc17HydrateNavigation",
+      "reason": "V21 tries to wrap V17's navigation builder so it cannot overwrite the V19 grouped sidebar. Publishing rc17HydrateNavigation on window would not actually fix it: V17 calls its own lexical binding from inside rc17Hydrate, so the wrapper would never run. The sidebar renders correctly today because the V19 shell wins on timing. Resolving this properly means routing V17's internal call through the published reference, which is a behavioural change that needs its own regression pass."
+    }
+  ]
+}
