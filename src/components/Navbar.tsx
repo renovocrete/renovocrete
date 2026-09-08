@@ -1,7 +1,14 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Phone, Eye, LayoutDashboard } from "lucide-react";
+import { Menu, X, Phone, Eye, LayoutDashboard, Languages } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useAuth } from "@/hooks/useAuth";
 import logo from "@/assets/renovo-crete-logo.png";
@@ -155,6 +162,8 @@ const Navbar = () => {
             <span className="text-xs text-muted-foreground mr-2">{t("Langue", "Language")} :</span>
             <button onClick={() => setLang("fr")} className={`px-3 py-1.5 rounded text-xs font-semibold ${lang === "fr" ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground"}`}>FR</button>
             <button onClick={() => setLang("en")} className={`px-3 py-1.5 rounded text-xs font-semibold ${lang === "en" ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground"}`}>EN</button>
+            <button onClick={() => setLang("es")} className={`px-3 py-1.5 rounded text-xs font-semibold ${lang === "es" ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground"}`}>ES</button>
+
           </div>
           <div className="flex flex-col gap-2 mt-4">
             <Button asChild variant="outline" className="w-full border-primary/20 text-primary">
