@@ -1,0 +1,17 @@
+{
+  "name": "Renovo Crete",
+  "install": "export BUN_INSTALL=\"$HOME/.bun\"; export PATH=\"$BUN_INSTALL/bin:$PATH\"; command -v bun >/dev/null 2>&1 || curl -fsSL https://bun.sh/install | bash; export PATH=\"$HOME/.bun/bin:$PATH\"; bun install --frozen-lockfile",
+  "terminals": [
+    {
+      "name": "dev",
+      "command": "export PATH=\"$HOME/.bun/bin:$PATH\"; bun run dev",
+      "description": "Vite dev server for the Renovo Crete SPA, served on http://localhost:8080 with HMR."
+    }
+  ],
+  "ports": [
+    {
+      "name": "vite",
+      "port": 8080
+    }
+  ]
+}
