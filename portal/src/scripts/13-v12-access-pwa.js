@@ -203,7 +203,7 @@ function rc12Migrate(){
  for(const p0 of(store.adminProfiles||[])){p0.permissions=p0.permissions||{};p0.extraRegionIds=Array.isArray(p0.extraRegionIds)?p0.extraRegionIds:[];p0.extraTerritoryIds=Array.isArray(p0.extraTerritoryIds)?p0.extraTerritoryIds:[];p0.departmentId=p0.departmentId||'sales'}
  for(const c of(store.accounts||[]).filter(a=>a.role==='client')){c.firstName=c.firstName||String(c.contact||'').split(/\s+/)[0]||'';c.lastName=c.lastName||String(c.contact||'').split(/\s+/).slice(1).join(' ');const t=store.tenants[c.id];if(t){t.simulations=Array.isArray(t.simulations)?t.simulations:[];t.externalInvoiceIds=Array.isArray(t.externalInvoiceIds)?t.externalInvoiceIds:[]}}
  if(!rc12AllowedRegions(rc11AdminProfile()).includes(s.scopeRegion)&&s.scopeRegion!=='ALL')s.scopeRegion='ALL';
- rc12PurgeExpiredSimulations();document.title=`RENOVO CRETE — ${RC12_VERSION}`;saveStore();
+ rc12PurgeExpiredSimulations();saveStore();
 }
 
 function rc12GeneratePassword(){const chars='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@$';let out='';for(let i=0;i<12;i++)out+=chars[Math.floor(Math.random()*chars.length)];return out}
@@ -930,7 +930,7 @@ if(!window.__rc14Delegated){window.__rc14Delegated=true;document.addEventListene
 const rc14BaseMigrate=rc12Migrate;
 rc12Migrate=function(){rc14BaseMigrate();rc14Settings();for(const c of(store.accounts||[]).filter(x=>x.role==='client')){c.status=c.status||(c.active===false?'pending':'approved');c.preRegistered=!!c.preRegistered;c.registrationNumber=c.registrationNumber||c.siret||'';c.siret=c.siret||c.registrationNumber||'';c.address1=c.address1||c.address||'';c.clientType=c.clientType||c.customerType||c.category||'Professional';const t=store.tenants[c.id]=store.tenants[c.id]||{};t.docProgress=t.docProgress||{}}for(const a of(store.adminProfiles||[])){if(a.status==='pending')a.preRegistered=true}saveStore()}
 
-document.title='RENOVO CRETE — Global Professional Portal V14';
+
 
 
 /* V14.1 — invoice education, admin credentials, order export and product-order email */
@@ -971,4 +971,4 @@ rc11BindController=function(){rc14bBaseBind();document.querySelectorAll('[data-r
 if(!window.__rc14bDelegated){window.__rc14bDelegated=true;document.addEventListener('click',e=>{const b=e.target.closest('[data-rc14-admin-credential]');if(b){e.preventDefault();rc14ConfirmAdminCredential(b.dataset.rc14AdminCredential)}})}
 
 
-rc12Migrate();rc11Settings().language=rc11Settings().language||'en';rc11ApplyAuthLanguage();if(session&&currentAccount())renderShell();else showAuth();document.title='RENOVO CRETE — Global Professional Portal V14';
+rc12Migrate();rc11Settings().language=rc11Settings().language||'en';rc11ApplyAuthLanguage();if(session&&currentAccount())renderShell();else showAuth();

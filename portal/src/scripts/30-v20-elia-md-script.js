@@ -53,5 +53,8 @@ const rc20RenderContentBase=renderContent;renderContent=function(){if(currentVie
 function rc20Hydrate(){try{const elia=$('rc19EliaButton');if(elia)elia.onclick=rc20OpenElia;const old=$('rc17EliaButton');if(old)old.onclick=rc20OpenElia;rc20EnhanceMdCommunity()}catch(e){console.warn('V20 communication hydrate',e)}}
 const rc20ShellBase=renderShell;renderShell=function(){const out=rc20ShellBase();setTimeout(rc20Hydrate,75);return out};
 setTimeout(rc20Hydrate,120);
-document.title='RENOVO CRETE — V20 ELIA History & MD Groups';
+
+/* Exposed for later layers: each layer runs in its own IIFE, so helpers are
+   invisible to the ones that follow unless they are published here. */
+Object.assign(window,{rc20CommunityBaseOpen});
 })();

@@ -67,5 +67,8 @@ const rc24RenderContentBase=renderContent;renderContent=function(){const out=rc2
 const rc24OpenInvoiceBase=rc11OpenInvoice;rc11OpenInvoice=function(number){const out=rc24OpenInvoiceBase(number);setTimeout(()=>rc24EnhanceOpenInvoice(number),140);return out};
 /* If pages/modal are already open when V24 loads. */
 setTimeout(()=>{try{rc24EnhanceAdminSettings();rc24EnhanceInvoicesPage();const n=document.querySelector('.modal-card .rc11-invoice-sheet h2')?.textContent?.trim();if(n)rc24EnhanceOpenInvoice(n)}catch(e){}},350);
-document.title='RENOVO CRETE — V24 Connected Apps & French Invoicing';
+
+/* Exposed for later layers: each layer runs in its own IIFE, so helpers are
+   invisible to the ones that follow unless they are published here. */
+Object.assign(window,{rc24PdfBlob});
 })();

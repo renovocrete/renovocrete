@@ -114,5 +114,5 @@ let mt=0;const mo=new MutationObserver(()=>{clearTimeout(mt);mt=setTimeout(()=>{
 
 /* Expose a compact QA helper for browser-level regression testing. */
 window.RC29_QA={snapshot(){return{view:currentView,role:currentClient()?'professional':'admin',title:Q('#pageTitle')?.textContent||'',selectionBars:QA('#rc29SelectionBar').length,legacyVisible:legacyBars().filter(x=>getComputedStyle(x).display!=='none').length,eliaTop:QA('.topbar #rc19EliaButton,.topbar .rc19-elia-top').length,profileTop:QA('.topbar #rc19ProfileTrigger,.topbar .rc19-profile-trigger').length,bell:!!Q('#globalAlertV96'),context:Q('#rc29ContextStrip')?.textContent.trim()||'',errors:[]}}};
-document.title='RENOVO CRETE — V29 Launch Readiness';
+
 })();

@@ -3,7 +3,7 @@ const RC101_ORDER_STATUSES=['En cours de vérification','Modification demandée 
 const RC101_PAYMENT_STATUSES=['Non payé / en attente de paiement','Payé','Remboursé'];
 const RC101_ADMIN_TABS=[['admin-dashboard','⌂','Accueil'],['clients','👥','Professionnels et partenaires'],['global-orders','◫','Commandes globales'],['receivables','€','Impayés & échéances'],['portfolio','◆','Portefeuille client'],['loyalty','★','Fidélité & catégories'],['referrals','↗','Parrainage'],['system-library','▧','Bibliothèque des systèmes'],['admin-messages','✉','Messagerie professionnelle'],['admin-catalog','▥','Catalogue & tarifs'],['admin-import','⇅','Imports / exports'],['admin-audit','≡','Journal d’audit'],['admin-users','♟','Administrateurs'],['admin-settings','⚙','Paramètres'],['faq','?','FAQ']];
 const RC101_CLIENT_TABS=[['dashboard','⌂','Accueil'],['calculator','▦','Calculateur par système'],['visualizer','◈','Visualiseur du sol'],['cart','🛒','Commande produits'],['simulations','▤','Mes simulations enregistrées'],['orders','◫','Mes commandes'],['catalog','▥','Catalogue'],['support','✉','Service client'],['faq','?','Questions fréquentes']];
-const RC101_SYSTEM_IMAGES={'dss-742':'assets/hermetic-stout-double.png','uc-neat':'assets/hermetic-urethane-cement.png','uc-flake':'assets/hermetic-urethane-cement.png','uc-quartz':'assets/hermetic-urethane-cement.png','uc-stout':'assets/hermetic-urethane-cement.png','sqs-367':'assets/hermetic-quartz-single.png'};
+const RC101_SYSTEM_IMAGES={'dss-742':'assets/img/system-placeholder.jpg','uc-neat':'assets/img/system-placeholder.jpg','uc-flake':'assets/img/system-placeholder.jpg','uc-quartz':'assets/img/system-placeholder.jpg','uc-stout':'assets/img/system-placeholder.jpg','sqs-367':'assets/img/system-placeholder.jpg'};
 let rc101MessageMode='active',rc101AdditionalResults=[];
 
 function rc101ExactOrderStatus(value){const v=String(value||'').trim();if(RC101_ORDER_STATUSES.includes(v))return v;if(v==='Modification demandée par le client')return v;if(['Prête à être récupérée','En préparation'].includes(v))return'Prête à être récupérée';if(['Validée / récupérée','Récupérée','Terminée','Expédiée / livrée','Confirmée'].includes(v))return'Validée / récupérée';if(v==='Refusée')return v;if(['Annulée','Remboursée intégralement'].includes(v))return'Annulée';return'En cours de vérification'}
@@ -142,4 +142,4 @@ bindView=function(){
   }
 };
 
-rc101Migrate();document.title='RENOVO CRETE — Mobile & Administration V10.2';if(ensureSession())renderShell();
+rc101Migrate();if(ensureSession())renderShell();

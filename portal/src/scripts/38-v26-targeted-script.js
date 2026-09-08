@@ -46,5 +46,8 @@ window.rc26Hydrate=rc26Hydrate;
 const rc26RenderContentBase=window.renderContent;window.renderContent=function(){const out=rc26RenderContentBase.apply(this,arguments);setTimeout(rc26Hydrate,20);setTimeout(rc26Hydrate,120);return out};
 const rc26RenderShellBase=window.renderShell;window.renderShell=function(){const out=rc26RenderShellBase.apply(this,arguments);setTimeout(rc26Hydrate,30);setTimeout(rc26Hydrate,180);return out};
 setTimeout(rc26Hydrate,300);
-document.title='RENOVO CRETE — V26 Selection, Smooth Navigation & MD Groups';
+
+/* Exposed for later layers: each layer runs in its own IIFE, so helpers are
+   invisible to the ones that follow unless they are published here. */
+Object.assign(window,{rc26EnhanceRegions,RC26_SELECT_VIEWS});
 })();

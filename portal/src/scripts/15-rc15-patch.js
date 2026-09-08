@@ -201,4 +201,4 @@ if(!window.__rc15Delegated){window.__rc15Delegated=true;document.addEventListene
 const rc15BaseRenderShell=renderShell;
 renderShell=function(){const out=rc15BaseRenderShell();setTimeout(()=>{if(currentView==='admin-dashboard')rc15BindDashboardLinks();if(currentView==='dashboard')rc15BindProfessionalDashboard();rc15HydrateRegionFlags();rc15HydrateProfileImages()},0);return out};
 
-rc15Settings();document.title='RENOVO CRETE — Global Professional Portal V15';
+rc15Settings();

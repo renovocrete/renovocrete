@@ -777,7 +777,7 @@ function migrateV91(){
       if(!o.adminEdits)o.adminEdits=[];
     }
   }
-  document.title="RENOVO CRETE — Professional Portal V9.1";
+  
   const demo=document.querySelector(".demo-box");
   if(demo)demo.innerHTML=demo.innerHTML.replace(/Sous-traitant\s*:/gi,"Professionnel :");
   saveStore();
@@ -1022,7 +1022,7 @@ function migrateV92(){
     for(const m of t.messages){if(m.archivedByClient==null)m.archivedByClient=false;if(m.deletedByClient==null)m.deletedByClient=false}
     for(const o of t.orders||[]){if(o.paymentLink==null)o.paymentLink="";if(o.paymentRequestedAt==null)o.paymentRequestedAt=null}
   }
-  document.title="RENOVO CRETE — Portail professionnel V9.2";
+  
   saveStore();
 }
 
@@ -1258,7 +1258,7 @@ function migrateV93(){
       if(m.deletedByAdmin==null)m.deletedByAdmin=false;
     }
   }
-  document.title="RENOVO CRETE — Portail professionnel";
+  
   const brandVersion=document.querySelector('.brand small');
   if(brandVersion)brandVersion.textContent='Espace professionnel';
   saveStore();
@@ -2152,7 +2152,7 @@ function rcMigrateV10(){
       if(o.paidAmount==null)o.paidAmount=o.paymentStatus==='Payé'?Number(o.totalEUR||0):0;if(o.refundedAmount==null)o.refundedAmount=0;if(!o.paymentMode)o.paymentMode='Comptant';o.installments=Array.isArray(o.installments)?o.installments:[];o.statusHistory=Array.isArray(o.statusHistory)?o.statusHistory:[];
     }
   }
-  document.title='RENOVO CRETE — Mobile & Administration V10';saveStore();
+  saveStore();
 }
 
 function rcKpi(label,value,detail,view,cls=''){return`<div class="rc-v10-kpi ${cls}" onclick="go('${view}')"><small>${esc(label)}</small><strong>${esc(String(value))}</strong><em>${esc(detail)}</em></div>`}
@@ -2174,9 +2174,9 @@ function renderLoyaltyV10(){const t=rcThresholds(),clients=rcAllClients().map(c=
 function renderReferralsV10(){const clients=rcAllClients(),refs=store.referrals||[];return`<div class="rc-v10-hero"><h2>Parrainage</h2><p>Suivi du parrain, du filleul, du statut et de la récompense associée.</p></div><div class="rc-v10-panel"><div class="form-grid"><div class="field span2"><label>Parrain</label><select id="rcSponsor"><option value="">Sélectionner</option>${clients.map(c=>`<option value="${c.id}">${esc(c.company)}</option>`).join('')}</select></div><div class="field span2"><label>Filleul</label><select id="rcReferral"><option value="">Sélectionner</option>${clients.map(c=>`<option value="${c.id}">${esc(c.company)}</option>`).join('')}</select></div><div class="field"><label>Récompense</label><input id="rcReward" placeholder="Ex. remise 5 %"></div><div class="field"><label>&nbsp;</label><button class="btn primary" id="rcAddReferral">Ajouter</button></div></div></div><div class="rc-v10-panel" style="margin-top:14px"><div class="table-wrap"><table class="rc-v10-table"><thead><tr><th>Parrain</th><th>Filleul</th><th>Date</th><th>Statut</th><th>Récompense</th></tr></thead><tbody>${refs.map(r=>{const a=clients.find(c=>c.id===r.sponsorId),b=clients.find(c=>c.id===r.referralId);return`<tr><td>${esc(a?.company||'—')}</td><td>${esc(b?.company||'—')}</td><td>${rcDate(r.createdAt)}</td><td>${esc(r.status)}</td><td>${esc(r.reward||'—')}</td></tr>`}).join('')||'<tr><td colspan="5">Aucun parrainage.</td></tr>'}</tbody></table></div></div>`}
 
 const RC_SYSTEM_CARDS=[
- {id:'dss-742',title:'HERMETIC™ Stout Double',image:'assets/hermetic-stout-double.png',usage:'Système industriel double broadcast pour trafic soutenu et résistance renforcée.',layers:['Concrete Substrate','Vapor Barrier — selon diagnostic humidité','Base Coat','Silica Quartz','Body Coat','Silica Quartz','Body Coat','Pigmented Protective Top Coat'],note:'Le pare-vapeur n’est pas automatique : il doit être prescrit selon les mesures du support et la fiche technique.'},
- {id:'uc-48s',title:'HERMETIC™ 4.8S Urethane Cement',image:'assets/hermetic-urethane-cement.png',usage:'Mortier uréthane-ciment pour environnements très sollicités, chocs thermiques et zones de production.',layers:['Concrete Substrate','Urethane Cement Slurry','Silica Quartz','Body Coat','Protective Top Coat'],note:'La composition illustrée ne montre pas une couche séparée de pare-vapeur. Toujours valider le système exact, l’humidité et les conditions de service.'},
- {id:'sqs-367',title:'SQS-367 — HERMETIC™ Quartz Single',image:'assets/hermetic-quartz-single.png',usage:'Système décoratif et antidérapant à quartz coloré pour zones commerciales, sanitaires et alimentaires.',layers:['Concrete Substrate','Vapor Barrier — selon diagnostic humidité','Base Coat','Color Quartz Broadcast','Body Coat','Protective Top Coat'],note:'Système à simple broadcast. Le choix de la finition et de l’agrégat détermine texture, nettoyage et résistance au glissement.'}
+ {id:'dss-742',title:'HERMETIC™ Stout Double',image:'assets/img/system-placeholder.jpg',usage:'Système industriel double broadcast pour trafic soutenu et résistance renforcée.',layers:['Concrete Substrate','Vapor Barrier — selon diagnostic humidité','Base Coat','Silica Quartz','Body Coat','Silica Quartz','Body Coat','Pigmented Protective Top Coat'],note:'Le pare-vapeur n’est pas automatique : il doit être prescrit selon les mesures du support et la fiche technique.'},
+ {id:'uc-48s',title:'HERMETIC™ 4.8S Urethane Cement',image:'assets/img/system-placeholder.jpg',usage:'Mortier uréthane-ciment pour environnements très sollicités, chocs thermiques et zones de production.',layers:['Concrete Substrate','Urethane Cement Slurry','Silica Quartz','Body Coat','Protective Top Coat'],note:'La composition illustrée ne montre pas une couche séparée de pare-vapeur. Toujours valider le système exact, l’humidité et les conditions de service.'},
+ {id:'sqs-367',title:'SQS-367 — HERMETIC™ Quartz Single',image:'assets/img/system-placeholder.jpg',usage:'Système décoratif et antidérapant à quartz coloré pour zones commerciales, sanitaires et alimentaires.',layers:['Concrete Substrate','Vapor Barrier — selon diagnostic humidité','Base Coat','Color Quartz Broadcast','Body Coat','Protective Top Coat'],note:'Système à simple broadcast. Le choix de la finition et de l’agrégat détermine texture, nettoyage et résistance au glissement.'}
 ];
 function renderSystemLibraryV10(){return`<div class="rc-v10-hero"><h2>Bibliothèque des systèmes</h2><p>Fiches illustrées intégrées au calculateur et à la prescription technique RENOVO CRETE.</p></div><div class="rc-v10-note"><b>Validation technique obligatoire.</b> La préparation mécanique, l’humidité, les fissures, les pentes, l’exposition UV, les produits réellement disponibles et les fiches techniques doivent être vérifiés avant devis ou application.</div><div class="rc-v10-system-grid" style="margin-top:14px">${RC_SYSTEM_CARDS.map(s=>`<article class="rc-v10-system"><img src="${s.image}" alt="Schéma technique ${esc(s.title)}"><div class="rc-v10-system-body"><h3>${esc(s.title)}</h3><p>${esc(s.usage)}</p><div class="rc-v10-layers">${s.layers.map(l=>`<div class="rc-v10-layer">${esc(l)}</div>`).join('')}</div><div class="rc-v10-note" style="margin-top:10px">${esc(s.note)}</div><div class="toolbar"><button class="btn primary small" data-rc-use-system="${s.id}">Utiliser dans le calculateur</button><button class="btn secondary small" data-rc-system-image="${s.image}">Agrandir</button></div></div></article>`).join('')}</div>`}
 

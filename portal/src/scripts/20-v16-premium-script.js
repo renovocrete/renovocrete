@@ -104,4 +104,4 @@ renderShell=function(){const out=rc16BaseRenderShell();setTimeout(()=>{rc16Trans
 /* Make professional event calendar strictly read-only even if a legacy listener survived. */
 document.addEventListener('click',e=>{const day=e.target.closest('[data-rc15-day]');if(day&&currentView==='events'&&currentClient()&&!isAdmin()){e.stopImmediatePropagation();e.preventDefault()}},true);
 /* Community global access is administrator-controlled only; professionals never get a self-service toggle. */
-rc16Settings();document.title='RENOVO CRETE — Global Professional Portal V16';
+rc16Settings();

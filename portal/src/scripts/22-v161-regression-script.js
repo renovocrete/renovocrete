@@ -40,5 +40,5 @@ const shellBase=renderShell;renderShell=function(){const out=shellBase();setTime
 const controllerBase=rc11BindController;rc11BindController=function(){controllerBase();setTimeout(rc161Hydrate,0)};
 // Extra mutation guard: internal max control can never reappear inside a professional portal after a late legacy render.
 const mo=new MutationObserver(()=>{if(rc161ProfessionalContext())rc161StripAdminMaximum(document)});mo.observe(document.documentElement,{childList:true,subtree:true});
-rc161Hydrate();document.title='RENOVO CRETE — Global Professional Portal V16.1';
+rc161Hydrate();
 })();

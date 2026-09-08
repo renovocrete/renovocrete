@@ -107,5 +107,5 @@ function rc21Hydrate(){
 if(!window.__rc21ProfileObserver){window.__rc21ProfileObserver=true;new MutationObserver(()=>rc21DecorateProfileScope()).observe(document.body,{childList:true,subtree:false})}
 const rc21ShellBase=renderShell;renderShell=function(){const out=rc21ShellBase();setTimeout(rc21Hydrate,115);setTimeout(rc21Hydrate,260);return out};
 setTimeout(rc21Hydrate,180);
-document.title='RENOVO CRETE — V21 Layout & Navigation Reliability';
+
 })();

@@ -229,8 +229,11 @@ rc11BindController=function(){rc18BindBase();setTimeout(()=>{rc18BindRegions();r
 
 /* Ensure auth controls use the final V18 login implementation after all legacy listeners. */
 rc18EnsureDemoAccounts();saveStore();setTimeout(()=>{rc18RebindLogin();rc18StartMinuteRefresh()},0);
-document.title='RENOVO CRETE — V18 Stability, Scope & Security';
+
+/* Exposed for later layers: each layer runs in its own IIFE, so helpers are
+   invisible to the ones that follow unless they are published here. */
+Object.assign(window,{rc18S,rc18AdminAlerts});
 })();
 
-rc17EnsurePublicIds();setTimeout(rc17Hydrate,0);document.title='RENOVO CRETE — Global Professional Portal V17';
+rc17EnsurePublicIds();setTimeout(rc17Hydrate,0);
 })();

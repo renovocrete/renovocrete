@@ -62,5 +62,9 @@ const rc19RenderContentBase=renderContent;renderContent=function(){if(currentVie
 function rc19Hydrate(){try{rc19BuildNavigation();rc19HydrateTopbar();rc19ApplyAppearance()}catch(e){console.warn('V19 shell hydrate',e)}}
 const rc19ShellBase=renderShell;renderShell=function(){const out=rc19ShellBase();setTimeout(rc19Hydrate,35);return out};
 setTimeout(rc19Hydrate,80);
-document.title='RENOVO CRETE — V19 Command Workspace';
+
+/* Exposed for later layers: each layer runs in its own IIFE, so helpers are
+   invisible to the ones that follow unless they are published here. */
+Object.assign(window,{rc19ProfileInfo,rc19Settings,rc19GroupStateKey,rc19HydrateTopbar,
+  RC19_ADMIN_VIEWS,RC19_ADMIN_GROUPS,RC19_PRO_GROUPS,RC19_GROUP_I18N});
 })();

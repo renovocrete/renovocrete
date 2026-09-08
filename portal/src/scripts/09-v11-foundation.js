@@ -199,7 +199,7 @@ function rc11Migrate(){
  for(const c of(store.accounts||[]).filter(a=>a.role==='client')){c.regionId=c.regionId||'CARIBBEAN';c.territoryId=c.territoryId||'car-saint-martin';c.country=c.country||rc11Territory(c.territoryId)?.name||'Saint-Martin';c.city=c.city||rc11Territory(c.territoryId)?.city||'';c.environment=c.environment||'Interior';const t=store.tenants[c.id]||(store.tenants[c.id]={cart:[],simulations:[],orders:[],documents:[],messages:[],notifications:[]});t.orders=Array.isArray(t.orders)?t.orders:[]}
  rc11ApplyCustomSystems();
  const rows=rc11OrdersFor((store.accounts||[]).filter(a=>a.role==='client')).sort((a,b)=>new Date(a.order.createdAt)-new Date(b.order.createdAt));for(const x of rows)rc11EnsureOrderNumber(x.order,x.client);for(const x of rows.filter(x=>rc11IsPaid(x.order)).sort((a,b)=>new Date(a.order.paidAt||a.order.createdAt)-new Date(b.order.paidAt||b.order.createdAt)))rc11EnsureInvoice(x.order,x.client);
- document.documentElement.lang=rc11Lang();document.title=`RENOVO CRETE — ${RC11_VERSION}`;saveStore();
+ document.documentElement.lang=rc11Lang();saveStore();
 }
 const rc11BaseCreateOrder=createOrderFromCartV96;
 createOrderFromCartV96=function(mode='later'){

@@ -189,5 +189,10 @@ function rc25Hydrate(){try{rc25ApplyNavLabels();rc25ApplyTheme();rc25BindBrandSt
 const rc25ShellBase=renderShell;renderShell=function(){const out=rc25ShellBase();setTimeout(rc25Hydrate,45);setTimeout(rc25Hydrate,170);return out};
 const rc25OpenInvoiceBase=rc11OpenInvoice;rc11OpenInvoice=function(number){const out=rc25OpenInvoiceBase(number);setTimeout(rc25EnhanceInvoiceModal,180);return out};
 setTimeout(rc25Hydrate,250);
-document.title='RENOVO CRETE — V25 UX Reliability & Invoice Export';
+
+/* Exposed for later layers: each layer runs in its own IIFE, so helpers are
+   invisible to the ones that follow unless they are published here.
+   rc25OpenMdComposer in particular is re-wrapped by V26, which previously
+   wrapped `undefined` and left the MD composer inert. */
+Object.assign(window,{rc25S,rc25IsHQ,rc25ApplyNavLabels,rc25ApplyUniversalView,rc25CandidateItems,rc25OpenMdComposer,RC25_NAV_GROUPS});
 })();

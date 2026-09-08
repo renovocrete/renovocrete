@@ -75,5 +75,5 @@ function rc27Hydrate(){try{rc27RestrictClientInvoiceAdminTools();rc27BackAdminIc
 window.rc27Hydrate=rc27Hydrate;
 const rc27ShellBase=window.renderShell;window.renderShell=function(){const out=rc27ShellBase.apply(this,arguments);setTimeout(rc27Hydrate,30);setTimeout(rc27Hydrate,160);return out};
 setTimeout(rc27Hydrate,280);
-document.title='RENOVO CRETE — V27 Projects, Visualizer & UX Stability';
+
 })();

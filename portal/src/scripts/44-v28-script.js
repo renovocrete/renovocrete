@@ -100,5 +100,5 @@ window.rc28Hydrate=hydrate;
 const baseRenderContent=window.renderContent;window.renderContent=function(){const out=baseRenderContent.apply(this,arguments);setTimeout(hydrate,20);setTimeout(hydrate,130);return out};
 const baseRenderShell=window.renderShell;window.renderShell=function(){const out=baseRenderShell.apply(this,arguments);setTimeout(hydrate,45);setTimeout(hydrate,180);return out};
 let obsTimer=0;const obs=new MutationObserver(()=>{clearTimeout(obsTimer);obsTimer=setTimeout(()=>{try{reconcileSelection();injectProjectDocSelect();injectProjectDetailDoc()}catch(e){}},80)});const startObs=()=>{const c=document.getElementById('content');if(c)obs.observe(c,{childList:true,subtree:true})};setTimeout(()=>{hydrate();startObs()},350);
-document.title='RENOVO CRETE — V28 Project Operations & UX Completion';
+
 })();
