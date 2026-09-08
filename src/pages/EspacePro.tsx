@@ -10,8 +10,10 @@ const EspacePro = () => {
       <iframe
         src="/espace-pro/index.html"
         title="Espace professionnel RENOVO CRETE"
-        className="w-full h-full border-0"
-        allow="camera; clipboard-write; downloads"
+        className="h-full w-full border-0"
+        allow="camera; clipboard-write; downloads; fullscreen"
+        allowFullScreen
+        referrerPolicy="no-referrer"
       />
     </div>
   );
