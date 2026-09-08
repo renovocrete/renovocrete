@@ -5,6 +5,8 @@ Disallow: /partenaire
 Disallow: /admin/
 Disallow: /admin
 Disallow: /dashboard
+Disallow: /dashboard-preview
+Disallow: /espace-pro
 Disallow: /auth
 
 User-agent: Bingbot
@@ -14,17 +16,21 @@ Disallow: /partenaire
 Disallow: /admin/
 Disallow: /admin
 Disallow: /dashboard
+Disallow: /dashboard-preview
+Disallow: /espace-pro
 Disallow: /auth
 
 User-agent: Twitterbot
 Allow: /
 Disallow: /partenaire/
 Disallow: /admin/
+Disallow: /espace-pro
 
 User-agent: facebookexternalhit
 Allow: /
 Disallow: /partenaire/
 Disallow: /admin/
+Disallow: /espace-pro
 
 User-agent: *
 Allow: /
@@ -33,4 +39,6 @@ Disallow: /partenaire
 Disallow: /admin/
 Disallow: /admin
 Disallow: /dashboard
+Disallow: /dashboard-preview
+Disallow: /espace-pro
 Disallow: /auth
