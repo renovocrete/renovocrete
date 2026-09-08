@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Award, MapPin, Phone, ArrowRight } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { ESPACE_PRO_PATH } from "@/lib/espacePro";
 
 interface Contractor {
   id: string; slug: string; company_name: string; contact_name: string | null;
@@ -44,7 +45,7 @@ export default function SousTraitants() {
               <Link to="/auth">{t("Se connecter", "Sign in")} <ArrowRight className="w-4 h-4 ml-2" /></Link>
             </Button>
             <Button asChild variant="outline" className="border-primary-foreground/40 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground">
-              <Link to="/dashboard-preview">{t("Aperçu du Dashboard", "Preview Dashboard")}</Link>
+              <a href={ESPACE_PRO_PATH}>{t("Aperçu du Dashboard", "Preview Dashboard")}</a>
             </Button>
           </div>
         </Card>

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/i18n/LanguageContext";
 import logo from "@/assets/renovo-crete-logo.png";
 import DashboardStatusBadge from "@/components/DashboardStatusBadge";
+import { ESPACE_PRO_PATH } from "@/lib/espacePro";
 
 const Footer = () => {
   const { t } = useLanguage();
@@ -105,9 +106,9 @@ const Footer = () => {
             <span className="hover:text-primary-foreground/60 cursor-pointer transition-colors">{t("Politique de confidentialité", "Privacy Policy")}</span>
             <span className="hover:text-primary-foreground/60 cursor-pointer transition-colors">{t("Conditions d'utilisation", "Terms of Service")}</span>
             <span className="hover:text-primary-foreground/60 cursor-pointer transition-colors">{t("Mentions légales", "Legal Notice")}</span>
-            <Link to="/auth" className="text-primary-foreground/40 hover:text-primary-light transition-colors flex items-center gap-2">
+            <a href={ESPACE_PRO_PATH} className="text-primary-foreground/40 hover:text-primary-light transition-colors flex items-center gap-2">
               {t("Espace pro", "Pro area")} <DashboardStatusBadge compact />
-            </Link>
+            </a>
           </div>
         </div>
       </div>
