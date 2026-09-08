@@ -1,0 +1,29 @@
+/* 1) Exactly one bulk-selection toolbar per data view. */
+.rc26-unified-bulkbar{display:flex;align-items:center;gap:7px;flex-wrap:wrap;padding:10px 11px;margin:10px 0;border:1px solid #d9e5ed;border-radius:13px;background:linear-gradient(180deg,#fff,#f8fbfd);box-shadow:0 5px 16px rgba(17,49,77,.035)}
+.rc26-unified-bulkbar .spacer{margin-left:auto}.rc26-unified-bulkbar .rc26-selected-count{font-size:9px;font-weight:900;color:#60788b;white-space:nowrap}.rc26-unified-bulkbar .rc26-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.rc26-unified-bulkbar .rc26-view-switch{display:flex;gap:4px;margin-left:3px}.rc26-unified-bulkbar .rc26-view-switch button{border:1px solid #d7e2ea;background:#fff;color:#516a7d;border-radius:9px;padding:7px 9px;font-size:9px;font-weight:850;cursor:pointer}.rc26-unified-bulkbar .rc26-view-switch button.active{background:var(--rc25-primary,#0b2f55);border-color:var(--rc25-primary,#0b2f55);color:var(--rc25-on-primary,#fff)}
+/* Hide any legacy duplicate bar after V26 has consolidated its actions. */
+.rc26-legacy-hidden{display:none!important}
+
+/* 2) Smooth content-only page transitions; the shell/sidebar never collapses between clicks. */
+#content{min-height:calc(100vh - 64px);transition:opacity .14s ease,transform .14s ease;contain:layout paint style}
+#content.rc26-entering{opacity:.74;transform:translateY(2px)}
+.sidebar,.topbar{contain:layout style}
+
+/* 3) MD Community region identity system. */
+.rc26-region-dot{width:8px;height:8px;border-radius:999px;display:inline-block;box-shadow:0 0 0 3px color-mix(in srgb,var(--rc26-region-color,#178fbd) 15%,transparent);background:var(--rc26-region-color,#178fbd);flex:0 0 8px}
+.rc25-md-person{--rc26-region-color:#178fbd;position:relative;overflow:hidden}.rc25-md-person:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--rc26-region-color)}
+.rc25-md-person .avatar{background:color-mix(in srgb,var(--rc26-region-color) 16%,#fff)!important;color:color-mix(in srgb,var(--rc26-region-color) 78%,#10243a)!important;border:1px solid color-mix(in srgb,var(--rc26-region-color) 28%,#dce7ee)!important}
+.rc25-md-chip{--rc26-region-color:#178fbd!important;border-color:color-mix(in srgb,var(--rc26-region-color) 35%,#dce7ee)!important;background:color-mix(in srgb,var(--rc26-region-color) 8%,#fff)!important}
+.rc26-md-location{display:inline-flex;align-items:center;gap:5px;margin-top:3px;padding:3px 7px;border-radius:999px;background:color-mix(in srgb,var(--rc26-region-color) 8%,#f7fafc);border:1px solid color-mix(in srgb,var(--rc26-region-color) 22%,#e2eaf0);color:#496377;font-size:8px;font-weight:850}
+.rc15-thread[data-rc26-region]{position:relative;overflow:hidden}.rc15-thread[data-rc26-region]:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--rc26-region-color,#178fbd)}
+.rc26-thread-regions{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}.rc26-thread-region{font-size:7.5px;font-weight:900;padding:3px 6px;border-radius:999px;border:1px solid color-mix(in srgb,var(--rc26-region-color) 28%,#dfe8ee);background:color-mix(in srgb,var(--rc26-region-color) 8%,#fff);color:#4b6376}
+
+/* 4) Regions & Territories: list / medium 4-up / large 2-up on desktop. */
+.rc18-region-grid.compact{grid-template-columns:1fr!important}.rc18-region-grid.medium{grid-template-columns:repeat(4,minmax(220px,1fr))!important;gap:10px!important}.rc18-region-grid.large{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px!important}
+.rc18-region-grid.medium .rc18-region-card>header{padding:11px 12px}.rc18-region-grid.medium .rc18-region-card h3{font-size:12px}.rc18-region-grid.medium .rc18-territory{grid-template-columns:minmax(0,1fr)!important}.rc18-region-grid.medium .rc18-territory>.meta,.rc18-region-grid.medium .rc18-territory>.btn{justify-self:start}.rc18-region-grid.compact .rc18-region-card{display:grid;grid-template-columns:minmax(210px,.34fr) minmax(0,1fr);align-items:stretch}.rc18-region-grid.compact .rc18-region-card>header{border-right:1px solid #e4edf2}.rc18-region-grid.compact .rc18-territory-list{grid-template-columns:repeat(auto-fit,minmax(250px,1fr));align-content:start}
+@media(max-width:1500px){.rc18-region-grid.medium{grid-template-columns:repeat(3,minmax(220px,1fr))!important}}
+@media(max-width:1150px){.rc18-region-grid.medium{grid-template-columns:repeat(2,minmax(220px,1fr))!important}.rc18-region-grid.compact .rc18-region-card{grid-template-columns:1fr}}
+@media(max-width:720px){.rc18-region-grid.medium,.rc18-region-grid.large{grid-template-columns:1fr!important}.rc26-unified-bulkbar .spacer{display:none}.rc26-unified-bulkbar{align-items:stretch}.rc26-unified-bulkbar .rc26-actions{width:100%}.rc26-unified-bulkbar .rc26-view-switch{margin-left:auto}}
+
+/* 5) HQ Settings — regional navigation labels. */
+.rc26-nav-settings{margin-top:14px;border:1px solid #dce7ee;border-radius:16px;background:linear-gradient(145deg,#fff,#f7fafc);padding:15px}.rc26-nav-settings header{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}.rc26-nav-settings h3{margin:2px 0 4px;color:#173c5b}.rc26-nav-settings p{margin:0;color:#6f8495;font-size:9.5px;max-width:760px}.rc26-nav-settings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}.rc26-nav-settings .scope-row{display:grid;grid-template-columns:240px 1fr;gap:10px;align-items:end;margin-top:10px}.rc19-dark .rc26-nav-settings{background:#141d27;border-color:#2c3b48}.rc19-dark .rc26-nav-settings h3{color:#edf4f8}.rc19-dark .rc26-nav-settings p{color:#9eb0bf}@media(max-width:760px){.rc26-nav-settings-grid,.rc26-nav-settings .scope-row{grid-template-columns:1fr}}

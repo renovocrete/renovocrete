@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<meta name="application-name" content="RENOVO CRETE">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="RENOVO CRETE">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22RENOVO%20CRETE%20Professional%20Portal%22%2C%22short_name%22%3A%22RENOVO%20CRETE%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23f1f5f9%22%2C%22theme_color%22%3A%22%23ffffff%22%2C%22lang%22%3A%22en%22%7D">
+<title>RENOVO CRETE — Global Professional Portal V12</title>
+<link rel="stylesheet" href="styles/00-block-00.css">
+<link rel="stylesheet" href="styles/01-block-01.css">
+<link rel="stylesheet" href="styles/02-v101-style.css">
+<link rel="stylesheet" href="styles/03-v102-style.css">
+<link rel="stylesheet" href="styles/04-v11-global-style.css">
+<link rel="stylesheet" href="styles/05-v13-style.css">
+<link rel="stylesheet" href="styles/06-v14-style.css">
+</head>
+<body>
+<section id="authScreen" class="auth">
+  <div class="auth-brand"><img src="assets/img/image-6472c097.png" alt="RENOVO CRETE"><h1>RENOVO CRETE — Professional Portal</h1><p>System calculations, product orders, tracking and visualization in separate professional and administration workspaces. The PWA prototype can also operate locally on the device.</p></div>
+  <div class="auth-panel"><div class="login-card"><h2>Sign in</h2><p style="color:var(--muted)">Access your professional workspace or administration portal.</p>
+    <div class="field"><label>Email address</label><input id="loginEmail" type="email" autocomplete="username"></div>
+    <div class="field" style="margin-top:10px"><label>Password</label><input id="loginPassword" type="password" autocomplete="current-password"></div>
+    <div class="toolbar"><button class="btn primary" id="loginButton">Sign in</button></div>
+    <div class="demo-box"><b>Prototype local :</b><br>Administrateur : admin@renovocrete.local / Renovo2026!<br>Professionnel : demo@renovocrete.local / Client2026!</div>
+  </div></div>
+</section>
+<div id="appShell" class="app hidden">
+  <aside class="sidebar"><div class="brand"><img src="assets/img/image-6472c097.png" alt="RENOVO CRETE"><small>Professional Portal</small></div><div class="tenant-card" id="tenantCard"></div><nav class="nav" id="nav"></nav><div class="offline-note">Local prototype. Data stored on this device is not a secure production server deployment.</div></aside>
+  <main class="workspace"><header class="topbar"><h1 id="pageTitle"></h1><div class="top-actions"><span class="mode" id="modeLabel"></span><button class="btn secondary small" id="backAdminButton">Back to administration</button><button class="btn secondary small" id="logoutButton">Sign out</button></div></header><section class="content" id="content"></section></main>
+</div>
+<div class="modal" id="modal"><div class="modal-card" id="modalCard"></div></div>
+<div class="toast" id="toast"></div>
+<script src="scripts/07-block-07.js"></script>
+<script src="scripts/08-v101-script.js"></script>
+<script src="scripts/09-v11-foundation.js"></script>
+<script src="scripts/10-v11-views.js"></script>
+<script src="scripts/11-v11-controller.js"></script>
+<link rel="stylesheet" href="styles/12-v12-access-pwa-style.css">
+<script src="scripts/13-v12-access-pwa.js"></script>
+
+<link rel="stylesheet" href="styles/14-rc15-styles.css">
+<script src="scripts/15-rc15-patch.js"></script>
+
+
+
+
+
+<!-- V15.1 security/auth + optional plan enforcement hardening -->
+<script src="scripts/16-block-16.js"></script>
+
+<!-- V15.2 dashboard navigation precision -->
+<script src="scripts/17-block-17.js"></script>
+
+
+<!-- V15.3 knowledge constant compatibility -->
+<script src="scripts/18-block-18.js"></script>
+
+
+<!-- V16 PREMIUM COLLABORATION / KNOWLEDGE / MULTILINGUAL / DRIVE PATCH -->
+<link rel="stylesheet" href="styles/19-v16-premium-style.css">
+<script src="scripts/20-v16-premium-script.js"></script>
+
+<!-- V16.1 REGRESSION FIX — preserve existing functions + professional calculator privacy + visible imports/exports -->
+<link rel="stylesheet" href="styles/21-v161-regression-style.css">
+<script src="scripts/22-v161-regression-script.js"></script>
+<!-- V17 EXPERIENCE GOVERNANCE / COMMAND RAIL / COMMUNITY / SUPPORT / BULK / EVENT MEDIA -->
+<link rel="stylesheet" href="styles/23-v17-experience-style.css">
+<script src="scripts/24-v17-experience-script.js"></script>
+
+
+<link rel="stylesheet" href="styles/25-v18-targeted-style.css">
+<link rel="stylesheet" href="styles/26-v19-shell-style.css">
+<script src="scripts/27-v19-shell-script.js"></script>
+<link rel="stylesheet" href="styles/28-v19-contrast-compact-fix.css">
+
+<link rel="stylesheet" href="styles/29-v20-elia-md-style.css">
+<script src="scripts/30-v20-elia-md-script.js"></script>
+
+<link rel="stylesheet" href="styles/31-v21-layout-nav-reorder-fix.css">
+<script src="scripts/32-v21-layout-nav-reorder-script.js"></script>
+
+
+<!-- V24: Connected Apps + French invoicing -->
+<link rel="stylesheet" href="styles/33-v24-connected-apps-fr-invoice-style.css">
+<script src="scripts/34-v24-connected-apps-fr-invoice-script.js"></script>
+
+<!-- V25 targeted UX/reliability patch: admin directory, loyalty bulk actions, global theme propagation, robust selection/display, MD composer, events, invoice print/export. -->
+<link rel="stylesheet" href="styles/35-v25-targeted-style.css">
+<script src="scripts/36-v25-targeted-script.js"></script>
+
+<!-- V26 targeted patch: unified selection, smooth in-shell navigation, global MD groups, regions display, HQ settings labels. -->
+<link rel="stylesheet" href="styles/37-v26-targeted-style.css">
+<script src="scripts/38-v26-targeted-script.js"></script>
+
+<!-- V27 targeted patch: selection cleanup, stable navigation, worldwide MD groups, project tracking, admin-only invoice controls, visualizer studio. -->
+<link rel="stylesheet" href="styles/39-v27-style.css">
+<script src="scripts/40-v27-script.js"></script>
+
+<link rel="stylesheet" href="styles/41-v27-1-fix-style.css">
+<script src="scripts/42-v27-1-fix-script.js"></script>
+
+<!-- RENOVO CRETE V28 — targeted completion: stable shell, one selection system, projects, MD network, regional views, zone labels, visualizer -->
+<link rel="stylesheet" href="styles/43-v28-style.css">
+<script src="scripts/44-v28-script.js"></script>
+
+<link rel="stylesheet" href="styles/45-v28-1-style.css">
+<script src="scripts/46-v28-1-script.js"></script>
+
+<link rel="stylesheet" href="styles/47-v28-2-style.css">
+<script src="scripts/48-v28-2-script.js"></script>
+
+<script src="scripts/49-v28-3-script.js"></script>
+
+<link rel="stylesheet" href="styles/50-v28-4-style.css">
+<script src="scripts/51-v28-4-script.js"></script>
+
+<script src="scripts/52-v28-5-script.js"></script>
+
+<script src="scripts/53-v28-6-script.js"></script>
+
+<!-- RENOVO CRETE V29 — launch-readiness consolidation: stable shell, notifications, unified selection, scope, MD community, projects, visualizer QA -->
+<link rel="stylesheet" href="styles/54-v29-launch-style.css">
+<script src="scripts/55-v29-launch-script.js"></script>
+
+</body>
+</html>

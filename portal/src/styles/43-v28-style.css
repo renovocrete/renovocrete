@@ -1,0 +1,60 @@
+/* 0 — Stable shell and smooth content-only navigation. */
+#content,#content.rc26-entering,#content.rc27-switching{opacity:1!important;transform:none!important;transition:none!important;min-height:0!important;contain:none!important}
+#content{view-transition-name:rc28-content;min-width:0}
+::view-transition-old(rc28-content){animation:rc28Out .10s ease both}
+::view-transition-new(rc28-content){animation:rc28In .14s ease both}
+@keyframes rc28Out{to{opacity:.82}}
+@keyframes rc28In{from{opacity:.82;transform:translateY(2px)}to{opacity:1;transform:none}}
+.sidebar,.topbar{contain:none!important}
+
+/* 4 — One single selection system. */
+.rc28-selection-managed #rc27Bulk,
+.rc28-selection-managed #rc27SingleBulk,
+.rc28-selection-managed #rc26UnifiedSelection,
+.rc28-selection-managed #rc25UniversalToolbar,
+.rc28-selection-managed .rc26-unified-bulkbar,
+.rc28-selection-managed .rc25-universal-toolbar,
+.rc28-selection-managed .rc25-smartbar[data-rc25-selection],
+.rc28-selection-managed .rc17-bulkbar,
+.rc28-selection-managed .rc20-bulkbar,
+.rc28-selection-managed .rc15-bulkbar{display:none!important}
+.rc28-bulkbar{display:flex;align-items:center;gap:7px;flex-wrap:wrap;padding:10px 11px;margin:10px 0;border:1px solid #d8e4ec;border-radius:14px;background:linear-gradient(180deg,#fff,#f8fbfd);box-shadow:0 6px 18px rgba(17,49,77,.045)}
+.rc28-bulkbar .spacer{margin-left:auto}.rc28-bulkbar .count{font-size:10px;font-weight:900;color:#60788b;white-space:nowrap}.rc28-bulkbar .actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap}.rc28-view-switch{display:flex;gap:4px}.rc28-view-switch button{border:1px solid #d7e2ea;background:#fff;color:#516a7d;border-radius:9px;padding:7px 10px;font-size:10px;font-weight:850}.rc28-view-switch button.active{background:var(--rc25-primary,#0b2f55);border-color:var(--rc25-primary,#0b2f55);color:var(--rc25-on-primary,#fff)}
+.rc28-item-check{width:17px;height:17px;accent-color:var(--rc25-accent,#15a4c8);flex:0 0 17px}
+.rc28-density-list{display:grid!important;grid-template-columns:1fr!important;gap:7px!important}.rc28-density-medium{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:10px!important}.rc28-density-large{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px!important}
+@media(min-width:1680px){.rc28-density-medium{grid-template-columns:repeat(5,minmax(0,1fr))!important}}
+@media(max-width:1250px){.rc28-density-medium{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+@media(max-width:980px){.rc28-density-medium,.rc28-density-large{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:680px){.rc28-bulkbar .spacer{display:none}.rc28-bulkbar{align-items:stretch}.rc28-bulkbar .actions{width:100%}.rc28-view-switch{margin-left:auto}.rc28-density-medium,.rc28-density-large{grid-template-columns:1fr!important}}
+
+/* 1 — Dashboard order queue: five first rows, compact continuation control. */
+.rc28-order-more{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:8px;padding:10px 12px;border-top:1px solid #edf2f5;background:linear-gradient(180deg,#fff,#fafcfd);border-radius:0 0 13px 13px}.rc28-order-more small{color:#748799;font-weight:750}.rc28-order-more .actions{display:flex;gap:6px;flex-wrap:wrap}
+@media(max-width:560px){.rc28-order-more{align-items:stretch;flex-direction:column}.rc28-order-more .actions .btn{flex:1}}
+
+/* 2 — Project tracking density and Commercial documentation link. */
+.rc27-project-list[data-mode="medium"]{grid-template-columns:repeat(4,minmax(0,1fr))!important}.rc27-project-list[data-mode="large"]{grid-template-columns:repeat(2,minmax(0,1fr))!important}.rc27-project-list[data-mode="list"]{grid-template-columns:1fr!important}
+@media(min-width:1680px){.rc27-project-list[data-mode="medium"]{grid-template-columns:repeat(5,minmax(0,1fr))!important}}
+@media(max-width:1200px){.rc27-project-list[data-mode="medium"]{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+@media(max-width:900px){.rc27-project-list[data-mode="medium"],.rc27-project-list[data-mode="large"]{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:620px){.rc27-project-list[data-mode="medium"],.rc27-project-list[data-mode="large"]{grid-template-columns:1fr!important}}
+.rc28-commercial-doc{margin-top:10px;padding:10px 11px;border:1px solid #cfe2ef;border-radius:11px;background:#f5fbff;color:#315773}.rc28-commercial-doc b,.rc28-commercial-doc small{display:block}.rc28-commercial-doc small{color:#6c8294;margin-top:2px}
+
+/* 3 — Visualizer Pro. */
+.rc28-viz-layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(310px,.68fr);gap:15px;align-items:start}
+.rc28-viz-stage{position:relative;min-height:520px;border:1px solid #d4e1e9;border-radius:20px;background:radial-gradient(circle at 50% 18%,#f8fbfd,#e7eff5);overflow:hidden;box-shadow:0 15px 38px rgba(9,37,65,.08)}
+.rc28-viz-stage canvas,.rc28-viz-stage img{display:block;width:100%;height:auto;max-height:72vh;object-fit:contain}.rc28-viz-canvas-wrap{position:relative;display:grid;place-items:center;min-height:520px}.rc28-viz-canvas-wrap canvas{grid-area:1/1}.rc28-viz-mask{position:absolute;inset:0;touch-action:none;cursor:crosshair}.rc28-viz-empty{min-height:520px;display:grid;place-items:center;text-align:center;padding:30px}.rc28-viz-empty>div{max-width:520px}.rc28-viz-empty .mark{width:72px;height:72px;border-radius:22px;display:grid;place-items:center;margin:0 auto 14px;background:linear-gradient(135deg,#102d55,#1eb4dc);color:#fff;font-size:29px;box-shadow:0 18px 40px rgba(19,77,122,.22)}
+.rc28-viz-toolbar{display:flex;gap:6px;flex-wrap:wrap;padding:10px 12px;border-top:1px solid #dce6ed;background:rgba(255,255,255,.96)}.rc28-viz-toolbar button.active{background:var(--rc25-primary,#0b2f55);color:#fff;border-color:transparent}.rc28-viz-panel{display:grid;gap:10px;padding:15px;border:1px solid #d6e2ea;border-radius:20px;background:linear-gradient(180deg,#fff,#f8fbfd);box-shadow:0 14px 34px rgba(10,36,65,.07);position:sticky;top:82px}.rc28-viz-panel h3{margin:0}.rc28-viz-grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.rc28-viz-guard{display:grid;gap:6px;padding:11px;border-radius:12px;background:#eff9fd;border:1px solid #cfe8f2;color:#315f75;font-size:11px}.rc28-viz-status{padding:10px;border-radius:11px;background:#f3f6f9;border:1px solid #dce5eb;color:#52697a;font-size:11px}.rc28-viz-compare{position:relative;overflow:hidden;border-radius:16px;background:#edf3f7}.rc28-viz-compare img{width:100%;display:block}.rc28-viz-after{position:absolute;inset:0;overflow:hidden;width:50%}.rc28-viz-after img{width:100%;height:100%;object-fit:contain;max-width:none}.rc28-viz-slider{width:100%;margin-top:8px}
+@media(max-width:980px){.rc28-viz-layout{grid-template-columns:1fr}.rc28-viz-panel{position:static}.rc28-viz-stage,.rc28-viz-empty,.rc28-viz-canvas-wrap{min-height:390px}}
+@media(max-width:600px){.rc28-viz-stage,.rc28-viz-empty,.rc28-viz-canvas-wrap{min-height:280px}.rc28-viz-grid2{grid-template-columns:1fr}}
+
+/* 6/7 — Worldwide MD network identity. */
+.rc28-md-network{display:grid;grid-template-columns:repeat(4,minmax(120px,1fr));gap:8px;margin:10px 0 13px}.rc28-md-stat{padding:10px 11px;border:1px solid #dce6ed;border-radius:12px;background:#fff}.rc28-md-stat b,.rc28-md-stat small{display:block}.rc28-md-stat b{font-size:17px}.rc28-md-stat small{font-size:9px;color:#708396;text-transform:uppercase;font-weight:900}.rc28-md-new{margin-left:auto}.rc28-thread-scope{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px}.rc28-thread-scope span{--md:#168eae;display:inline-flex;align-items:center;gap:4px;padding:3px 6px;border:1px solid color-mix(in srgb,var(--md) 28%,#dce6ed);border-radius:999px;background:color-mix(in srgb,var(--md) 8%,#fff);font-size:8px;font-weight:850;color:#50677a}.rc28-thread-scope i{width:6px;height:6px;border-radius:50%;background:var(--md)}
+@media(max-width:720px){.rc28-md-network{grid-template-columns:repeat(2,1fr)}}
+
+/* 8 — Governance Regions & territories views. */
+@media(min-width:1181px){.rc18-region-grid.medium{grid-template-columns:repeat(4,minmax(0,1fr))!important}.rc18-region-grid.large{grid-template-columns:repeat(2,minmax(0,1fr))!important}.rc18-region-grid.compact{grid-template-columns:1fr!important}}
+@media(min-width:1700px){.rc18-region-grid.medium{grid-template-columns:repeat(5,minmax(0,1fr))!important}}
+
+/* 9 — Governance Settings: regional professional navigation names. */
+.rc28-nav-settings{margin-top:14px;padding:16px;border:1px solid #d9e5ed;border-radius:18px;background:linear-gradient(145deg,#fff,#f7fafc);box-shadow:0 10px 27px rgba(12,42,68,.055)}.rc28-nav-settings header{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}.rc28-nav-settings h3{margin:2px 0 4px}.rc28-nav-settings p{margin:0;color:#6e8293;max-width:800px}.rc28-nav-scope{display:grid;grid-template-columns:minmax(230px,.6fr) 1fr;gap:10px;align-items:end;margin:12px 0}.rc28-nav-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.rc28-nav-subhead{grid-column:1/-1;margin:8px 0 0;padding-top:10px;border-top:1px solid #e1e9ef;font-size:11px;font-weight:950;color:#31536d;text-transform:uppercase;letter-spacing:.06em}.rc19-dark .rc28-nav-settings{background:#141d27;border-color:#2d3a46}.rc19-dark .rc28-nav-settings p{color:#9eb0bf}
+@media(max-width:760px){.rc28-nav-scope,.rc28-nav-fields{grid-template-columns:1fr}}

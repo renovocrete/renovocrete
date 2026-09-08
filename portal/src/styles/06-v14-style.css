@@ -1,0 +1,42 @@
+/* RENOVO CRETE V14 — onboarding, credentials, documents, events, support and synchronized shell */
+@media (min-width:721px){
+  .app{align-items:stretch!important;grid-template-columns:236px minmax(0,1fr)!important}
+  .sidebar{position:relative!important;top:auto!important;height:auto!important;min-height:100vh!important;width:236px!important;max-width:236px!important;overflow:visible!important;align-self:stretch!important}
+  .workspace{min-height:100vh!important}
+}
+@media (min-width:721px) and (max-width:1120px){
+  .app{grid-template-columns:214px minmax(0,1fr)!important}
+  .sidebar{width:214px!important;max-width:214px!important}
+}
+@media (max-width:720px){
+  .sidebar{position:sticky!important;top:0!important;height:auto!important;overflow-x:auto!important;overflow-y:hidden!important}
+  .nav{display:flex!important;width:max-content!important;min-width:100%!important}
+  .nav button{flex:0 0 auto!important;max-width:180px!important}
+}
+.rc13-region-grid{max-width:1040px!important;grid-template-columns:repeat(2,minmax(0,480px))!important;justify-content:start!important}
+.rc13-region-card{max-width:480px!important;width:100%!important}
+.rc13-territory-row{padding:7px 9px!important}
+.rc11-region-lock,.rc12-scope-chip,.rc11-scope-control{font-weight:900!important;text-decoration:none!important}
+.rc11-region-lock{border:1px solid #b9d8ed!important;background:#f2faff!important;color:#123d65!important;padding:5px 9px!important;border-radius:999px!important}
+.rc14-toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:end;padding:11px;border:1px solid #d7e4ee;background:#f8fbfd;border-radius:13px;margin:12px 0}
+.rc14-toolbar .field{min-width:150px;flex:1 1 160px}
+.rc14-select{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:850;color:#334b63;margin:0 0 9px}
+.rc14-select input{width:17px;height:17px}
+.rc14-doc-grid,.rc14-event-grid,.rc14-approval-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.rc14-doc-card,.rc14-event-card,.rc14-approval-card{border:1px solid #dce7ef;border-radius:13px;background:#fff;padding:12px;min-width:0}
+.rc14-doc-card h3,.rc14-event-card h3,.rc14-approval-card h3{margin:4px 0 6px}
+.rc14-doc-card p,.rc14-event-card p,.rc14-approval-card p{color:#607388;font-size:12px;line-height:1.55}
+.rc14-dept{display:inline-flex;border-radius:999px;padding:4px 8px;background:#eaf6fd;color:#13527b;font-size:10px;font-weight:900}
+.rc14-priority-high{background:#fff1ef!important;border-color:#f0b7ae!important}.rc14-priority-high .rc14-dept{background:#ffe1dc;color:#a12b1e}
+.rc14-step{display:grid;grid-template-columns:22px minmax(0,1fr);gap:8px;padding:8px 0;border-top:1px solid #edf2f6}.rc14-step:first-child{border-top:0}.rc14-step input{margin-top:2px;width:17px;height:17px}
+.rc14-doc-list{display:grid;gap:7px;margin-top:9px}.rc14-doc-row{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:8px;border:1px solid #e1e9ef;border-radius:9px;background:#fbfdff}.rc14-doc-row span{min-width:0;overflow-wrap:anywhere}
+.rc14-location-picker{display:grid;grid-template-columns:1fr 1fr;gap:9px}.rc14-location-note{grid-column:1/-1;padding:9px;border:1px solid #d7e8f3;background:#f4fbff;border-radius:10px;color:#3f6179;font-size:11px}
+.rc14-kpi-link{cursor:pointer!important;transition:.15s}.rc14-kpi-link:hover{transform:translateY(-1px);box-shadow:0 10px 22px rgba(12,44,72,.1)}
+.rc14-credential-status{font-size:10px;color:#657a8d}.rc14-credential-status.ok{color:#16824c;font-weight:850}
+.rc14-profile-banner{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:12px;border:1px solid #cfe4f0;border-radius:12px;background:linear-gradient(135deg,#f6fcff,#f8f9ff);margin-bottom:12px}.rc14-profile-banner h2{margin:0 0 4px}.rc14-profile-banner p{margin:0;color:#5e7488}
+.rc14-identity-badge{display:inline-flex;gap:6px;align-items:center;padding:6px 9px;border-radius:999px;background:#143f79;color:#fff;font-weight:900;font-size:10px}
+.rc14-file-field{padding:9px;border:1px dashed #b8d4e4;border-radius:10px;background:#fbfdff}.rc14-file-field label{display:block;font-size:11px;font-weight:900;margin-bottom:5px}.rc14-file-field small{display:block;color:#687b8e;margin-top:4px}
+.rc14-assistant-admin{max-width:980px}
+.rc14-hidden{display:none!important}
+@media(max-width:900px){.rc14-doc-grid,.rc14-event-grid,.rc14-approval-grid{grid-template-columns:1fr}.rc14-location-picker{grid-template-columns:1fr}.rc14-location-note{grid-column:auto}.rc13-region-grid{grid-template-columns:1fr!important}.rc13-region-card{max-width:none!important}}
+@media(max-width:520px){.rc14-toolbar{display:grid;grid-template-columns:1fr}.rc14-toolbar .field{min-width:0}.rc14-profile-banner{grid-template-columns:1fr}.rc14-profile-banner .btn{width:100%}}

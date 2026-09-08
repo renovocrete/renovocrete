@@ -1,0 +1,20 @@
+{
+  "name": "renovo-crete-portal",
+  "version": "29.0.0",
+  "private": true,
+  "description": "RENOVO CRETE Global Professional Portal — buildable source tree derived from the legacy single-file export.",
+  "type": "module",
+  "scripts": {
+    "split": "node tools/split.mjs legacy/RENOVO_CRETE_V29_LAUNCH_READY.html src",
+    "build": "node tools/build.mjs",
+    "build:single": "node tools/build.mjs --single",
+    "dev": "node tools/serve.mjs src 8099",
+    "preview": "node tools/serve.mjs dist 8100",
+    "test": "playwright test",
+    "test:headed": "playwright test --headed"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.57.0",
+    "esbuild": "^0.25.0"
+  }
+}

@@ -1,0 +1,95 @@
+/* V21 targeted reliability/layout patch — only requested areas. */
+/* Keep the global scope controls out of the crowded top bar; they are moved into the profile menu. */
+.top-actions #rc12ScopeBar,
+.top-actions #rc11RegionLock{display:none!important}
+
+/* Admin dashboard: prevent the 6-month chart from pushing/cropping the operational queue. */
+body.rc21-admin-dashboard #content{min-width:0}
+body.rc21-admin-dashboard .rc21-dashboard-split{
+  display:grid!important;
+  grid-template-columns:minmax(0,1.18fr) minmax(330px,.82fr)!important;
+  gap:14px!important;
+  align-items:stretch!important;
+  width:100%!important;
+  min-width:0!important;
+}
+body.rc21-admin-dashboard .rc21-dashboard-split>.rc11-panel{
+  min-width:0!important;
+  width:100%!important;
+  max-width:100%!important;
+  overflow:hidden!important;
+  margin-top:0!important;
+}
+body.rc21-admin-dashboard .rc21-dashboard-orders .rc11-order-queue{min-width:0!important;width:100%!important}
+body.rc21-admin-dashboard .rc21-dashboard-orders .rc11-order-line{
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  box-sizing:border-box!important;
+  grid-template-columns:34px minmax(0,1.35fr) minmax(100px,.78fr) minmax(86px,.58fr) 60px!important;
+  gap:8px!important;
+  padding:10px!important;
+}
+body.rc21-admin-dashboard .rc21-dashboard-orders .rc11-order-line>*{min-width:0!important}
+body.rc21-admin-dashboard .rc21-dashboard-orders .rc11-order-line h4,
+body.rc21-admin-dashboard .rc21-dashboard-orders .rc11-order-line p,
+body.rc21-admin-dashboard .rc21-dashboard-orders .rc11-order-line b,
+body.rc21-admin-dashboard .rc21-dashboard-orders .rc11-order-line small{
+  overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important
+}
+body.rc21-admin-dashboard .rc21-dashboard-orders .rc11-order-line>strong{font-size:11px!important;white-space:nowrap!important;text-align:right!important}
+body.rc21-admin-dashboard .rc21-dashboard-orders .rc11-order-line>.btn{width:60px!important;min-width:60px!important;padding:7px 5px!important;justify-content:center!important}
+body.rc21-admin-dashboard .rc21-dashboard-chart .rc11-chart{
+  width:100%!important;max-width:100%!important;min-width:0!important;overflow:hidden!important;
+  gap:7px!important;padding-left:2px!important;padding-right:2px!important
+}
+body.rc21-admin-dashboard .rc21-dashboard-chart .rc11-chart-col{min-width:0!important}
+body.rc21-admin-dashboard .rc21-dashboard-chart .rc11-chart-col b{font-size:9px!important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body.rc21-admin-dashboard .rc21-dashboard-chart .rc11-chart-track{width:100%!important}
+
+/* Regions/territories reorder controls. */
+.rc21-drag-handle{
+  width:24px;height:28px;min-width:24px;border:0;background:transparent;color:#7890a3;
+  border-radius:7px;display:grid;place-items:center;cursor:grab;font-weight:900;letter-spacing:-2px;
+  padding:0;font-size:15px;line-height:1
+}
+.rc21-drag-handle:hover{background:#edf5fa;color:#0b6c9c}
+.rc21-drag-handle:active{cursor:grabbing}
+.rc18-region-card.rc21-dragging,.rc18-territory.rc21-dragging{opacity:.56;box-shadow:0 14px 34px rgba(10,63,97,.16)!important}
+.rc18-region-card.rc21-drag-over{outline:2px solid color-mix(in srgb,var(--rc17-secondary,#1595be) 52%,transparent);outline-offset:2px}
+.rc18-territory.rc21-draggable{grid-template-columns:24px minmax(0,1fr) auto auto!important}
+.rc18-territory.rc21-drag-over{border-color:#63b8dd!important;background:#f5fbfe!important}
+.rc21-reorder-hint{font-size:9px;color:#6f8496;display:flex;align-items:center;gap:6px;margin:0 0 10px 1px}
+.rc21-reorder-hint b{color:#36566d}
+
+/* Scope selector inside the profile menu. */
+.rc21-scope-section{padding:9px 9px 10px;border-bottom:1px solid #edf1f4}
+.rc21-scope-title{font-size:9px;font-weight:900;letter-spacing:.07em;text-transform:uppercase;color:#7890a2;margin-bottom:7px}
+.rc21-scope-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.rc21-scope-field{min-width:0}.rc21-scope-field label{display:block;font-size:8px;font-weight:800;color:#74899a;margin:0 0 3px}
+.rc21-scope-field select,.rc21-scope-field .rc21-readonly{
+  width:100%;height:34px;border:1px solid #dce5eb;border-radius:9px;background:#f9fbfc;color:#263a4d;
+  padding:0 9px;font-size:9px;font-weight:750;min-width:0
+}
+.rc21-scope-field .rc21-readonly{display:flex;align-items:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* Tablet: stack the two dashboard panels before content starts to collide. */
+@media(max-width:1180px){
+ body.rc21-admin-dashboard .rc21-dashboard-split{grid-template-columns:1fr!important}
+ body.rc21-admin-dashboard .rc21-dashboard-chart .rc11-chart{height:205px!important}
+}
+@media(max-width:760px){
+ body.rc21-admin-dashboard .rc21-dashboard-orders .rc11-order-line{
+   grid-template-columns:30px minmax(0,1fr) 58px!important;gap:7px!important
+ }
+ body.rc21-admin-dashboard .rc21-dashboard-orders .rc11-order-line>div:nth-of-type(2),
+ body.rc21-admin-dashboard .rc21-dashboard-orders .rc11-order-line>strong{grid-column:2!important;text-align:left!important}
+ body.rc21-admin-dashboard .rc21-dashboard-orders .rc11-order-line>.btn{grid-column:3!important;grid-row:1 / span 2!important;align-self:center!important}
+ body.rc21-admin-dashboard .rc21-dashboard-chart .rc11-chart{height:190px!important;gap:4px!important}
+ .rc21-scope-grid{grid-template-columns:1fr}
+ .rc18-territory.rc21-draggable{grid-template-columns:22px minmax(0,1fr) auto!important}
+ .rc18-territory.rc21-draggable>.meta{display:none!important}
+}
+body.rc19-dark .rc21-scope-section{border-color:#263543}
+body.rc19-dark .rc21-scope-field select,body.rc19-dark .rc21-scope-field .rc21-readonly{background:#101821;color:#e8eff5;border-color:#344454}
+body.rc19-dark .rc21-drag-handle:hover{background:#1b2b38;color:#7fd0f1}
