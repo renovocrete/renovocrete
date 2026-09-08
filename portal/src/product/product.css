@@ -1,0 +1,34 @@
+/* Product-level styles that are not part of any legacy patch layer. */
+
+.demo-box-list {
+  margin: 6px 0 0;
+  padding-left: 18px;
+}
+
+.demo-box-list li {
+  margin: 2px 0;
+}
+
+/* Keyboard users must be able to jump past the 30-plus item sidebar. */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  padding: 10px 16px;
+  background: #0c1421;
+  color: #fff;
+  border-radius: 0 0 10px 0;
+  font-weight: 800;
+}
+
+.skip-link:focus {
+  left: 0;
+}
+
+/* The legacy layers remove outlines in several places; restore a visible focus
+   ring so the portal is operable without a mouse. */
+:focus-visible {
+  outline: 3px solid #22b9f1;
+  outline-offset: 2px;
+}

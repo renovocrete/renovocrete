@@ -1,0 +1,20 @@
+{
+  "name": "RENOVO CRETE Professional Portal",
+  "short_name": "RENOVO CRETE",
+  "description": "System calculator, product ordering, invoicing, project tracking and floor visualisation for Elite Crete Systems professionals.",
+  "id": "/renovo-crete-portal",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f1f5f9",
+  "theme_color": "#0c1421",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["business", "productivity"],
+  "icons": [
+    { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

@@ -9,8 +9,22 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="RENOVO CRETE">
 <meta name="mobile-web-app-capable" content="yes">
-<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22RENOVO%20CRETE%20Professional%20Portal%22%2C%22short_name%22%3A%22RENOVO%20CRETE%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23f1f5f9%22%2C%22theme_color%22%3A%22%23ffffff%22%2C%22lang%22%3A%22en%22%7D">
-<title>RENOVO CRETE — Global Professional Portal V12</title>
+<meta name="description" content="RENOVO CRETE Professional Portal — system calculator, product ordering, invoicing, project tracking and floor visualisation for Elite Crete Systems professionals and their regional administrators.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/icons/favicon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="RENOVO CRETE">
+<meta property="og:title" content="RENOVO CRETE — Professional Portal">
+<meta property="og:description" content="System calculator, product ordering, invoicing, project tracking and floor visualisation for Elite Crete Systems professionals.">
+<meta property="og:image" content="assets/icons/icon-512.png">
+<meta name="twitter:card" content="summary">
+<title>RENOVO CRETE — Professional Portal</title>
+<script src="config.js"></script>
+<script src="product/image-fallback.js"></script>
 <link rel="stylesheet" href="styles/00-block-00.css">
 <link rel="stylesheet" href="styles/01-block-01.css">
 <link rel="stylesheet" href="styles/02-v101-style.css">
@@ -20,17 +34,18 @@
 <link rel="stylesheet" href="styles/06-v14-style.css">
 </head>
 <body>
+<a class="skip-link" href="#content">Skip to main content</a>
 <section id="authScreen" class="auth">
-  <div class="auth-brand"><img src="assets/img/image-6472c097.png" alt="RENOVO CRETE"><h1>RENOVO CRETE — Professional Portal</h1><p>System calculations, product orders, tracking and visualization in separate professional and administration workspaces. The PWA prototype can also operate locally on the device.</p></div>
+  <div class="auth-brand"><img src="assets/img/renovo-crete-logo.png" alt="RENOVO CRETE"><h1>RENOVO CRETE — Professional Portal</h1><p>System calculations, product orders, tracking and visualization in separate professional and administration workspaces. The PWA prototype can also operate locally on the device.</p></div>
   <div class="auth-panel"><div class="login-card"><h2>Sign in</h2><p style="color:var(--muted)">Access your professional workspace or administration portal.</p>
     <div class="field"><label>Email address</label><input id="loginEmail" type="email" autocomplete="username"></div>
     <div class="field" style="margin-top:10px"><label>Password</label><input id="loginPassword" type="password" autocomplete="current-password"></div>
     <div class="toolbar"><button class="btn primary" id="loginButton">Sign in</button></div>
-    <div class="demo-box"><b>Prototype local :</b><br>Administrateur : admin@renovocrete.local / Renovo2026!<br>Professionnel : demo@renovocrete.local / Client2026!</div>
+    <div class="demo-box" id="demoCredentials" hidden></div>
   </div></div>
 </section>
 <div id="appShell" class="app hidden">
-  <aside class="sidebar"><div class="brand"><img src="assets/img/image-6472c097.png" alt="RENOVO CRETE"><small>Professional Portal</small></div><div class="tenant-card" id="tenantCard"></div><nav class="nav" id="nav"></nav><div class="offline-note">Local prototype. Data stored on this device is not a secure production server deployment.</div></aside>
+  <aside class="sidebar"><div class="brand"><img src="assets/img/renovo-crete-logo.png" alt="RENOVO CRETE"><small>Professional Portal</small></div><div class="tenant-card" id="tenantCard"></div><nav class="nav" id="nav"></nav><div class="offline-note">Local prototype. Data stored on this device is not a secure production server deployment.</div></aside>
   <main class="workspace"><header class="topbar"><h1 id="pageTitle"></h1><div class="top-actions"><span class="mode" id="modeLabel"></span><button class="btn secondary small" id="backAdminButton">Back to administration</button><button class="btn secondary small" id="logoutButton">Sign out</button></div></header><section class="content" id="content"></section></main>
 </div>
 <div class="modal" id="modal"><div class="modal-card" id="modalCard"></div></div>
@@ -126,6 +141,9 @@
 <!-- RENOVO CRETE V29 — launch-readiness consolidation: stable shell, notifications, unified selection, scope, MD community, projects, visualizer QA -->
 <link rel="stylesheet" href="styles/54-v29-launch-style.css">
 <script src="scripts/55-v29-launch-script.js"></script>
+
+<link rel="stylesheet" href="product/product.css">
+<script src="product/runtime-config.js"></script>
 
 </body>
 </html>
