@@ -1,0 +1,147 @@
+[
+  {
+    "id": "service-0",
+    "title": "Revêtements de sol intérieur",
+    "titleEn": "Interior floor coatings",
+    "titleEs": "Revestimientos de suelo interior",
+    "desc": "Sols de garage, terrasses, piscines, hall d'entrée — des finitions époxy qui subliment vos espaces et résistent au climat tropical.",
+    "descEn": "Garage floors, terraces, pools, lobbies — epoxy finishes that elevate your spaces and withstand tropical climate.",
+    "descEs": "Garage floors, terraces, pools, lobbies — epoxy finishes that elevate your spaces and withstand tropical climate.",
+    "image": "heroImg",
+    "features": [
+      "Métallique, flocons ou marbré",
+      "Résistant aux chocs et UV",
+      "Sans joints, hygiénique",
+      "10 à 25 ans de durabilité"
+    ],
+    "featuresEn": [
+      "Metallic, flake or marbled",
+      "Impact and UV resistant",
+      "Seamless, hygienic",
+      "10 to 25 years durability"
+    ],
+    "featuresEs": [
+      "Metallic, flake or marbled",
+      "Impact and UV resistant",
+      "Seamless, hygienic",
+      "10 to 25 years durability"
+    ],
+    "scope": "interior"
+  },
+  {
+    "id": "service-1",
+    "title": "Comptoirs en résine",
+    "titleEn": "Resin Countertops",
+    "titleEs": "Resin Countertops",
+    "desc": "Comptoirs de cuisine et salle de bain en résine époxy — finitions uniques, résistantes à la chaleur et aux taches.",
+    "descEn": "Kitchen and bathroom epoxy resin countertops — unique finishes, heat and stain resistant.",
+    "descEs": "Kitchen and bathroom epoxy resin countertops — unique finishes, heat and stain resistant.",
+    "image": "countertopImg",
+    "features": [
+      "Finitions marbrées et artistiques",
+      "Résistant à la chaleur et aux taches",
+      "Surface non poreuse",
+      "Entretien minimal"
+    ],
+    "featuresEn": [
+      "Marbled and artistic finishes",
+      "Heat and stain resistant",
+      "Non-porous surface",
+      "Minimal maintenance"
+    ],
+    "featuresEs": [
+      "Marbled and artistic finishes",
+      "Heat and stain resistant",
+      "Non-porous surface",
+      "Minimal maintenance"
+    ],
+    "scope": "both"
+  },
+  {
+    "id": "service-2",
+    "title": "Tables décoratives",
+    "titleEn": "Decorative Tables",
+    "titleEs": "Decorative Tables",
+    "desc": "Tables rivière en bois massif et résine — pièces uniques et sur mesure qui deviennent le centre de votre décor.",
+    "descEn": "River tables in solid wood and resin — unique custom pieces that become the centerpiece of your decor.",
+    "descEs": "River tables in solid wood and resin — unique custom pieces that become the centerpiece of your decor.",
+    "image": "tableImg",
+    "features": [
+      "Bois massif et résine translucide",
+      "Design sur mesure",
+      "Pièce unique garantie",
+      "Finition cristalline"
+    ],
+    "featuresEn": [
+      "Solid wood and translucent resin",
+      "Custom design",
+      "Guaranteed unique piece",
+      "Crystal-clear finish"
+    ],
+    "featuresEs": [
+      "Solid wood and translucent resin",
+      "Custom design",
+      "Guaranteed unique piece",
+      "Crystal-clear finish"
+    ],
+    "scope": "both"
+  },
+  {
+    "id": "service-3",
+    "title": "Autres surfaces adhérentes",
+    "titleEn": "Other Adhesive Surfaces",
+    "titleEs": "Other Adhesive Surfaces",
+    "desc": "Murs décoratifs, escaliers, mobilier, éléments architecturaux — tout ce qui adhère peut être transformé.",
+    "descEn": "Decorative walls, stairs, furniture, architectural elements — anything that adheres can be transformed.",
+    "descEs": "Decorative walls, stairs, furniture, architectural elements — anything that adheres can be transformed.",
+    "image": "outdoorImg",
+    "features": [
+      "Murs et cloisons décoratives",
+      "Escaliers et marches",
+      "Mobilier sur mesure",
+      "Éléments architecturaux"
+    ],
+    "featuresEn": [
+      "Decorative walls and partitions",
+      "Stairs and steps",
+      "Custom furniture",
+      "Architectural elements"
+    ],
+    "featuresEs": [
+      "Decorative walls and partitions",
+      "Stairs and steps",
+      "Custom furniture",
+      "Architectural elements"
+    ],
+    "scope": "both"
+  },
+  {
+    "id": "service-exterior",
+    "title": "Revêtements de sol extérieur",
+    "titleEn": "Exterior floor coatings",
+    "titleEs": "Revestimientos de suelo exterior",
+    "desc": "Terrasses, allées et abords de piscine : des revêtements décoratifs antidérapants adaptés aux UV et au climat tropical.",
+    "descEn": "Terraces, walkways and pool decks: decorative, non-slip coatings suited to UV exposure and tropical climates.",
+    "descEs": "Terrazas, caminos y bordes de piscina: revestimientos decorativos antideslizantes adaptados al sol y al clima tropical.",
+    "image": "outdoorImg",
+    "features": [
+      "Terrasses et allées",
+      "Abords de piscine",
+      "Finitions antidérapantes",
+      "Systèmes adaptés à l’extérieur"
+    ],
+    "featuresEn": [
+      "Terraces and walkways",
+      "Pool decks",
+      "Non-slip finishes",
+      "Exterior-ready systems"
+    ],
+    "featuresEs": [
+      "Terrazas y caminos",
+      "Bordes de piscina",
+      "Acabados antideslizantes",
+      "Sistemas para exteriores"
+    ],
+    "scope": "exterior"
+  }
+]

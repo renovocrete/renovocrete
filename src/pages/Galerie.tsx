@@ -5,10 +5,13 @@ import { ArrowRight, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import PageHeader from "@/components/PageHeader";
 import { useLanguage } from "@/i18n/LanguageContext";
-import { galleryProjects } from "@/data/mock";
+import { useSiteContent } from "@/hooks/useSiteContent";
+import { translateContent } from "@/lib/site/model";
 
 const Galerie = () => {
   const { lang, t } = useLanguage();
+  const { content } = useSiteContent();
+  const galleryProjects = content.gallery;
   const filters = [t("Tous", "All"), "Sols", "Comptoirs", "Tables", t("Industriel", "Industrial"), t("Extérieur", "Exterior")];
   const [filter, setFilter] = useState(filters[0]);
   const [lightbox, setLightbox] = useState<number | null>(null);
@@ -47,7 +50,7 @@ const Galerie = () => {
                 <motion.div key={`${img.label}-${i}`} layout initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} transition={{ delay: i * 0.03 }} className="group relative rounded-xl overflow-hidden cursor-pointer" onClick={() => setLightbox(i)}>
                   <img src={img.src} alt={img.alt} className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
                   <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                    <span className="text-primary-foreground font-heading font-semibold text-sm">{lang === "fr" ? img.label : img.labelEn}</span>
+                    <span className="text-primary-foreground font-heading font-semibold text-sm">{translateContent(img, "label", lang)}</span>
                     <span className="text-primary-foreground/70 text-xs">{img.category}</span>
                   </div>
                 </motion.div>
@@ -63,8 +66,8 @@ const Galerie = () => {
           <div className="max-w-4xl w-full" onClick={(e) => e.stopPropagation()}>
             <img src={filtered[lightbox].src} alt={filtered[lightbox].alt} className="max-h-[75vh] w-full rounded-xl object-contain" />
             <div className="mt-4 text-center">
-              <h3 className="text-primary-foreground font-heading font-semibold text-lg">{lang === "fr" ? filtered[lightbox].label : filtered[lightbox].labelEn}</h3>
-              <p className="text-primary-foreground/60 text-sm mt-1">{lang === "fr" ? filtered[lightbox].desc : filtered[lightbox].descEn}</p>
+              <h3 className="text-primary-foreground font-heading font-semibold text-lg">{translateContent(filtered[lightbox], "label", lang)}</h3>
+              <p className="text-primary-foreground/60 text-sm mt-1">{translateContent(filtered[lightbox], "desc", lang)}</p>
               <div className="flex flex-wrap items-center justify-center gap-3 mt-4">
                 <Button asChild size="sm" className="bg-gradient-brand hover:opacity-90">
                   <Link to="/devis" onClick={() => setLightbox(null)}>{t("Je veux un résultat similaire", "I want a similar result")} <ArrowRight className="w-4 h-4 ml-1.5" /></Link>

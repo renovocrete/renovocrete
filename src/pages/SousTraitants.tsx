@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Award, MapPin, Phone, ArrowRight } from "lucide-react";
+import { PRO_PORTAL_URL } from "@/lib/site/model";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 interface Contractor {
@@ -41,10 +42,10 @@ export default function SousTraitants() {
           </div>
           <div className="flex flex-wrap gap-2">
             <Button asChild variant="secondary" className="bg-primary-foreground text-primary hover:bg-primary-foreground/90">
-              <Link to="/auth">{t("Se connecter", "Sign in")} <ArrowRight className="w-4 h-4 ml-2" /></Link>
+              <a href={PRO_PORTAL_URL}>{t("Se connecter", "Sign in")} <ArrowRight className="w-4 h-4 ml-2" /></a>
             </Button>
             <Button asChild variant="outline" className="border-primary-foreground/40 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground">
-              <Link to="/dashboard-preview">{t("Aperçu du Dashboard", "Preview Dashboard")}</Link>
+              <a href={PRO_PORTAL_URL}>{t("Dashboard pro", "Pro dashboard", "Panel profesional")}</a>
             </Button>
           </div>
         </Card>

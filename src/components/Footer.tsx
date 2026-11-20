@@ -3,10 +3,13 @@ import { Phone, Mail, MapPin, ArrowRight, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/i18n/LanguageContext";
 import logo from "@/assets/renovo-crete-logo.png";
-import DashboardStatusBadge from "@/components/DashboardStatusBadge";
+import { useSiteContent } from "@/hooks/useSiteContent";
+import { PRO_PORTAL_URL, phoneHref } from "@/lib/site/model";
 
 const Footer = () => {
   const { t } = useLanguage();
+  const { content } = useSiteContent();
+  const contact = content.contact;
 
   return (
     <footer className="bg-foreground text-primary-foreground">
@@ -48,13 +51,13 @@ const Footer = () => {
               )}
             </p>
             <div className="flex items-center gap-3 mt-4">
-              <a href="https://www.instagram.com/renovocrete" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-lg bg-primary-foreground/10 flex items-center justify-center hover:bg-primary-foreground/20 transition-colors">
+              <a href={contact.instagram} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-lg bg-primary-foreground/10 flex items-center justify-center hover:bg-primary-foreground/20 transition-colors">
                 <Instagram className="w-4 h-4" />
               </a>
-              <a href="https://www.tiktok.com/@renovocrete" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-lg bg-primary-foreground/10 flex items-center justify-center hover:bg-primary-foreground/20 transition-colors text-xs font-bold">
+              <a href={contact.tiktok} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-lg bg-primary-foreground/10 flex items-center justify-center hover:bg-primary-foreground/20 transition-colors text-xs font-bold">
                 TT
               </a>
-              <a href="https://www.facebook.com/renovocrete" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-lg bg-primary-foreground/10 flex items-center justify-center hover:bg-primary-foreground/20 transition-colors text-xs font-bold">
+              <a href={contact.facebook} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-lg bg-primary-foreground/10 flex items-center justify-center hover:bg-primary-foreground/20 transition-colors text-xs font-bold">
                 FB
               </a>
             </div>
@@ -79,35 +82,31 @@ const Footer = () => {
 
           <div>
             <h4 className="font-heading font-semibold mb-4 text-sm uppercase tracking-wider text-primary-foreground/80">Contact</h4>
-            <ul className="space-y-3 text-sm text-primary-foreground/55">
-              <li className="flex items-center gap-2"><Phone className="w-4 h-4 text-primary-light" /><a href="tel:+590690535834" className="hover:text-primary-light transition-colors">0690 53 58 34</a></li>
-              <li className="flex items-center gap-2"><Mail className="w-4 h-4 text-primary-light" /><a href="mailto:renovocrete@gmail.com" className="hover:text-primary-light transition-colors">renovocrete@gmail.com</a></li>
-              <li className="flex items-center gap-2"><MapPin className="w-4 h-4 text-primary-light" />Saint-Martin</li>
+            <ul className="space-y-3 break-words text-sm text-primary-foreground/55">
+              <li className="flex items-center gap-2"><Phone className="w-4 h-4 text-primary-light" /><a href={phoneHref(contact.phone)} className="hover:text-primary-light transition-colors">{contact.phone}</a></li>
+              <li className="flex items-center gap-2"><Mail className="w-4 h-4 text-primary-light" /><a href={`mailto:${contact.email}`} className="hover:text-primary-light transition-colors">{contact.email}</a></li>
+              <li className="flex items-center gap-2"><MapPin className="w-4 h-4 text-primary-light" />{contact.base}</li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-heading font-semibold mb-4 text-sm uppercase tracking-wider text-primary-foreground/80">{t("Zones desservies", "Service Areas")}</h4>
             <ul className="space-y-1 text-sm text-primary-foreground/55">
-              <li className="font-medium text-primary-foreground/70">Saint-Martin / Sint Maarten</li>
-              <li>Saint-Barth</li>
-              <li>Guadeloupe</li>
-              <li>Martinique</li>
-              <li>Anguilla</li>
-              <li className="text-primary-foreground/40">{t("+ Caraïbe anglophone", "+ English Caribbean")}</li>
+              {content.zones.flatMap(z => z.zones).map(z => <li key={z}>{z}</li>)}
             </ul>
           </div>
         </div>
 
         <div className="border-t border-primary-foreground/10 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-primary-foreground/35">
           <p>© {new Date().getFullYear()} Renovo Crete. {t("Tous droits réservés.", "All rights reserved.")}</p>
-          <div className="flex gap-6 items-center">
+          <div className="flex flex-wrap justify-center gap-4 items-center">
             <span className="hover:text-primary-foreground/60 cursor-pointer transition-colors">{t("Politique de confidentialité", "Privacy Policy")}</span>
             <span className="hover:text-primary-foreground/60 cursor-pointer transition-colors">{t("Conditions d'utilisation", "Terms of Service")}</span>
             <span className="hover:text-primary-foreground/60 cursor-pointer transition-colors">{t("Mentions légales", "Legal Notice")}</span>
-            <Link to="/auth" className="text-primary-foreground/40 hover:text-primary-light transition-colors flex items-center gap-2">
-              {t("Espace pro", "Pro area")} <DashboardStatusBadge compact />
-            </Link>
+            <a href={PRO_PORTAL_URL} className="text-primary-foreground/40 hover:text-primary-light transition-colors flex items-center gap-2">
+              {t("Espace pro", "Pro area")}
+            </a>
+            <Link to="/admin/site" className="hover:text-primary-light">{t("Administration du site", "Website administration", "Administración del sitio")}</Link>
           </div>
         </div>
       </div>

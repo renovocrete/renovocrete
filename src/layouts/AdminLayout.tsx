@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { LayoutDashboard, Users, HardHat, MessageSquare, Bot, Settings, ArrowLeft, ShieldCheck, Headset, ShoppingCart } from "lucide-react";
+import { LayoutDashboard, Users, HardHat, MessageSquare, Bot, Settings, ArrowLeft, ShieldCheck, Headset, ShoppingCart, Images } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
@@ -13,6 +13,7 @@ const items = [
   { to: "/admin/partenaires", icon: HardHat, label: "Architectes & Constructeurs" },
   { to: "/admin/messagerie", icon: MessageSquare, label: "Messagerie interne" },
   { to: "/admin/chatbot", icon: Bot, label: "Base assistant IA" },
+  { to: "/admin/site", icon: Images, label: "Contenu du site" },
   { to: "/admin/parametres", icon: Settings, label: "Paramètres" },
 ];
 
@@ -39,7 +40,7 @@ export default function AdminLayout() {
   }, []);
 
   return (
-    <div className="min-h-screen flex bg-secondary/30">
+    <div className="min-h-screen flex flex-col md:flex-row bg-secondary/30">
       {impersonating && (
         <div className="fixed top-0 inset-x-0 z-[60] bg-destructive text-destructive-foreground py-2 px-4 text-center text-sm font-semibold flex items-center justify-center gap-3">
           <ShieldCheck className="w-4 h-4" />
@@ -57,12 +58,12 @@ export default function AdminLayout() {
         </div>
       )}
 
-      <aside className="w-64 shrink-0 bg-foreground text-background flex flex-col">
+      <aside className="w-full md:w-64 shrink-0 bg-foreground text-background flex flex-col">
         <div className="p-6 border-b border-background/10">
           <p className="text-xs uppercase tracking-widest text-background/60">RENOVO CRETE</p>
           <p className="font-heading text-lg font-bold mt-1">Super Administration</p>
         </div>
-        <nav className="flex-1 p-3 space-y-1">
+        <nav className="flex-1 p-3 grid grid-cols-2 md:block gap-1 md:space-y-1">
           {items.map((it) => (
             <NavLink
               key={it.to}
@@ -89,7 +90,7 @@ export default function AdminLayout() {
         </div>
       </aside>
 
-      <main className="flex-1 overflow-x-hidden">
+      <main className="flex-1 min-w-0 overflow-x-hidden">
         <div className={impersonating ? "pt-10" : ""}>
           <Outlet />
         </div>

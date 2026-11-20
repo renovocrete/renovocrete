@@ -4,10 +4,13 @@ import { Link } from "react-router-dom";
 import { ArrowRight, ArrowLeft, Check, User, Home, Palette, FileText, Upload, Phone, Camera, Ruler } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import PageHeader from "@/components/PageHeader";
+import { useSiteContent } from "@/hooks/useSiteContent";
+import { phoneHref } from "@/lib/site/model";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 const Devis = () => {
   const { t } = useLanguage();
+  const { content } = useSiteContent();
 
   const steps = [
     { icon: Home, label: t("Projet", "Project") },
@@ -197,7 +200,7 @@ const Devis = () => {
           <div className="mt-8 p-5 rounded-xl border border-border bg-secondary text-center">
             <p className="text-sm text-muted-foreground mb-3">{t("Vous préférez être rappelé ?", "Prefer to be called back?")}</p>
             <Button asChild variant="outline" size="sm">
-              <a href="tel:+590690535834"><Phone className="w-4 h-4 mr-1.5" /> {t("Je préfère être rappelé", "I prefer to be called back")}</a>
+              <a href={phoneHref(content.contact.phone)}><Phone className="w-4 h-4 mr-1.5" /> {t("Je préfère être rappelé", "I prefer to be called back")}</a>
             </Button>
           </div>
         </div>

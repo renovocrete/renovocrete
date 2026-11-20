@@ -5,23 +5,26 @@ import { Phone, Mail, MapPin, Send, Check, Instagram, Globe } from "lucide-react
 import { Button } from "@/components/ui/button";
 import PageHeader from "@/components/PageHeader";
 import { useLanguage } from "@/i18n/LanguageContext";
-import { servedZones } from "@/data/mock";
+import { useSiteContent } from "@/hooks/useSiteContent";
+import { phoneHref, translateContent } from "@/lib/site/model";
 
 const fadeUp = { initial: { opacity: 0, y: 24 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true } };
 
 const Contact = () => {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const { content } = useSiteContent();
+  const contact = content.contact;
   const [sent, setSent] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
   const update = (field: string, value: string) => setForm((prev) => ({ ...prev, [field]: value }));
   const inputClass = "w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors";
 
   const contactInfo = [
-    { icon: Phone, label: t("Téléphone", "Phone"), value: "0690 53 58 34", href: "tel:+590690535834" },
-    { icon: Mail, label: t("Email principal", "Main email"), value: "renovocrete@gmail.com", href: "mailto:renovocrete@gmail.com" },
-    { icon: Mail, label: t("Devis & projets", "Quotes & projects"), value: "renovocretebat@gmail.com", href: "mailto:renovocretebat@gmail.com" },
-    { icon: MapPin, label: t("Base", "Base"), value: "Saint-Martin" },
-    { icon: Instagram, label: "Instagram", value: "Renovo Crete", href: "https://www.instagram.com/renovocrete" },
+    { icon: Phone, label: t("Téléphone", "Phone"), value: contact.phone, href: phoneHref(contact.phone) },
+    { icon: Mail, label: t("Email principal", "Main email"), value: contact.email, href: `mailto:${contact.email}` },
+    { icon: Mail, label: t("Devis & projets", "Quotes & projects"), value: contact.quoteEmail, href: `mailto:${contact.quoteEmail}` },
+    { icon: MapPin, label: t("Base", "Base"), value: contact.base },
+    { icon: Instagram, label: "Instagram", value: "Renovo Crete", href: contact.instagram },
   ];
 
   return (
@@ -42,10 +45,10 @@ const Contact = () => {
                 {contactInfo.map((c) => (
                   <motion.div key={c.label} {...fadeUp} className="flex gap-4 p-4 rounded-xl border border-border hover:border-primary/20 transition-colors">
                     <div className="w-11 h-11 rounded-lg bg-primary/8 flex items-center justify-center flex-shrink-0"><c.icon className="w-5 h-5 text-primary" /></div>
-                    <div>
+                    <div className="min-w-0">
                       <span className="text-xs text-muted-foreground uppercase tracking-wider">{c.label}</span>
                       {c.href ? (
-                        <a href={c.href} target={c.href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" className="block font-medium text-foreground hover:text-primary transition-colors">{c.value}</a>
+                        <a href={c.href} target={c.href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" className="block break-words font-medium text-foreground hover:text-primary transition-colors">{c.value}</a>
                       ) : (
                         <span className="block font-medium">{c.value}</span>
                       )}
@@ -60,11 +63,11 @@ const Contact = () => {
               </p>
 
               <div className="space-y-4">
-                {Object.values(servedZones).map((zone) => (
+                {content.zones.map((zone) => (
                   <div key={zone.title} className="rounded-xl border border-border p-4">
                     <h3 className="font-heading text-sm font-semibold mb-3 flex items-center gap-2">
                       <Globe className="w-4 h-4 text-primary" />
-                      {t(zone.title, zone.titleEn)}
+                      {translateContent(zone, "title", lang)}
                     </h3>
                     <div className="flex flex-wrap gap-2">
                       {zone.zones.map((z) => (

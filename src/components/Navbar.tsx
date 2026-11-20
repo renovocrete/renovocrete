@@ -11,6 +11,7 @@ import {
 
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useAuth } from "@/hooks/useAuth";
+import { PRO_PORTAL_URL } from "@/lib/site/model";
 import logo from "@/assets/renovo-crete-logo.png";
 
 const Navbar = () => {
@@ -19,7 +20,7 @@ const Navbar = () => {
   const location = useLocation();
   const { lang, setLang, t } = useLanguage();
   const { user, canAccessDashboard, isAdmin, isPartner } = useAuth();
-  const dashHref = user ? "/dashboard" : "/dashboard-preview";
+  const dashHref = PRO_PORTAL_URL;
   const dashStatus = !user
     ? { label: t("Invité", "Guest"), cls: "bg-muted text-muted-foreground" }
     : canAccessDashboard
@@ -50,7 +51,7 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop */}
-        <div className="hidden xl:flex items-center gap-0.5">
+        <div className="hidden 2xl:flex items-center gap-0.5">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path;
             return (
@@ -72,7 +73,7 @@ const Navbar = () => {
           })}
         </div>
 
-        <div className="hidden xl:flex items-center gap-2 flex-shrink-0">
+        <div className="hidden 2xl:flex items-center gap-2 flex-shrink-0">
           {/* Language switcher */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -106,15 +107,15 @@ const Navbar = () => {
             </Link>
           </Button>
           <Button asChild variant="ghost" size="sm" className="text-foreground gap-1.5">
-            <Link to={dashHref}>
+            <a href={dashHref}>
               <LayoutDashboard className="w-4 h-4" />
-              Dashboard
+              {t("Dashboard pro", "Pro dashboard", "Panel profesional")}
               <span className={`ml-1 px-1.5 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wide ${dashStatus.cls}`}>{dashStatus.label}</span>
-            </Link>
+            </a>
           </Button>
           {isPartner && (
             <Button asChild variant="ghost" size="sm" className="text-foreground">
-              <Link to="/partenaire/dashboard">Espace pro</Link>
+              <a href={PRO_PORTAL_URL}>{t("Espace pro", "Pro area", "Espacio profesional")}</a>
             </Button>
           )}
           {isAdmin && (
@@ -132,14 +133,14 @@ const Navbar = () => {
         </div>
 
         {/* Mobile toggle */}
-        <button className="xl:hidden text-foreground p-2" onClick={() => setIsOpen(!isOpen)} aria-label="Menu">
+        <button className="2xl:hidden text-foreground p-2" onClick={() => setIsOpen(!isOpen)} aria-label="Menu">
           {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
 
       {/* Mobile menu */}
       {isOpen && (
-        <div className="xl:hidden bg-background border-t border-border px-4 pb-6 pt-2 shadow-lg">
+        <div className="2xl:hidden bg-background border-t border-border px-4 pb-6 pt-2 shadow-lg">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path;
             return (
@@ -173,12 +174,14 @@ const Navbar = () => {
               </Link>
             </Button>
             <Button asChild variant="ghost" className="w-full gap-1.5">
-              <Link to={dashHref} onClick={() => setIsOpen(false)}>
+              <a href={dashHref} onClick={() => setIsOpen(false)}>
                 <LayoutDashboard className="w-4 h-4 mr-2" />
-                Dashboard
+                {t("Dashboard pro", "Pro dashboard", "Panel profesional")}
                 <span className={`ml-1 px-1.5 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wide ${dashStatus.cls}`}>{dashStatus.label}</span>
-              </Link>
+              </a>
             </Button>
+            <Button asChild variant="outline"><a href={PRO_PORTAL_URL}>{t("Espace pro", "Pro area", "Espacio profesional")}</a></Button>
+            <Button asChild variant="outline"><Link to="/admin/site" onClick={() => setIsOpen(false)}>{t("Administration du site", "Website administration", "Administración del sitio")}</Link></Button>
             <Button asChild className="w-full bg-gradient-brand-deep">
               <Link to="/devis" onClick={() => setIsOpen(false)}>
                 <Phone className="w-4 h-4 mr-2" />

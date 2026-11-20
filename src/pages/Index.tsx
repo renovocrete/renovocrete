@@ -3,20 +3,19 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Shield, Star, CheckCircle2, Sparkles, Clock, Award, Wrench, Eye, Quote } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/i18n/LanguageContext";
-import { heroImg, countertopImg, tableImg, industrialImg, outdoorImg, commercialImg, beforeAfterImg, testimonials, processSteps, faqItems } from "@/data/mock";
+import { testimonials, processSteps, faqItems } from "@/data/mock";
+import { useSiteContent } from "@/hooks/useSiteContent";
+import { translateContent } from "@/lib/site/model";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const fadeUp = { initial: { opacity: 0, y: 24 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true } };
 
 const Index = () => {
   const { lang, t } = useLanguage();
+  const { content } = useSiteContent();
+  const { heroImg, countertopImg, tableImg, industrialImg, outdoorImg, commercialImg, beforeAfterImg } = content.images;
 
-  const services = [
-    { img: countertopImg, label: t("Comptoirs en résine", "Resin Countertops"), desc: t("Finitions marbrées et métalliques uniques", "Unique marbled and metallic finishes") },
-    { img: tableImg, label: t("Tables décoratives", "Decorative Tables"), desc: t("Pièces sur mesure en bois et résine", "Custom wood and resin pieces") },
-    { img: industrialImg, label: t("Sols industriels", "Industrial Floors"), desc: t("Revêtements haute performance", "High-performance coatings") },
-    { img: outdoorImg, label: t("Surfaces extérieures", "Outdoor Surfaces"), desc: t("Résistants aux UV et intempéries", "UV and weather resistant") },
-  ];
+  const services = content.services.map(s => ({img:s.image,label:translateContent(s,"title",lang),desc:translateContent(s,"desc",lang)}));
 
   const benefits = [
     { icon: Shield, title: t("Durabilité extrême", "Extreme Durability"), desc: t("10 à 25 ans de résistance aux chocs, produits chimiques et trafic intense.", "10 to 25 years of resistance to impacts, chemicals and heavy traffic.") },
@@ -110,7 +109,7 @@ const Index = () => {
               <span className="text-gradient-brand">{t("performent & impressionnent", "perform & impress")}</span>
             </h2>
           </motion.div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((s, i) => (
               <motion.div key={s.label} {...fadeUp} transition={{ delay: i * 0.08 }}>
                 <Link to="/prestations" className="group block rounded-xl overflow-hidden bg-background shadow-sm hover:shadow-lg transition-shadow">
@@ -187,8 +186,8 @@ const Index = () => {
             {processSteps.map((s, i) => (
               <motion.div key={s.step} {...fadeUp} transition={{ delay: i * 0.08 }} className="text-center p-6 rounded-xl bg-background border border-border">
                 <span className="font-heading text-3xl font-extrabold text-gradient-brand">{s.step}</span>
-                <h3 className="font-heading text-base font-semibold mt-3 mb-2">{lang === "fr" ? s.title : s.titleEn}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{lang === "fr" ? s.desc : s.descEn}</p>
+                <h3 className="font-heading text-base font-semibold mt-3 mb-2">{t(s.title, s.titleEn)}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{t(s.desc, s.descEn)}</p>
               </motion.div>
             ))}
           </div>
@@ -206,13 +205,7 @@ const Index = () => {
             </h2>
           </motion.div>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {[
-              { img: heroImg, label: t("Sol métallique", "Metallic Floor"), span: "col-span-2 row-span-2" },
-              { img: countertopImg, label: t("Comptoir océan", "Ocean Countertop") },
-              { img: tableImg, label: t("Table rivière", "River Table") },
-              { img: commercialImg, label: "Showroom" },
-              { img: outdoorImg, label: t("Terrasse", "Terrace") },
-            ].map((item, i) => (
+            {content.gallery.slice(0,5).map((g,i)=>({img:g.src,label:translateContent(g,"label",lang),span:i===0?"col-span-2 row-span-2":""})).map((item, i) => (
               <motion.div key={item.label} {...fadeUp} transition={{ delay: i * 0.06 }} className={`group relative rounded-xl overflow-hidden ${item.span || ""}`}>
                 <img src={item.img} alt={item.label} className="w-full h-full object-cover aspect-square group-hover:scale-105 transition-transform duration-500" loading="lazy" />
                 <div className="absolute inset-0 bg-gradient-to-t from-foreground/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
@@ -243,14 +236,14 @@ const Index = () => {
             {testimonials.map((te, i) => (
               <motion.div key={te.name} {...fadeUp} transition={{ delay: i * 0.08 }} className="p-6 rounded-xl bg-background border border-border">
                 <Quote className="w-8 h-8 text-primary/20 mb-3" />
-                <p className="text-sm text-muted-foreground leading-relaxed mb-4">"{lang === "fr" ? te.text : te.textEn}"</p>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-4">"{t(te.text, te.textEn)}"</p>
                 <div className="flex items-center gap-1 mb-2">
                   {Array.from({ length: te.rating }).map((_, j) => (
                     <Star key={j} className="w-4 h-4 fill-primary text-primary" />
                   ))}
                 </div>
                 <p className="font-heading font-semibold text-sm">{te.name}</p>
-                <p className="text-xs text-muted-foreground">{lang === "fr" ? te.role : te.roleEn} — {te.location}</p>
+                <p className="text-xs text-muted-foreground">{t(te.role, te.roleEn)} — {te.location}</p>
               </motion.div>
             ))}
           </div>
@@ -294,8 +287,8 @@ const Index = () => {
             <Accordion type="single" collapsible className="space-y-3">
               {faqItems.map((faq, i) => (
                 <AccordionItem key={i} value={`faq-${i}`} className="bg-background border border-border rounded-xl px-6">
-                  <AccordionTrigger className="font-heading font-semibold text-left hover:no-underline">{lang === "fr" ? faq.q : faq.qEn}</AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground leading-relaxed">{lang === "fr" ? faq.a : faq.aEn}</AccordionContent>
+                  <AccordionTrigger className="font-heading font-semibold text-left hover:no-underline">{t(faq.q, faq.qEn)}</AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground leading-relaxed">{t(faq.a, faq.aEn)}</AccordionContent>
                 </AccordionItem>
               ))}
             </Accordion>

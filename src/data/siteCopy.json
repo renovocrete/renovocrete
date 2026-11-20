@@ -1,0 +1,1942 @@
+[
+  {
+    "page": "Visualisation",
+    "fr": "Téléphone",
+    "en": "Phone"
+  },
+  {
+    "page": "Contact",
+    "fr": "Email principal",
+    "en": "Main email"
+  },
+  {
+    "page": "Contact",
+    "fr": "Devis & projets",
+    "en": "Quotes & projects"
+  },
+  {
+    "page": "Contact",
+    "fr": "Base",
+    "en": "Base"
+  },
+  {
+    "page": "Contact",
+    "fr": "Contactez",
+    "en": "Contact"
+  },
+  {
+    "page": "Contact",
+    "fr": "notre équipe",
+    "en": "our team"
+  },
+  {
+    "page": "Contact",
+    "fr": "Une question ? Un projet en tête ? Nous vous répondons sous 24h.",
+    "en": "A question? A project in mind? We respond within 24h."
+  },
+  {
+    "page": "Contact",
+    "fr": "Nos coordonnées",
+    "en": "Our contact details"
+  },
+  {
+    "page": "Footer",
+    "fr": "Zones desservies",
+    "en": "Service Areas"
+  },
+  {
+    "page": "Contact",
+    "fr": "Base principale à Saint-Martin. Nous intervenons dans toute la Caraïbe.",
+    "en": "Main base in Saint-Martin. We operate throughout the Caribbean."
+  },
+  {
+    "page": "Contact",
+    "fr": "Message rapide",
+    "en": "Quick message"
+  },
+  {
+    "page": "Contact",
+    "fr": "Message envoyé !",
+    "en": "Message sent!"
+  },
+  {
+    "page": "Contact",
+    "fr": "Nous vous répondrons dans les plus brefs délais.",
+    "en": "We'll respond as soon as possible."
+  },
+  {
+    "page": "Devis",
+    "fr": "Nom complet *",
+    "en": "Full name *"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Votre nom",
+    "en": "Your name"
+  },
+  {
+    "page": "Contact",
+    "fr": "Décrivez votre projet ou posez votre question...",
+    "en": "Describe your project or ask your question..."
+  },
+  {
+    "page": "Contact",
+    "fr": "Envoyer le message",
+    "en": "Send message"
+  },
+  {
+    "page": "Contact",
+    "fr": "Besoin d'un devis détaillé ?",
+    "en": "Need a detailed quote?"
+  },
+  {
+    "page": "Contact",
+    "fr": "Remplissez notre formulaire complet →",
+    "en": "Fill out our complete form →"
+  },
+  {
+    "page": "Contact",
+    "fr": "Simulez votre projet en ligne.",
+    "en": "Simulate your project online."
+  },
+  {
+    "page": "Contact",
+    "fr": "Accéder au visualiseur →",
+    "en": "Access the visualizer →"
+  },
+  {
+    "page": "Devis",
+    "fr": "Projet",
+    "en": "Project"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Surface",
+    "en": "Surface"
+  },
+  {
+    "page": "Devis",
+    "fr": "Détails",
+    "en": "Details"
+  },
+  {
+    "page": "Devis",
+    "fr": "Photos",
+    "en": "Photos"
+  },
+  {
+    "page": "Devis",
+    "fr": "Coordonnées",
+    "en": "Contact"
+  },
+  {
+    "page": "Navbar",
+    "fr": "Devis",
+    "en": "Quote"
+  },
+  {
+    "page": "Devis",
+    "fr": "Demande",
+    "en": "Request"
+  },
+  {
+    "page": "Devis",
+    "fr": "envoyée !",
+    "en": "sent!"
+  },
+  {
+    "page": "Devis",
+    "fr": "Merci",
+    "en": "Thank you"
+  },
+  {
+    "page": "Devis",
+    "fr": "Votre demande de devis a bien été envoyée. Notre équipe vous contactera sous 24 à 48h avec une proposition personnalisée.",
+    "en": "Your quote request has been sent. Our team will contact you within 24-48h with a personalized proposal."
+  },
+  {
+    "page": "Devis",
+    "fr": "Nous vous confirmerons la réception par email.",
+    "en": "We'll confirm receipt by email."
+  },
+  {
+    "page": "NotFound",
+    "fr": "Retour à l'accueil",
+    "en": "Back to home"
+  },
+  {
+    "page": "TypesProjets",
+    "fr": "Voir nos réalisations",
+    "en": "View our projects"
+  },
+  {
+    "page": "Index",
+    "fr": "Devis gratuit",
+    "en": "Free Quote"
+  },
+  {
+    "page": "Devis",
+    "fr": "Demandez votre",
+    "en": "Request your"
+  },
+  {
+    "page": "Devis",
+    "fr": "estimation",
+    "en": "estimate"
+  },
+  {
+    "page": "Devis",
+    "fr": "Remplissez ce formulaire en quelques étapes et recevez un devis personnalisé sous 48h.",
+    "en": "Fill out this form in a few steps and receive a personalized quote within 48h."
+  },
+  {
+    "page": "Devis",
+    "fr": "Type de projet",
+    "en": "Project type"
+  },
+  {
+    "page": "Devis",
+    "fr": "Type de projet *",
+    "en": "Project type *"
+  },
+  {
+    "page": "Devis",
+    "fr": "Sélectionnez...",
+    "en": "Select..."
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Résidentiel",
+    "en": "Residential"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Commercial",
+    "en": "Commercial"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Industriel",
+    "en": "Industrial"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Extérieur",
+    "en": "Exterior"
+  },
+  {
+    "page": "Devis",
+    "fr": "Emplacement *",
+    "en": "Location *"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Intérieur",
+    "en": "Interior"
+  },
+  {
+    "page": "Devis",
+    "fr": "Les deux",
+    "en": "Both"
+  },
+  {
+    "page": "Devis",
+    "fr": "Usage du lieu",
+    "en": "Space usage"
+  },
+  {
+    "page": "Devis",
+    "fr": "Ex: Garage, restaurant, entrepôt...",
+    "en": "Ex: Garage, restaurant, warehouse..."
+  },
+  {
+    "page": "Devis",
+    "fr": "Surface à traiter",
+    "en": "Surface to treat"
+  },
+  {
+    "page": "Devis",
+    "fr": "Type de surface *",
+    "en": "Surface type *"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Comptoir",
+    "en": "Countertop"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Table",
+    "en": "Table"
+  },
+  {
+    "page": "Devis",
+    "fr": "Mur",
+    "en": "Wall"
+  },
+  {
+    "page": "Devis",
+    "fr": "Escalier",
+    "en": "Stairs"
+  },
+  {
+    "page": "Index",
+    "fr": "Terrasse",
+    "en": "Terrace"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Autre",
+    "en": "Other"
+  },
+  {
+    "page": "Devis",
+    "fr": "État du support actuel",
+    "en": "Current substrate condition"
+  },
+  {
+    "page": "Devis",
+    "fr": "Béton brut",
+    "en": "Raw concrete"
+  },
+  {
+    "page": "Devis",
+    "fr": "Béton peint",
+    "en": "Painted concrete"
+  },
+  {
+    "page": "Devis",
+    "fr": "Carrelage",
+    "en": "Tile"
+  },
+  {
+    "page": "Devis",
+    "fr": "Revêtement existant",
+    "en": "Existing coating"
+  },
+  {
+    "page": "Devis",
+    "fr": "Fissuré / endommagé",
+    "en": "Cracked / damaged"
+  },
+  {
+    "page": "Devis",
+    "fr": "Neuf",
+    "en": "New"
+  },
+  {
+    "page": "Devis",
+    "fr": "Détails du besoin",
+    "en": "Project details"
+  },
+  {
+    "page": "Devis",
+    "fr": "Superficie (m² / pi²)",
+    "en": "Area (m² / sqft)"
+  },
+  {
+    "page": "Devis",
+    "fr": "Type de finition souhaitée",
+    "en": "Desired finish type"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Métallique",
+    "en": "Metallic"
+  },
+  {
+    "page": "Devis",
+    "fr": "Flocons",
+    "en": "Flake"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Marbré",
+    "en": "Marbled"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Solide",
+    "en": "Solid"
+  },
+  {
+    "page": "Devis",
+    "fr": "Personnalisé",
+    "en": "Custom"
+  },
+  {
+    "page": "Devis",
+    "fr": "Couleurs préférées",
+    "en": "Preferred colors"
+  },
+  {
+    "page": "Devis",
+    "fr": "Ex: Bleu, gris, blanc",
+    "en": "Ex: Blue, grey, white"
+  },
+  {
+    "page": "Devis",
+    "fr": "Délai souhaité",
+    "en": "Desired timeline"
+  },
+  {
+    "page": "Devis",
+    "fr": "Dès que possible",
+    "en": "As soon as possible"
+  },
+  {
+    "page": "Devis",
+    "fr": "Dans 1 mois",
+    "en": "Within 1 month"
+  },
+  {
+    "page": "Devis",
+    "fr": "Dans 2-3 mois",
+    "en": "Within 2-3 months"
+  },
+  {
+    "page": "Devis",
+    "fr": "Pas pressé",
+    "en": "Not urgent"
+  },
+  {
+    "page": "Devis",
+    "fr": "Budget estimatif",
+    "en": "Estimated budget"
+  },
+  {
+    "page": "Devis",
+    "fr": "Moins de 2 000 €",
+    "en": "Under €2,000"
+  },
+  {
+    "page": "Devis",
+    "fr": "Plus de 10 000 €",
+    "en": "Over €10,000"
+  },
+  {
+    "page": "Devis",
+    "fr": "Commentaire",
+    "en": "Comment"
+  },
+  {
+    "page": "Devis",
+    "fr": "Détails, contraintes, questions...",
+    "en": "Details, constraints, questions..."
+  },
+  {
+    "page": "Devis",
+    "fr": "Dimensions et photos",
+    "en": "Dimensions and photos"
+  },
+  {
+    "page": "Devis",
+    "fr": "Photos du projet (optionnel)",
+    "en": "Project photos (optional)"
+  },
+  {
+    "page": "Devis",
+    "fr": "Photos ajoutées",
+    "en": "Photos added"
+  },
+  {
+    "page": "Devis",
+    "fr": "Cliquez ou glissez pour ajouter",
+    "en": "Click or drag to add"
+  },
+  {
+    "page": "Devis",
+    "fr": "Vos coordonnées",
+    "en": "Your contact details"
+  },
+  {
+    "page": "Devis",
+    "fr": "Téléphone *",
+    "en": "Phone *"
+  },
+  {
+    "page": "Devis",
+    "fr": "Entreprise",
+    "en": "Company"
+  },
+  {
+    "page": "Devis",
+    "fr": "Optionnel",
+    "en": "Optional"
+  },
+  {
+    "page": "Devis",
+    "fr": "Précédent",
+    "en": "Previous"
+  },
+  {
+    "page": "Devis",
+    "fr": "Suivant",
+    "en": "Next"
+  },
+  {
+    "page": "Devis",
+    "fr": "Envoyer ma demande",
+    "en": "Submit my request"
+  },
+  {
+    "page": "Devis",
+    "fr": "Vous préférez être rappelé ?",
+    "en": "Prefer to be called back?"
+  },
+  {
+    "page": "Devis",
+    "fr": "Je préfère être rappelé",
+    "en": "I prefer to be called back"
+  },
+  {
+    "page": "Formations",
+    "fr": "Une erreur est survenue. Réessayez.",
+    "en": "An error occurred. Please try again."
+  },
+  {
+    "page": "Formations",
+    "fr": "Inscription envoyée !",
+    "en": "Signup sent!"
+  },
+  {
+    "page": "Formations",
+    "fr": "Inscription Formations | Renovo Crete",
+    "en": "Training Signup | Renovo Crete"
+  },
+  {
+    "page": "Formations",
+    "fr": "Formation Elite Crete Systems",
+    "en": "Elite Crete Systems Training"
+  },
+  {
+    "page": "Formations",
+    "fr": "Inscription aux formations",
+    "en": "Training Signup"
+  },
+  {
+    "page": "Formations",
+    "fr": "Vous souhaitez participer à une prochaine formation ? Remplissez ce formulaire et nous reviendrons vers vous au plus vite avec les dates, le lieu et les modalités.",
+    "en": "Interested in attending an upcoming training? Fill out this form and we'll get back to you as soon as possible with dates, location and details."
+  },
+  {
+    "page": "Formations",
+    "fr": "Merci pour votre inscription !",
+    "en": "Thank you for signing up!"
+  },
+  {
+    "page": "Formations",
+    "fr": "Notre équipe vous recontactera très prochainement avec les informations détaillées sur la prochaine session.",
+    "en": "Our team will contact you shortly with detailed information about the next session."
+  },
+  {
+    "page": "Formations",
+    "fr": "Prénom",
+    "en": "First Name"
+  },
+  {
+    "page": "Formations",
+    "fr": "Nom",
+    "en": "Last Name"
+  },
+  {
+    "page": "Formations",
+    "fr": "Nom de l'entreprise",
+    "en": "Company name"
+  },
+  {
+    "page": "Formations",
+    "fr": "si applicable",
+    "en": "if applicable"
+  },
+  {
+    "page": "Formations",
+    "fr": "Site web de l'entreprise",
+    "en": "Company website"
+  },
+  {
+    "page": "Formations",
+    "fr": "Ville",
+    "en": "City"
+  },
+  {
+    "page": "Formations",
+    "fr": "Région / État / Province",
+    "en": "State/Province/Region"
+  },
+  {
+    "page": "Formations",
+    "fr": "Pays",
+    "en": "Country"
+  },
+  {
+    "page": "Formations",
+    "fr": "Lieu de formation souhaité (optionnel)",
+    "en": "Preferred training location (optional)"
+  },
+  {
+    "page": "Formations",
+    "fr": "Je suis intéressé(e) par la formation sur",
+    "en": "I'm interested in training on"
+  },
+  {
+    "page": "Formations",
+    "fr": "Notes additionnelles (optionnel)",
+    "en": "Additional notes (optional)"
+  },
+  {
+    "page": "Formations",
+    "fr": "Disponibilités, niveau d'expérience, attentes…",
+    "en": "Availability, experience level, expectations…"
+  },
+  {
+    "page": "Formations",
+    "fr": "Les champs marqués d'un * sont obligatoires.",
+    "en": "Fields marked with * are required."
+  },
+  {
+    "page": "Formations",
+    "fr": "Envoi…",
+    "en": "Sending…"
+  },
+  {
+    "page": "Formations",
+    "fr": "Envoyer mon inscription",
+    "en": "Submit signup"
+  },
+  {
+    "page": "TypesProjets",
+    "fr": "Tous",
+    "en": "All"
+  },
+  {
+    "page": "Navbar",
+    "fr": "Galerie",
+    "en": "Gallery"
+  },
+  {
+    "page": "Partenaires",
+    "fr": "Nos",
+    "en": "Our"
+  },
+  {
+    "page": "Galerie",
+    "fr": "réalisations",
+    "en": "projects"
+  },
+  {
+    "page": "Galerie",
+    "fr": "Parcourez nos projets récents et laissez-vous inspirer pour votre prochaine transformation.",
+    "en": "Browse our recent projects and get inspired for your next transformation."
+  },
+  {
+    "page": "Galerie",
+    "fr": "Je veux un résultat similaire",
+    "en": "I want a similar result"
+  },
+  {
+    "page": "Galerie",
+    "fr": "Envie d'un résultat similaire ?",
+    "en": "Want a similar result?"
+  },
+  {
+    "page": "Galerie",
+    "fr": "Contactez-nous pour discuter de votre projet et recevoir une estimation gratuite.",
+    "en": "Contact us to discuss your project and receive a free estimate."
+  },
+  {
+    "page": "Navbar",
+    "fr": "Demander un devis",
+    "en": "Request a quote"
+  },
+  {
+    "page": "Navbar",
+    "fr": "Visualiser mon projet",
+    "en": "Visualize my project"
+  },
+  {
+    "page": "Prestations",
+    "fr": "Comptoirs en résine",
+    "en": "Resin Countertops"
+  },
+  {
+    "page": "Index",
+    "fr": "Finitions marbrées et métalliques uniques",
+    "en": "Unique marbled and metallic finishes"
+  },
+  {
+    "page": "Prestations",
+    "fr": "Tables décoratives",
+    "en": "Decorative Tables"
+  },
+  {
+    "page": "Index",
+    "fr": "Pièces sur mesure en bois et résine",
+    "en": "Custom wood and resin pieces"
+  },
+  {
+    "page": "Index",
+    "fr": "Sols industriels",
+    "en": "Industrial Floors"
+  },
+  {
+    "page": "Index",
+    "fr": "Revêtements haute performance",
+    "en": "High-performance coatings"
+  },
+  {
+    "page": "Index",
+    "fr": "Surfaces extérieures",
+    "en": "Outdoor Surfaces"
+  },
+  {
+    "page": "Index",
+    "fr": "Résistants aux UV et intempéries",
+    "en": "UV and weather resistant"
+  },
+  {
+    "page": "Index",
+    "fr": "Durabilité extrême",
+    "en": "Extreme Durability"
+  },
+  {
+    "page": "Index",
+    "fr": "10 à 25 ans de résistance aux chocs, produits chimiques et trafic intense.",
+    "en": "10 to 25 years of resistance to impacts, chemicals and heavy traffic."
+  },
+  {
+    "page": "Index",
+    "fr": "Esthétique sur mesure",
+    "en": "Custom Aesthetics"
+  },
+  {
+    "page": "Index",
+    "fr": "Métallique, marbré, flocons, artistique — des finitions personnalisées illimitées.",
+    "en": "Metallic, marbled, flake, artistic — unlimited custom finishes."
+  },
+  {
+    "page": "Index",
+    "fr": "Pose rapide",
+    "en": "Fast Installation"
+  },
+  {
+    "page": "Index",
+    "fr": "La plupart des projets complétés en 2 à 5 jours, perturbation minimale.",
+    "en": "Most projects completed in 2 to 5 days, minimal disruption."
+  },
+  {
+    "page": "Index",
+    "fr": "Expertise formée",
+    "en": "Certified Expertise"
+  },
+  {
+    "page": "Index",
+    "fr": "Partenaire formé Elite Crete Systems, leader mondial du revêtement.",
+    "en": "Certified partner of Elite Crete Systems, global coating leader."
+  },
+  {
+    "page": "Index",
+    "fr": "Sans joints",
+    "en": "Seamless"
+  },
+  {
+    "page": "Index",
+    "fr": "Surface lisse, hygiénique et facile d'entretien — sans fissures ni joints.",
+    "en": "Smooth, hygienic, easy-maintenance surface — no cracks or joints."
+  },
+  {
+    "page": "Index",
+    "fr": "Garantie incluse",
+    "en": "Warranty Included"
+  },
+  {
+    "page": "Index",
+    "fr": "Chaque projet couvert par notre garantie de satisfaction complète.",
+    "en": "Every project covered by our complete satisfaction guarantee."
+  },
+  {
+    "page": "Index",
+    "fr": "Sol époxy métallique premium",
+    "en": "Premium metallic epoxy floor"
+  },
+  {
+    "page": "Index",
+    "fr": "Revêtements époxy & résine premium",
+    "en": "Premium Epoxy & Resin Coatings"
+  },
+  {
+    "page": "Index",
+    "fr": "Sublimez chaque surface avec une finition",
+    "en": "Elevate every surface with an"
+  },
+  {
+    "page": "Index",
+    "fr": "d'exception",
+    "en": "exceptional finish"
+  },
+  {
+    "page": "Index",
+    "fr": "Sols, comptoirs, tables et surfaces adhérentes — des revêtements époxy durables, esthétiques et personnalisés pour projets résidentiels, commerciaux et industriels à Saint-Martin et dans toute la Caraïbe.",
+    "en": "Floors, countertops, tables and adhesive surfaces — durable, aesthetic and custom epoxy coatings for residential, commercial and industrial projects in Saint-Martin and throughout the Caribbean."
+  },
+  {
+    "page": "Index",
+    "fr": "Estimation gratuite",
+    "en": "Free Estimate"
+  },
+  {
+    "page": "QuiSommesNous",
+    "fr": "Formé Elite Crete",
+    "en": "Elite Crete Certified"
+  },
+  {
+    "page": "Index",
+    "fr": "5 étoiles",
+    "en": "5 stars"
+  },
+  {
+    "page": "Index",
+    "fr": "Saint-Martin",
+    "en": "Saint-Martin"
+  },
+  {
+    "page": "Index",
+    "fr": "Pourquoi Renovo Crete",
+    "en": "Why Renovo Crete"
+  },
+  {
+    "page": "Index",
+    "fr": "Des revêtements conçus pour",
+    "en": "Coatings designed to"
+  },
+  {
+    "page": "Index",
+    "fr": "durer & impressionner",
+    "en": "last & impress"
+  },
+  {
+    "page": "Prestations",
+    "fr": "Nos prestations",
+    "en": "Our services"
+  },
+  {
+    "page": "Index",
+    "fr": "Des surfaces qui",
+    "en": "Surfaces that"
+  },
+  {
+    "page": "Index",
+    "fr": "performent & impressionnent",
+    "en": "perform & impress"
+  },
+  {
+    "page": "Index",
+    "fr": "Toutes nos prestations",
+    "en": "All our services"
+  },
+  {
+    "page": "Index",
+    "fr": "Avant / Après",
+    "en": "Before / After"
+  },
+  {
+    "page": "Index",
+    "fr": "La transformation",
+    "en": "The transformation"
+  },
+  {
+    "page": "Index",
+    "fr": "parle d'elle-même",
+    "en": "speaks for itself"
+  },
+  {
+    "page": "Index",
+    "fr": "Un sol fissuré et dégradé devient une surface lisse, brillante et résistante en quelques jours seulement. Nos revêtements époxy redonnent vie à vos espaces avec une finition professionnelle durable.",
+    "en": "A cracked, degraded floor becomes a smooth, shiny, resistant surface in just a few days. Our epoxy coatings bring your spaces back to life with a durable professional finish."
+  },
+  {
+    "page": "Index",
+    "fr": "Réparation des fissures et imperfections",
+    "en": "Crack and imperfection repair"
+  },
+  {
+    "page": "Index",
+    "fr": "Préparation par meulage au diamant",
+    "en": "Diamond grinding preparation"
+  },
+  {
+    "page": "Index",
+    "fr": "Application multicouche haute résistance",
+    "en": "High-resistance multi-layer application"
+  },
+  {
+    "page": "Index",
+    "fr": "Finition personnalisée de votre choix",
+    "en": "Custom finish of your choice"
+  },
+  {
+    "page": "Index",
+    "fr": "Voir plus de transformations",
+    "en": "See more transformations"
+  },
+  {
+    "page": "Index",
+    "fr": "Transformation avant après",
+    "en": "Before after transformation"
+  },
+  {
+    "page": "Index",
+    "fr": "Notre processus",
+    "en": "Our process"
+  },
+  {
+    "page": "Index",
+    "fr": "Un projet clé en main,",
+    "en": "A turnkey project,"
+  },
+  {
+    "page": "Index",
+    "fr": "étape par étape",
+    "en": "step by step"
+  },
+  {
+    "page": "Index",
+    "fr": "Réalisations",
+    "en": "Projects"
+  },
+  {
+    "page": "Index",
+    "fr": "Nos projets",
+    "en": "Our"
+  },
+  {
+    "page": "Index",
+    "fr": "récents",
+    "en": "recent projects"
+  },
+  {
+    "page": "Index",
+    "fr": "Sol métallique",
+    "en": "Metallic Floor"
+  },
+  {
+    "page": "Index",
+    "fr": "Comptoir océan",
+    "en": "Ocean Countertop"
+  },
+  {
+    "page": "Index",
+    "fr": "Table rivière",
+    "en": "River Table"
+  },
+  {
+    "page": "Index",
+    "fr": "Toute la galerie",
+    "en": "Full gallery"
+  },
+  {
+    "page": "Index",
+    "fr": "Témoignages",
+    "en": "Testimonials"
+  },
+  {
+    "page": "Index",
+    "fr": "Ce que disent",
+    "en": "What our"
+  },
+  {
+    "page": "Index",
+    "fr": "nos clients",
+    "en": "clients say"
+  },
+  {
+    "page": "Navbar",
+    "fr": "Visualisation",
+    "en": "Visualizer"
+  },
+  {
+    "page": "Index",
+    "fr": "Simulez votre projet en ligne et recevez un rendu",
+    "en": "Simulate your project online and receive a render"
+  },
+  {
+    "page": "Index",
+    "fr": "Estimation personnalisée sous 48h, sans engagement",
+    "en": "Personalized estimate within 48h, no commitment"
+  },
+  {
+    "page": "Index",
+    "fr": "Parcourez nos transformations récentes",
+    "en": "Browse our recent transformations"
+  },
+  {
+    "page": "Index",
+    "fr": "Questions",
+    "en": "Frequently asked"
+  },
+  {
+    "page": "Index",
+    "fr": "fréquentes",
+    "en": "questions"
+  },
+  {
+    "page": "NotFound",
+    "fr": "Page introuvable",
+    "en": "Page not found"
+  },
+  {
+    "page": "NotFound",
+    "fr": "Désolé, la page que vous recherchez n'existe pas ou a été déplacée.",
+    "en": "Sorry, the page you're looking for doesn't exist or has been moved."
+  },
+  {
+    "page": "Partenaires",
+    "fr": "Systèmes de revêtement éprouvés depuis plus de 30 ans",
+    "en": "Proven coating systems for over 30 years"
+  },
+  {
+    "page": "Partenaires",
+    "fr": "Réseau international de professionnels formés",
+    "en": "International network of certified professionals"
+  },
+  {
+    "page": "Partenaires",
+    "fr": "Produits conçus pour résister aux conditions les plus exigeantes",
+    "en": "Products designed to withstand the most demanding conditions"
+  },
+  {
+    "page": "Partenaires",
+    "fr": "Formation continue et support technique permanent",
+    "en": "Continuous training and permanent technical support"
+  },
+  {
+    "page": "Partenaires",
+    "fr": "Gamme complète pour tous types de surfaces et d'applications",
+    "en": "Complete range for all surface types and applications"
+  },
+  {
+    "page": "Partenaires",
+    "fr": "Conformité aux normes internationales de qualité et de sécurité",
+    "en": "Compliance with international quality and safety standards"
+  },
+  {
+    "page": "Footer",
+    "fr": "Partenaires",
+    "en": "Partners"
+  },
+  {
+    "page": "Partenaires",
+    "fr": "partenaires",
+    "en": "partners"
+  },
+  {
+    "page": "Partenaires",
+    "fr": "RENOVO CRETE s'appuie sur des partenariats stratégiques avec les leaders mondiaux du revêtement pour garantir qualité et performance.",
+    "en": "RENOVO CRETE relies on strategic partnerships with global coating leaders to guarantee quality and performance."
+  },
+  {
+    "page": "Partenaires",
+    "fr": "Partenaire technologique principal",
+    "en": "Primary technology partner"
+  },
+  {
+    "page": "Partenaires",
+    "fr": "RENOVO CRETE est fier d'être partenaire formé par ELITE CRETE SYSTEMS, leader mondial dans la fabrication de systèmes de revêtement en résine époxy et polyuréthane. Cette formation garantit à nos clients l'accès aux technologies les plus avancées du marché.",
+    "en": "RENOVO CRETE is proud to be a certified partner of ELITE CRETE SYSTEMS, a world leader in the manufacture of epoxy and polyurethane resin coating systems. This certification guarantees our clients access to the most advanced technologies on the market."
+  },
+  {
+    "page": "Partenaires",
+    "fr": "Présent dans plus de 40 pays, ELITE CRETE SYSTEMS développe des solutions de revêtement adaptées à tous les environnements — résidentiels, commerciaux, industriels et extérieurs — avec une durabilité et une résistance exceptionnelles, même sous climat tropical.",
+    "en": "Present in over 40 countries, ELITE CRETE SYSTEMS develops coating solutions adapted to all environments — residential, commercial, industrial and exterior — with exceptional durability and resistance, even in tropical climates."
+  },
+  {
+    "page": "Partenaires",
+    "fr": "Visiter Elite Crete Systems",
+    "en": "Visit Elite Crete Systems"
+  },
+  {
+    "page": "Partenaires",
+    "fr": "Formation",
+    "en": "Certification"
+  },
+  {
+    "page": "Partenaires",
+    "fr": "Applicateurs formés selon les standards Elite Crete Systems",
+    "en": "Applicators trained and certified to Elite Crete Systems standards"
+  },
+  {
+    "page": "Partenaires",
+    "fr": "Réseau mondial",
+    "en": "Global network"
+  },
+  {
+    "page": "Partenaires",
+    "fr": "Présence dans plus de 40 pays avec des milliers de projets réalisés",
+    "en": "Presence in over 40 countries with thousands of completed projects"
+  },
+  {
+    "page": "Partenaires",
+    "fr": "Excellence",
+    "en": "Excellence"
+  },
+  {
+    "page": "Partenaires",
+    "fr": "Plus de 30 ans d'innovation dans les revêtements haute performance",
+    "en": "Over 30 years of innovation in high-performance coatings"
+  },
+  {
+    "page": "Partenaires",
+    "fr": "Bénéficiez de notre expertise formée",
+    "en": "Benefit from our certified expertise"
+  },
+  {
+    "page": "Partenaires",
+    "fr": "Nos systèmes de revêtement sont soutenus par les meilleures technologies du marché.",
+    "en": "Our coating systems are backed by the best technologies on the market."
+  },
+  {
+    "page": "Prestations",
+    "fr": "Revêtements de sol",
+    "en": "Floor Coatings"
+  },
+  {
+    "page": "Prestations",
+    "fr": "Sols de garage, terrasses, piscines, hall d'entrée — des finitions époxy qui subliment vos espaces et résistent au climat tropical.",
+    "en": "Garage floors, terraces, pools, lobbies — epoxy finishes that elevate your spaces and withstand tropical climate."
+  },
+  {
+    "page": "Prestations",
+    "fr": "Métallique, flocons ou marbré",
+    "en": "Metallic, flake or marbled"
+  },
+  {
+    "page": "Prestations",
+    "fr": "Résistant aux chocs et UV",
+    "en": "Impact and UV resistant"
+  },
+  {
+    "page": "Prestations",
+    "fr": "Sans joints, hygiénique",
+    "en": "Seamless, hygienic"
+  },
+  {
+    "page": "Prestations",
+    "fr": "10 à 25 ans de durabilité",
+    "en": "10 to 25 years durability"
+  },
+  {
+    "page": "Prestations",
+    "fr": "Comptoirs de cuisine et salle de bain en résine époxy — finitions uniques, résistantes à la chaleur et aux taches.",
+    "en": "Kitchen and bathroom epoxy resin countertops — unique finishes, heat and stain resistant."
+  },
+  {
+    "page": "Prestations",
+    "fr": "Finitions marbrées et artistiques",
+    "en": "Marbled and artistic finishes"
+  },
+  {
+    "page": "Prestations",
+    "fr": "Résistant à la chaleur et aux taches",
+    "en": "Heat and stain resistant"
+  },
+  {
+    "page": "Prestations",
+    "fr": "Surface non poreuse",
+    "en": "Non-porous surface"
+  },
+  {
+    "page": "Prestations",
+    "fr": "Entretien minimal",
+    "en": "Minimal maintenance"
+  },
+  {
+    "page": "Prestations",
+    "fr": "Tables rivière en bois massif et résine — pièces uniques et sur mesure qui deviennent le centre de votre décor.",
+    "en": "River tables in solid wood and resin — unique custom pieces that become the centerpiece of your decor."
+  },
+  {
+    "page": "Prestations",
+    "fr": "Bois massif et résine translucide",
+    "en": "Solid wood and translucent resin"
+  },
+  {
+    "page": "Prestations",
+    "fr": "Design sur mesure",
+    "en": "Custom design"
+  },
+  {
+    "page": "Prestations",
+    "fr": "Pièce unique garantie",
+    "en": "Guaranteed unique piece"
+  },
+  {
+    "page": "Prestations",
+    "fr": "Finition cristalline",
+    "en": "Crystal-clear finish"
+  },
+  {
+    "page": "Prestations",
+    "fr": "Autres surfaces adhérentes",
+    "en": "Other Adhesive Surfaces"
+  },
+  {
+    "page": "Prestations",
+    "fr": "Murs décoratifs, escaliers, mobilier, éléments architecturaux — tout ce qui adhère peut être transformé.",
+    "en": "Decorative walls, stairs, furniture, architectural elements — anything that adheres can be transformed."
+  },
+  {
+    "page": "Prestations",
+    "fr": "Murs et cloisons décoratives",
+    "en": "Decorative walls and partitions"
+  },
+  {
+    "page": "Prestations",
+    "fr": "Escaliers et marches",
+    "en": "Stairs and steps"
+  },
+  {
+    "page": "Prestations",
+    "fr": "Mobilier sur mesure",
+    "en": "Custom furniture"
+  },
+  {
+    "page": "Prestations",
+    "fr": "Éléments architecturaux",
+    "en": "Architectural elements"
+  },
+  {
+    "page": "Prestations",
+    "fr": "Garage, terrasse, piscine, cuisine, salon — embellissez votre maison avec des surfaces durables et élégantes.",
+    "en": "Garage, terrace, pool, kitchen, living room — beautify your home with durable, elegant surfaces."
+  },
+  {
+    "page": "Prestations",
+    "fr": "Hôtels, restaurants, showrooms, boutiques — des sols qui impressionnent vos clients et résistent au trafic intense.",
+    "en": "Hotels, restaurants, showrooms, boutiques — floors that impress clients and withstand heavy traffic."
+  },
+  {
+    "page": "Prestations",
+    "fr": "Entrepôts, ateliers, usines, laboratoires — revêtements ultra-résistants aux conditions les plus exigeantes.",
+    "en": "Warehouses, workshops, factories, laboratories — ultra-resistant coatings for the most demanding conditions."
+  },
+  {
+    "page": "Prestations",
+    "fr": "Solutions de revêtement",
+    "en": "Coating solutions"
+  },
+  {
+    "page": "Prestations",
+    "fr": "époxy & résine",
+    "en": "epoxy & resin"
+  },
+  {
+    "page": "Prestations",
+    "fr": "Des finitions premium pour sols, comptoirs, tables et toutes surfaces adhérentes. Résidentiel, commercial et industriel.",
+    "en": "Premium finishes for floors, countertops, tables and all adhesive surfaces. Residential, commercial and industrial."
+  },
+  {
+    "page": "Prestations",
+    "fr": "Types de",
+    "en": "Surface"
+  },
+  {
+    "page": "Prestations",
+    "fr": "surfaces",
+    "en": "types"
+  },
+  {
+    "page": "Prestations",
+    "fr": "Visualiser",
+    "en": "Visualize"
+  },
+  {
+    "page": "Prestations",
+    "fr": "Secteurs",
+    "en": "Sectors"
+  },
+  {
+    "page": "Prestations",
+    "fr": "d'intervention",
+    "en": "of intervention"
+  },
+  {
+    "page": "Prestations",
+    "fr": "Intérieur &",
+    "en": "Interior &"
+  },
+  {
+    "page": "Prestations",
+    "fr": "Finitions sans joints, hygiéniques et faciles d'entretien. Métallique, marbré, flocons ou solide — pour tous vos espaces intérieurs.",
+    "en": "Seamless, hygienic, easy-maintenance finishes. Metallic, marbled, flake or solid — for all your interior spaces."
+  },
+  {
+    "page": "Prestations",
+    "fr": "Revêtements résistants aux UV, à la chaleur tropicale et aux intempéries. Antidérapants pour terrasses, allées et abords de piscine.",
+    "en": "UV, tropical heat and weather-resistant coatings. Non-slip for terraces, walkways and pool surroundings."
+  },
+  {
+    "page": "Prestations",
+    "fr": "Un projet en tête ?",
+    "en": "Have a project in mind?"
+  },
+  {
+    "page": "Prestations",
+    "fr": "Contactez-nous pour une estimation gratuite et personnalisée, sans engagement.",
+    "en": "Contact us for a free, personalized estimate, no commitment."
+  },
+  {
+    "page": "Footer",
+    "fr": "Qui sommes-nous",
+    "en": "About us"
+  },
+  {
+    "page": "QuiSommesNous",
+    "fr": "L'expertise",
+    "en": "The expertise"
+  },
+  {
+    "page": "QuiSommesNous",
+    "fr": "RENOVO CRETE",
+    "en": "RENOVO CRETE"
+  },
+  {
+    "page": "QuiSommesNous",
+    "fr": "Une équipe passionnée, formée et engagée dans la transformation durable des surfaces à Saint-Martin et dans toute la Caraïbe.",
+    "en": "A passionate, certified team committed to lasting surface transformation in Saint-Martin and throughout the Caribbean."
+  },
+  {
+    "page": "QuiSommesNous",
+    "fr": "Notre histoire",
+    "en": "Our story"
+  },
+  {
+    "page": "QuiSommesNous",
+    "fr": "Transformer les surfaces,",
+    "en": "Transforming surfaces,"
+  },
+  {
+    "page": "QuiSommesNous",
+    "fr": "valoriser les espaces",
+    "en": "enhancing spaces"
+  },
+  {
+    "page": "QuiSommesNous",
+    "fr": "RENOVO CRETE est une entreprise spécialisée dans les revêtements de sol en résine époxy et les surfaces décoratives et techniques. Basée à Saint-Martin, notre équipe intervient dans toute la Caraïbe avec une expertise reconnue et des produits de qualité professionnelle.",
+    "en": "RENOVO CRETE specializes in epoxy resin floor coatings and decorative and technical surfaces. Based in Saint-Martin, our team operates throughout the Caribbean with recognized expertise and professional-quality products."
+  },
+  {
+    "page": "QuiSommesNous",
+    "fr": "Partenaire formé par ELITE CRETE SYSTEMS, nous utilisons des systèmes de revêtement éprouvés, conçus pour résister aux conditions climatiques tropicales, au trafic intense et aux exigences les plus élevées en matière de durabilité et d'esthétique.",
+    "en": "As a certified partner of ELITE CRETE SYSTEMS, we use proven coating systems designed to withstand tropical weather conditions, heavy traffic, and the highest standards of durability and aesthetics."
+  },
+  {
+    "page": "QuiSommesNous",
+    "fr": "Basé à Saint-Martin",
+    "en": "Based in Saint-Martin"
+  },
+  {
+    "page": "QuiSommesNous",
+    "fr": "Garantie satisfaction",
+    "en": "Satisfaction guaranteed"
+  },
+  {
+    "page": "QuiSommesNous",
+    "fr": "Équipe dédiée",
+    "en": "Dedicated team"
+  },
+  {
+    "page": "QuiSommesNous",
+    "fr": "Partenaire formé",
+    "en": "Certified Partner"
+  },
+  {
+    "page": "QuiSommesNous",
+    "fr": "Notre réseau",
+    "en": "Our network"
+  },
+  {
+    "page": "QuiSommesNous",
+    "fr": "Un collectif d'experts au service de",
+    "en": "A collective of experts serving"
+  },
+  {
+    "page": "QuiSommesNous",
+    "fr": "vos projets",
+    "en": "your projects"
+  },
+  {
+    "page": "QuiSommesNous",
+    "fr": "RENOVO CRETE s'appuie sur un réseau d'experts, de techniciens, d'artisans qualifiés, d'architectes et de partenaires spécialisés afin d'offrir des solutions haut de gamme adaptées à chaque projet. Notre priorité est la qualité d'exécution, l'innovation, l'accompagnement client et l'excellence des finitions.",
+    "en": "RENOVO CRETE relies on a network of experts, technicians, qualified craftsmen, architects, and specialized partners to deliver premium solutions tailored to every project. Our priority is execution quality, innovation, client support, and finishing excellence."
+  },
+  {
+    "page": "QuiSommesNous",
+    "fr": "Excellence des finitions",
+    "en": "Finishing excellence"
+  },
+  {
+    "page": "QuiSommesNous",
+    "fr": "Espaces commerciaux",
+    "en": "Commercial spaces"
+  },
+  {
+    "page": "QuiSommesNous",
+    "fr": "Solutions industrielles",
+    "en": "Industrial solutions"
+  },
+  {
+    "page": "QuiSommesNous",
+    "fr": "Aménagements extérieurs",
+    "en": "Outdoor projects"
+  },
+  {
+    "page": "QuiSommesNous",
+    "fr": "Innovation continue",
+    "en": "Continuous innovation"
+  },
+  {
+    "page": "QuiSommesNous",
+    "fr": "Veille technique permanente sur les matériaux et procédés.",
+    "en": "Permanent technical watch on materials and processes."
+  },
+  {
+    "page": "QuiSommesNous",
+    "fr": "Savoir-faire d'atelier",
+    "en": "Craftsmanship"
+  },
+  {
+    "page": "QuiSommesNous",
+    "fr": "Compétences certifiées, équipements professionnels dédiés.",
+    "en": "Certified skills, dedicated professional equipment."
+  },
+  {
+    "page": "QuiSommesNous",
+    "fr": "Sécurité de chantier",
+    "en": "On-site safety"
+  },
+  {
+    "page": "QuiSommesNous",
+    "fr": "Protocoles stricts, conformité réglementaire totale.",
+    "en": "Strict protocols, full regulatory compliance."
+  },
+  {
+    "page": "QuiSommesNous",
+    "fr": "Travaillons ensemble",
+    "en": "Let's work together"
+  },
+  {
+    "page": "QuiSommesNous",
+    "fr": "Discutons de votre projet et trouvons la solution adaptée à vos besoins.",
+    "en": "Let's discuss your project and find the right solution for your needs."
+  },
+  {
+    "page": "SousTraitants",
+    "fr": "Chargement…",
+    "en": "Loading…"
+  },
+  {
+    "page": "SousTraitantProfile",
+    "fr": "Profil introuvable",
+    "en": "Profile not found"
+  },
+  {
+    "page": "SousTraitantProfile",
+    "fr": "Retour",
+    "en": "Back"
+  },
+  {
+    "page": "SousTraitantProfile",
+    "fr": "Tous les sous-traitants",
+    "en": "All contractors"
+  },
+  {
+    "page": "SousTraitantProfile",
+    "fr": "ans d'expérience",
+    "en": "years experience"
+  },
+  {
+    "page": "SousTraitantProfile",
+    "fr": "À propos",
+    "en": "About"
+  },
+  {
+    "page": "SousTraitantProfile",
+    "fr": "Spécialités",
+    "en": "Specialties"
+  },
+  {
+    "page": "SousTraitantProfile",
+    "fr": "Zones d'intervention",
+    "en": "Service areas"
+  },
+  {
+    "page": "SousTraitantProfile",
+    "fr": "Chantiers réalisés",
+    "en": "Completed projects"
+  },
+  {
+    "page": "SousTraitantProfile",
+    "fr": "Coordonnées privées. Passez par notre formulaire pour entrer en contact.",
+    "en": "Contact details are private. Use our form to get in touch."
+  },
+  {
+    "page": "SousTraitants",
+    "fr": "Réseau formé",
+    "en": "Certified network"
+  },
+  {
+    "page": "SousTraitants",
+    "fr": "Sous-traitants & Partenaires",
+    "en": "Contractors & Partners"
+  },
+  {
+    "page": "SousTraitants",
+    "fr": "Découvrez les entreprises formées Elite Crete Systems SXM qui collaborent avec Renovo Crete dans toute la Caraïbe.",
+    "en": "Discover Elite Crete Systems SXM certified companies partnering with Renovo Crete across the Caribbean."
+  },
+  {
+    "page": "Footer",
+    "fr": "Espace pro",
+    "en": "Pro area"
+  },
+  {
+    "page": "SousTraitants",
+    "fr": "Vous êtes sous-traitant Elite Crete ?",
+    "en": "Are you an Elite Crete contractor?"
+  },
+  {
+    "page": "SousTraitants",
+    "fr": "Connectez-vous pour gérer vos chantiers, devis et profil public.",
+    "en": "Sign in to manage your projects, quotes and public profile."
+  },
+  {
+    "page": "SousTraitants",
+    "fr": "Se connecter",
+    "en": "Sign in"
+  },
+  {
+    "page": "SousTraitants",
+    "fr": "Aperçu du Dashboard",
+    "en": "Preview Dashboard"
+  },
+  {
+    "page": "SousTraitants",
+    "fr": "Bientôt en ligne",
+    "en": "Coming soon"
+  },
+  {
+    "page": "SousTraitants",
+    "fr": "Notre réseau de sous-traitants formés sera bientôt visible ici.",
+    "en": "Our certified contractor network will appear here soon."
+  },
+  {
+    "page": "SousTraitants",
+    "fr": "Voir le profil",
+    "en": "View profile"
+  },
+  {
+    "page": "Navbar",
+    "fr": "Types de projets",
+    "en": "Project Types"
+  },
+  {
+    "page": "TypesProjets",
+    "fr": "Projets par",
+    "en": "Projects by"
+  },
+  {
+    "page": "TypesProjets",
+    "fr": "catégorie",
+    "en": "category"
+  },
+  {
+    "page": "TypesProjets",
+    "fr": "Résidentiel, commercial, industriel et extérieur — explorez les types de projets que nous réalisons.",
+    "en": "Residential, commercial, industrial and exterior — explore the project types we deliver."
+  },
+  {
+    "page": "TypesProjets",
+    "fr": "Réalisations similaires",
+    "en": "Similar projects"
+  },
+  {
+    "page": "TypesProjets",
+    "fr": "Solution adaptée",
+    "en": "Custom solution"
+  },
+  {
+    "page": "TypesProjets",
+    "fr": "Votre projet est unique",
+    "en": "Your project is unique"
+  },
+  {
+    "page": "TypesProjets",
+    "fr": "Parlez-nous de votre projet et recevez une proposition sur mesure, sans engagement.",
+    "en": "Tell us about your project and receive a custom proposal, no commitment."
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Sol — garage",
+    "en": "Floor — garage"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Sol — terrasse / piscine",
+    "en": "Floor — terrace / pool"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Sol — cuisine / salon",
+    "en": "Floor — kitchen / living"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Sol — commercial",
+    "en": "Floor — commercial"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Sol — industriel",
+    "en": "Floor — industrial"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Mur / escalier",
+    "en": "Wall / stairs"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Hospitality",
+    "en": "Hospitality"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Flocons (flake)",
+    "en": "Flake"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Quartz",
+    "en": "Quartz"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Décoratif premium",
+    "en": "Premium decorative"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Antidérapant extérieur",
+    "en": "Outdoor non-slip"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Industriel haute résistance",
+    "en": "High-resistance industrial"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Brillant",
+    "en": "Gloss"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Satiné",
+    "en": "Satin"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Mat",
+    "en": "Matte"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Lisse",
+    "en": "Smooth"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Antidérapant léger",
+    "en": "Light non-slip"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Antidérapant fort",
+    "en": "Heavy non-slip"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Texturé",
+    "en": "Textured"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Argent métallique",
+    "en": "Metallic Silver"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Bleu océan",
+    "en": "Ocean Blue"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Blanc glacier",
+    "en": "Glacier White"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Anthracite",
+    "en": "Anthracite"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Cuivre doré",
+    "en": "Golden Copper"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Vert émeraude",
+    "en": "Emerald Green"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Gris perle",
+    "en": "Pearl Grey"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Bleu profond",
+    "en": "Deep Blue"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Flocons multicolores",
+    "en": "Multicolor Flakes"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Rouge rubis",
+    "en": "Ruby Red"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Terre cuite",
+    "en": "Terracotta"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Sable tropical",
+    "en": "Tropical Sand"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Simulez votre",
+    "en": "Simulate your"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "projet",
+    "en": "project"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Choisissez vos options, uploadez une photo et recevez un rendu personnalisé de votre futur espace.",
+    "en": "Choose your options, upload a photo and receive a personalized render of your future space."
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Photo de votre espace",
+    "en": "Photo of your space"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Photo uploadée avec succès",
+    "en": "Photo uploaded successfully"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Glissez-déposez ou cliquez pour uploader",
+    "en": "Drag and drop or click to upload"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Type de surface",
+    "en": "Surface type"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Intérieur / Extérieur",
+    "en": "Interior / Exterior"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Catégorie de projet",
+    "en": "Project category"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Style / système",
+    "en": "Style / system"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Finition",
+    "en": "Finish"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Texture",
+    "en": "Texture"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Couleur",
+    "en": "Color"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Informations projet",
+    "en": "Project information"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Nom complet",
+    "en": "Full name"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Notes supplémentaires",
+    "en": "Additional notes"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Superficie, contraintes, questions...",
+    "en": "Area, constraints, questions..."
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Aperçu de votre sélection",
+    "en": "Your selection preview"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Configuration sélectionnée",
+    "en": "Selected configuration"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Emplacement",
+    "en": "Location"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Catégorie",
+    "en": "Category"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Photo uploadée",
+    "en": "Photo uploaded"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Sélectionnez surface, style et couleur pour voir l'aperçu",
+    "en": "Select surface, style and color to see the preview"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Aperçu indicatif : la validation finale dépend de l'analyse du projet, de l'état du support et des recommandations techniques. Nous vous enverrons un rendu réaliste personnalisé sous 48h.",
+    "en": "Indicative preview: final validation depends on project analysis, substrate condition and technical recommendations. We'll send you a personalized realistic render within 48h."
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Recevoir un rendu personnalisé",
+    "en": "Receive a personalized render"
+  },
+  {
+    "page": "Visualisation",
+    "fr": "Gratuit et sans engagement — réponse sous 48h",
+    "en": "Free, no commitment — response within 48h"
+  },
+  {
+    "page": "Footer",
+    "fr": "Prêt à transformer votre espace ?",
+    "en": "Ready to transform your space?"
+  },
+  {
+    "page": "Footer",
+    "fr": "Obtenez une estimation gratuite et personnalisée sous 48h.",
+    "en": "Get a free, personalized estimate within 48h."
+  },
+  {
+    "page": "Footer",
+    "fr": "Nous contacter",
+    "en": "Contact us"
+  },
+  {
+    "page": "Footer",
+    "fr": "Spécialistes en revêtements époxy et résine décorative premium pour sols, comptoirs, tables et toutes surfaces adhérentes. Basés à Saint-Martin, nous intervenons dans toute la Caraïbe.",
+    "en": "Specialists in premium epoxy and decorative resin coatings for floors, countertops, tables and all adhesive surfaces. Based in Saint-Martin, we serve the entire Caribbean."
+  },
+  {
+    "page": "Navbar",
+    "fr": "Accueil",
+    "en": "Home"
+  },
+  {
+    "page": "Navbar",
+    "fr": "Prestations",
+    "en": "Services"
+  },
+  {
+    "page": "Footer",
+    "fr": "Sous-traitants",
+    "en": "Contractors"
+  },
+  {
+    "page": "Footer",
+    "fr": "Inscription formations",
+    "en": "Training signup"
+  },
+  {
+    "page": "Footer",
+    "fr": "+ Caraïbe anglophone",
+    "en": "+ English Caribbean"
+  },
+  {
+    "page": "Footer",
+    "fr": "Tous droits réservés.",
+    "en": "All rights reserved."
+  },
+  {
+    "page": "Footer",
+    "fr": "Politique de confidentialité",
+    "en": "Privacy Policy"
+  },
+  {
+    "page": "Footer",
+    "fr": "Conditions d'utilisation",
+    "en": "Terms of Service"
+  },
+  {
+    "page": "Footer",
+    "fr": "Mentions légales",
+    "en": "Legal Notice"
+  },
+  {
+    "page": "Navbar",
+    "fr": "Invité",
+    "en": "Guest"
+  },
+  {
+    "page": "Navbar",
+    "fr": "Connecté",
+    "en": "Signed in"
+  },
+  {
+    "page": "Navbar",
+    "fr": "Langue",
+    "en": "Language"
+  }
+]

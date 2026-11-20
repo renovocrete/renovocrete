@@ -4,35 +4,22 @@ import { ArrowRight, Layers, Gem, Table, Paintbrush, Home, Building2, Factory, S
 import { Button } from "@/components/ui/button";
 import PageHeader from "@/components/PageHeader";
 import { useLanguage } from "@/i18n/LanguageContext";
-import { heroImg, countertopImg, tableImg, outdoorImg, industrialImg, commercialImg, garageImg } from "@/data/mock";
+import { useSiteContent } from "@/hooks/useSiteContent";
+import { translateContent } from "@/lib/site/model";
 
 const fadeUp = { initial: { opacity: 0, y: 24 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true } };
 
 const Prestations = () => {
-  const { t } = useLanguage();
-
-  const surfaceTypes = [
-    {
-      icon: Layers, title: t("Revêtements de sol", "Floor Coatings"), image: heroImg,
-      desc: t("Sols de garage, terrasses, piscines, hall d'entrée — des finitions époxy qui subliment vos espaces et résistent au climat tropical.", "Garage floors, terraces, pools, lobbies — epoxy finishes that elevate your spaces and withstand tropical climate."),
-      features: [t("Métallique, flocons ou marbré", "Metallic, flake or marbled"), t("Résistant aux chocs et UV", "Impact and UV resistant"), t("Sans joints, hygiénique", "Seamless, hygienic"), t("10 à 25 ans de durabilité", "10 to 25 years durability")],
-    },
-    {
-      icon: Gem, title: t("Comptoirs en résine", "Resin Countertops"), image: countertopImg,
-      desc: t("Comptoirs de cuisine et salle de bain en résine époxy — finitions uniques, résistantes à la chaleur et aux taches.", "Kitchen and bathroom epoxy resin countertops — unique finishes, heat and stain resistant."),
-      features: [t("Finitions marbrées et artistiques", "Marbled and artistic finishes"), t("Résistant à la chaleur et aux taches", "Heat and stain resistant"), t("Surface non poreuse", "Non-porous surface"), t("Entretien minimal", "Minimal maintenance")],
-    },
-    {
-      icon: Table, title: t("Tables décoratives", "Decorative Tables"), image: tableImg,
-      desc: t("Tables rivière en bois massif et résine — pièces uniques et sur mesure qui deviennent le centre de votre décor.", "River tables in solid wood and resin — unique custom pieces that become the centerpiece of your decor."),
-      features: [t("Bois massif et résine translucide", "Solid wood and translucent resin"), t("Design sur mesure", "Custom design"), t("Pièce unique garantie", "Guaranteed unique piece"), t("Finition cristalline", "Crystal-clear finish")],
-    },
-    {
-      icon: Paintbrush, title: t("Autres surfaces adhérentes", "Other Adhesive Surfaces"), image: outdoorImg,
-      desc: t("Murs décoratifs, escaliers, mobilier, éléments architecturaux — tout ce qui adhère peut être transformé.", "Decorative walls, stairs, furniture, architectural elements — anything that adheres can be transformed."),
-      features: [t("Murs et cloisons décoratives", "Decorative walls and partitions"), t("Escaliers et marches", "Stairs and steps"), t("Mobilier sur mesure", "Custom furniture"), t("Éléments architecturaux", "Architectural elements")],
-    },
-  ];
+  const { t, lang } = useLanguage();
+  const { content } = useSiteContent();
+  const { heroImg, countertopImg, tableImg, outdoorImg, industrialImg, commercialImg, garageImg } = content.images;
+  const surfaceTypes = content.services.map(s => ({
+    icon: s.scope === "exterior" ? Sun : Layers,
+    title: translateContent(s, "title", lang),
+    image: s.image,
+    desc: translateContent(s, "desc", lang),
+    features: lang === "fr" ? s.features : lang === "es" && s.featuresEs.length ? s.featuresEs : s.featuresEn,
+  }));
 
   const sectors = [
     { icon: Home, title: t("Résidentiel", "Residential"), desc: t("Garage, terrasse, piscine, cuisine, salon — embellissez votre maison avec des surfaces durables et élégantes.", "Garage, terrace, pool, kitchen, living room — beautify your home with durable, elegant surfaces."), image: garageImg },
