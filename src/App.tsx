@@ -86,7 +86,7 @@ const App = () => (
               <Route path="analyses" element={<PartnerAnalytics />} />
             </Route>
             <Route path="/admin" element={<ProtectedRoute requireAdmin><AdminLayout /></ProtectedRoute>}>
-              <Route index element={<Navigate to="/admin/dashboard" replace />} />
+              <Route index element={<Navigate to="/admin/site" replace />} />
               <Route path="dashboard" element={<AdminDashboard />} />
               <Route path="sous-traitants" element={<AdminContractors />} />
               <Route path="partenaires" element={<AdminPartners />} />

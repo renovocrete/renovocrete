@@ -8,6 +8,8 @@ import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { Loader2, Shield, HardHat, Sparkles, Eye, EyeOff } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { authDestination } from "@/lib/site/authDestination";
 import DashboardStatusBadge from "@/components/DashboardStatusBadge";
 
 const DEMO_ADMIN = "admin@renovocrete.test";
@@ -17,6 +19,9 @@ export default function Auth() {
   const nav = useNavigate();
   const { t } = useLanguage();
   const [params] = useSearchParams();
+  const auth = useAuth();
+  const requested = params.get("redirect");
+  const adminLogin = requested === "/admin" || requested?.startsWith("/admin/");
   // Dev mode: ?dev=1 OR localhost
   const devMode =
     params.get("dev") === "1" ||
@@ -33,10 +38,10 @@ export default function Auth() {
   const [showPwd, setShowPwd] = useState(false);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => { if (data.session) nav("/dashboard"); });
-    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => { if (s) nav("/dashboard"); });
-    return () => sub.subscription.unsubscribe();
-  }, [nav]);
+    if (auth.loading || !auth.user) return;
+    if (adminLogin && !auth.isAdmin) return;
+    nav(authDestination(auth.isAdmin, requested), { replace: true });
+  }, [auth.loading, auth.user, auth.isAdmin, adminLogin, requested, nav]);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -110,10 +115,11 @@ export default function Auth() {
     <div className="min-h-screen flex items-center justify-center bg-secondary/30 px-4 pt-24 pb-12">
       <Card className="w-full max-w-md p-8">
         <div className="flex items-start justify-between gap-3 mb-1">
-          <h1 className="font-heading text-2xl font-bold">{mode === "login" ? t("Espace sous-traitant", "Contractor portal") : t("Devenir partenaire", "Become a partner")}</h1>
+          <h1 className="font-heading text-2xl font-bold">{mode === "login" ? adminLogin ? t("Administration du site", "Website administration", "Administración del sitio") : t("Espace sous-traitant", "Contractor portal") : t("Devenir partenaire", "Become a partner")}</h1>
           <DashboardStatusBadge />
         </div>
-        <p className="text-sm text-muted-foreground mb-6">{t("Réservé aux entreprises formées Elite Crete Systems.", "For Elite Crete Systems certified contractors only.")}</p>
+        <p className="text-sm text-muted-foreground mb-6">{adminLogin ? t("Connectez-vous avec votre compte administrateur RENOVO CRETE.", "Sign in with your RENOVO CRETE administrator account.", "Inicie sesión con su cuenta de administrador RENOVO CRETE.") : t("Réservé aux entreprises formées Elite Crete Systems.", "For Elite Crete Systems certified contractors only.")}</p>
+        {adminLogin && auth.user && !auth.loading && !auth.isAdmin && <div className="mb-6 space-y-3"><p className="text-sm text-destructive">{t("Ce compte ne possède pas les droits administrateur.", "This account does not have administrator access.", "Esta cuenta no tiene acceso de administrador.")}</p><Button variant="outline" onClick={() => void supabase.auth.signOut()}>{t("Changer de compte", "Switch account", "Cambiar de cuenta")}</Button></div>}
 
         {/* Demo quick access */}
         <div className="mb-6 p-4 rounded-lg border border-dashed border-primary/30 bg-primary/5">

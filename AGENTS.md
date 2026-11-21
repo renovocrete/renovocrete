@@ -5,3 +5,5 @@
 - Website copy overrides are keyed by the original French string; preserve multilingual defaults and avoid injecting editable HTML.
 
 - Public visualization entry points and direct routes share the website visibility setting; default legacy content to enabled, and retain administrator previews while disabled.
+
+- Admin entry and authenticated admin login land on the local website editor; denied admin access stays local with an explicit permissions message rather than redirecting to the external professional portal.

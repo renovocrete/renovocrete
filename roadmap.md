@@ -5,3 +5,5 @@
 - [x] Verify administrator access, public setting updates and mobile visibility controls.
 
 - [x] Add administrator-controlled public visualization visibility and verify both states.
+
+- [ ] Correct Admin entry and sign-in return destination; never send denied administrator access to the Pro portal.

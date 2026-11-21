@@ -13,6 +13,7 @@ import {
 
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useAuth } from "@/hooks/useAuth";
+import { WEBSITE_ADMIN_PATH } from "@/lib/site/authDestination";
 import { PRO_PORTAL_URL } from "@/lib/site/model";
 import logo from "@/assets/renovo-crete-logo.png";
 
@@ -123,7 +124,7 @@ const Navbar = () => {
           )}
           {isAdmin && (
             <Button asChild size="sm" variant="outline" className="border-foreground/30">
-              <Link to="/admin/dashboard">Admin</Link>
+              <Link to={WEBSITE_ADMIN_PATH}>Admin</Link>
             </Button>
           )}
 
@@ -135,10 +136,13 @@ const Navbar = () => {
           </Button>
         </div>
 
+        <div className="2xl:hidden flex items-center gap-2">
+          <Button asChild variant="outline" size="sm"><Link to={WEBSITE_ADMIN_PATH}>Admin</Link></Button>
         {/* Mobile toggle */}
         <button className="2xl:hidden text-foreground p-2" onClick={() => setIsOpen(!isOpen)} aria-label="Menu">
           {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
+        </div>
       </div>
 
       {/* Mobile menu */}
