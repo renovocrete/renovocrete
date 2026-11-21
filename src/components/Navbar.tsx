@@ -1,3 +1,5 @@
+import { useVisualizationVisibility } from "@/hooks/useVisualizationVisibility";
+import { VisualizationVisible } from "@/components/VisualizationVisibility";
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Phone, Eye, LayoutDashboard, Languages } from "lucide-react";
@@ -27,6 +29,7 @@ const Navbar = () => {
       ? { label: "Pro", cls: "bg-primary text-primary-foreground" }
       : { label: t("Connecté", "Signed in"), cls: "bg-foreground/10 text-foreground" };
 
+  const { visible: visualizationVisible } = useVisualizationVisibility();
   const navItems = [
     { label: t("Accueil", "Home"), path: "/" },
     { label: t("Prestations", "Services"), path: "/prestations" },
@@ -35,7 +38,7 @@ const Navbar = () => {
     { label: t("Visualisation", "Visualizer"), path: "/visualisation" },
     { label: t("Devis", "Quote"), path: "/devis" },
     { label: "Contact", path: "/contact" },
-  ];
+  ].filter(item => item.path !== "/visualisation" || visualizationVisible);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -100,12 +103,12 @@ const Navbar = () => {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Button asChild variant="outline" size="sm" className="border-primary/20 text-primary hover:bg-primary/5">
+          <VisualizationVisible><Button asChild variant="outline" size="sm" className="border-primary/20 text-primary hover:bg-primary/5">
             <Link to="/visualisation">
               <Eye className="w-4 h-4 mr-1.5" />
               {t("Visualiser mon projet", "Visualize my project")}
             </Link>
-          </Button>
+          </Button></VisualizationVisible>
           <Button asChild variant="ghost" size="sm" className="text-foreground gap-1.5">
             <a href={dashHref}>
               <LayoutDashboard className="w-4 h-4" />
@@ -167,12 +170,12 @@ const Navbar = () => {
 
           </div>
           <div className="flex flex-col gap-2 mt-4">
-            <Button asChild variant="outline" className="w-full border-primary/20 text-primary">
+            <VisualizationVisible><Button asChild variant="outline" className="w-full border-primary/20 text-primary">
               <Link to="/visualisation" onClick={() => setIsOpen(false)}>
                 <Eye className="w-4 h-4 mr-2" />
                 {t("Visualiser mon projet", "Visualize my project")}
               </Link>
-            </Button>
+            </Button></VisualizationVisible>
             <Button asChild variant="ghost" className="w-full gap-1.5">
               <a href={dashHref} onClick={() => setIsOpen(false)}>
                 <LayoutDashboard className="w-4 h-4 mr-2" />

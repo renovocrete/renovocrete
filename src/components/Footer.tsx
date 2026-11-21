@@ -1,3 +1,4 @@
+import { VisualizationVisible } from "@/components/VisualizationVisibility";
 import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin, ArrowRight, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -70,7 +71,7 @@ const Footer = () => {
               <li><Link to="/prestations" className="hover:text-primary-light transition-colors">{t("Prestations", "Services")}</Link></li>
               <li><Link to="/types-de-projets" className="hover:text-primary-light transition-colors">{t("Types de projets", "Project Types")}</Link></li>
               <li><Link to="/galerie" className="hover:text-primary-light transition-colors">{t("Galerie", "Gallery")}</Link></li>
-              <li><Link to="/visualisation" className="hover:text-primary-light transition-colors">{t("Visualisation", "Visualizer")}</Link></li>
+              <VisualizationVisible><li><Link to="/visualisation" className="hover:text-primary-light transition-colors">{t("Visualisation", "Visualizer")}</Link></li></VisualizationVisible>
               <li><Link to="/devis" className="hover:text-primary-light transition-colors">{t("Devis", "Quote")}</Link></li>
               <li><Link to="/contact" className="hover:text-primary-light transition-colors">Contact</Link></li>
               <li><Link to="/qui-sommes-nous" className="hover:text-primary-light transition-colors">{t("Qui sommes-nous", "About us")}</Link></li>

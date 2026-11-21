@@ -1,3 +1,4 @@
+import { useVisualizationVisibility } from "@/hooks/useVisualizationVisibility";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Shield, Star, CheckCircle2, Sparkles, Clock, Award, Wrench, Eye, Quote } from "lucide-react";
@@ -12,6 +13,7 @@ const fadeUp = { initial: { opacity: 0, y: 24 }, whileInView: { opacity: 1, y: 0
 
 const Index = () => {
   const { lang, t } = useLanguage();
+  const { visible: visualizationVisible } = useVisualizationVisibility();
   const { content } = useSiteContent();
   const { heroImg, countertopImg, tableImg, industrialImg, outdoorImg, commercialImg, beforeAfterImg } = content.images;
 
@@ -253,12 +255,12 @@ const Index = () => {
       {/* Quick links */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <div className="grid sm:grid-cols-3 gap-6">
+          <div className={`grid ${visualizationVisible ? "sm:grid-cols-3" : "sm:grid-cols-2"} gap-6`}>
             {[
               { icon: Eye, label: t("Visualisation", "Visualizer"), desc: t("Simulez votre projet en ligne et recevez un rendu", "Simulate your project online and receive a render"), path: "/visualisation" },
               { icon: ArrowRight, label: t("Devis gratuit", "Free Quote"), desc: t("Estimation personnalisée sous 48h, sans engagement", "Personalized estimate within 48h, no commitment"), path: "/devis" },
               { icon: Star, label: t("Galerie", "Gallery"), desc: t("Parcourez nos transformations récentes", "Browse our recent transformations"), path: "/galerie" },
-            ].map((item, i) => (
+            ].filter(item => item.path !== "/visualisation" || visualizationVisible).map((item, i) => (
               <motion.div key={item.label} {...fadeUp} transition={{ delay: i * 0.08 }}>
                 <Link to={item.path} className="block p-8 rounded-xl border border-border hover:border-primary/20 hover:shadow-md transition-all text-center group">
                   <div className="w-14 h-14 rounded-xl bg-gradient-brand text-primary-foreground flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform">

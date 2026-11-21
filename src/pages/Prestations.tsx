@@ -1,3 +1,4 @@
+import { VisualizationVisible } from "@/components/VisualizationVisibility";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Layers, Gem, Table, Paintbrush, Home, Building2, Factory, Sun, Moon, CheckCircle2 } from "lucide-react";
@@ -58,7 +59,7 @@ const Prestations = () => {
                   </ul>
                   <div className="flex flex-wrap gap-3">
                     <Button asChild variant="outline" size="sm"><Link to="/devis">{t("Demander un devis", "Request a quote")} <ArrowRight className="w-4 h-4 ml-1.5" /></Link></Button>
-                    <Button asChild variant="ghost" size="sm"><Link to="/visualisation">{t("Visualiser", "Visualize")}</Link></Button>
+                    <VisualizationVisible><Button asChild variant="ghost" size="sm"><Link to="/visualisation">{t("Visualiser", "Visualize")}</Link></Button></VisualizationVisible>
                   </div>
                 </div>
               </motion.div>
@@ -111,7 +112,7 @@ const Prestations = () => {
           <p className="text-muted-foreground mb-8 max-w-lg mx-auto">{t("Contactez-nous pour une estimation gratuite et personnalisée, sans engagement.", "Contact us for a free, personalized estimate, no commitment.")}</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Button asChild size="lg" className="bg-gradient-brand-deep hover:opacity-90 text-lg px-8 py-6"><Link to="/devis">{t("Demander un devis", "Request a quote")} <ArrowRight className="w-5 h-5 ml-2" /></Link></Button>
-            <Button asChild variant="outline" size="lg"><Link to="/visualisation">{t("Visualiser mon projet", "Visualize my project")}</Link></Button>
+            <VisualizationVisible><Button asChild variant="outline" size="lg"><Link to="/visualisation">{t("Visualiser mon projet", "Visualize my project")}</Link></Button></VisualizationVisible>
           </div>
         </div>
       </section>

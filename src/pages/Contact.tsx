@@ -1,3 +1,4 @@
+import { VisualizationVisible } from "@/components/VisualizationVisibility";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -105,12 +106,12 @@ const Contact = () => {
                   <Link to="/devis" className="text-primary font-medium hover:underline">{t("Remplissez notre formulaire complet →", "Fill out our complete form →")}</Link>
                 </p>
               </div>
-              <div className="mt-3 p-4 rounded-lg bg-secondary text-center">
+              <VisualizationVisible><div className="mt-3 p-4 rounded-lg bg-secondary text-center">
                 <p className="text-sm text-muted-foreground">
                   {t("Simulez votre projet en ligne.", "Simulate your project online.")}{" "}
                   <Link to="/visualisation" className="text-primary font-medium hover:underline">{t("Accéder au visualiseur →", "Access the visualizer →")}</Link>
                 </p>
-              </div>
+              </div></VisualizationVisible>
             </div>
           </div>
         </div>

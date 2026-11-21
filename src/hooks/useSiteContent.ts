@@ -8,7 +8,7 @@ export async function loadSiteContent(){
  if(error)throw error;
  return {content:data?siteSchema.parse(data.content):defaultSite,updatedAt:data?.updated_at??null};
 }
-export function useSiteDocument(){return useQuery({queryKey:siteQueryKey,queryFn:loadSiteContent,staleTime:30000,refetchOnWindowFocus:true});}
+export function useSiteDocument(){return useQuery({queryKey:siteQueryKey,queryFn:loadSiteContent,staleTime:30000,refetchInterval:30000,refetchOnWindowFocus:true});}
 export function useSiteContent(){
  const doc=useSiteDocument();
  const raw=doc.data?.content??defaultSite;

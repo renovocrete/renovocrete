@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import Prestations from "./pages/Prestations";
 import TypesProjets from "./pages/TypesProjets";
 import Galerie from "./pages/Galerie";
+import { VisualizationRoute } from "@/components/VisualizationVisibility";
 import Visualisation from "./pages/Visualisation";
 import Devis from "./pages/Devis";
 import Contact from "./pages/Contact";
@@ -58,7 +59,7 @@ const App = () => (
               <Route path="/prestations" element={<Prestations />} />
               <Route path="/types-de-projets" element={<TypesProjets />} />
               <Route path="/galerie" element={<Galerie />} />
-              <Route path="/visualisation" element={<Visualisation />} />
+              <Route path="/visualisation" element={<VisualizationRoute><Visualisation /></VisualizationRoute>} />
               <Route path="/devis" element={<Devis />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/qui-sommes-nous" element={<QuiSommesNous />} />

@@ -1,3 +1,4 @@
+import { VisualizationVisible } from "@/components/VisualizationVisibility";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -84,7 +85,7 @@ const Galerie = () => {
           <p className="text-muted-foreground mb-8">{t("Contactez-nous pour discuter de votre projet et recevoir une estimation gratuite.", "Contact us to discuss your project and receive a free estimate.")}</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Button asChild size="lg" className="bg-gradient-brand-deep hover:opacity-90 text-lg px-8 py-6"><Link to="/devis">{t("Demander un devis", "Request a quote")} <ArrowRight className="w-5 h-5 ml-2" /></Link></Button>
-            <Button asChild variant="outline" size="lg"><Link to="/visualisation">{t("Visualiser mon projet", "Visualize my project")}</Link></Button>
+            <VisualizationVisible><Button asChild variant="outline" size="lg"><Link to="/visualisation">{t("Visualiser mon projet", "Visualize my project")}</Link></Button></VisualizationVisible>
           </div>
         </div>
       </section>
