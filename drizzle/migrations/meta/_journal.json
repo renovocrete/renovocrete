@@ -8,6 +8,13 @@
       "when": 1795202363431,
       "tag": "0000_website_content_admin",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1795362832415,
+      "tag": "0001_tighten_public_submission_policies",
+      "breakpoints": true
     }
   ]
 }
