@@ -15,6 +15,13 @@
       "when": 1795362832415,
       "tag": "0001_tighten_public_submission_policies",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1795362874072,
+      "tag": "0002_restrict_site_media_reads",
+      "breakpoints": true
     }
   ]
 }
